@@ -1,31 +1,147 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="96ac9d60-0c01-4819-8dda-e094a7ae3380" name="Default Changelist" comment="" />
+    <list default="true" id="96ac9d60-0c01-4819-8dda-e094a7ae3380" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/AdminLTE.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/AdminLTE.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/adminlte.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/adminlte.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/alt/AdminLTE-bootstrap-social.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/alt/AdminLTE-bootstrap-social.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/alt/AdminLTE-fullcalendar.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/alt/AdminLTE-fullcalendar.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/alt/AdminLTE-select2.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/alt/AdminLTE-select2.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/alt/AdminLTE-without-plugins.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/alt/AdminLTE-without-plugins.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/_all-skins.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/_all-skins.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-black-light.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-black-light.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-black.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-black.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-blue-light.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-blue-light.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-blue.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-blue.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-green-light.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-green-light.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-green.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-green.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-purple-light.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-purple-light.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-purple.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-purple.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-red-light.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-red-light.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-red.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-red.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-yellow-light.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-yellow-light.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-yellow.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/css/skins/skin-yellow.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/avatar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/avatar04.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/avatar2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/avatar3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/avatar5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/credit/american-express.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/credit/cirrus.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/credit/mastercard.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/credit/mestro.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/credit/paypal.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/credit/paypal2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/credit/visa.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/default-50x50.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/icons.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/photo1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/photo2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/photo3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/photo4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/user1-128x128.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/user2-160x160.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/user3-128x128.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/user4-128x128.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/user5-128x128.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/user6-128x128.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/user7-128x128.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/img/user8-128x128.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/js/adminlte.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/js/adminlte.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/js/demo.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/js/pages/dashboard.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Farmer/static/Farmer/js/pages/dashboard2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PlantData3/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/PlantData3/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PlantData3/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/PlantData3/urls.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PlantData3/settings.py">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="425">
+              <caret line="42" selection-start-line="42" selection-end-line="42" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PlantData3/urls.py">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="13" selection-start-column="13" selection-end-column="13" />
+              <folding>
+                <element signature="e#634#666#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Farmer/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="4" column="45" selection-start-line="4" selection-start-column="45" selection-end-line="4" selection-end-column="45" />
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/PlantData3" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Farmer/views.py" />
+        <option value="$PROJECT_DIR$/PlantData3/urls.py" />
+        <option value="$PROJECT_DIR$/PlantData3/settings.py" />
+        <option value="$PROJECT_DIR$/Farmer/templates/Farmer/index.html" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="634" />
     <option name="width" value="1293" />
     <option name="height" value="1047" />
@@ -37,13 +153,79 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="ProjectPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="PlantData3" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PlantData3" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PlantData3" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PlantData3" type="462c0819:PsiDirectoryNode" />
+              <item name="Farmer" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PlantData3" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PlantData3" type="462c0819:PsiDirectoryNode" />
+              <item name="Farmer" type="462c0819:PsiDirectoryNode" />
+              <item name="migrations" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PlantData3" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PlantData3" type="462c0819:PsiDirectoryNode" />
+              <item name="Farmer" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PlantData3" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PlantData3" type="462c0819:PsiDirectoryNode" />
+              <item name="Farmer" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="Farmer" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PlantData3" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PlantData3" type="462c0819:PsiDirectoryNode" />
+              <item name="Farmer" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PlantData3" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PlantData3" type="462c0819:PsiDirectoryNode" />
+              <item name="Farmer" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="Farmer" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PlantData3" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PlantData3" type="462c0819:PsiDirectoryNode" />
+              <item name="HarvestData" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PlantData3" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PlantData3" type="462c0819:PsiDirectoryNode" />
+              <item name="PlantData3" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../PlantData2" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\Project\PlantData3\Farmer\static\Farmer" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\Project\PlantData3\Farmer\static" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -64,6 +246,7 @@
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="PlantData3.settings" />
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -93,49 +276,94 @@
       <option name="presentableId" value="Default" />
       <updated>1545392458298</updated>
       <workItem from="1545392478773" duration="604000" />
+      <workItem from="1545444488088" duration="5345000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="604000" />
+    <option name="totallyTimeSpent" value="5949000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <editor active="true" />
     <layout>
-      <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25266525" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Database Changes" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Python Console" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32936078" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Database" />
-      <window_info anchor="right" id="R Packages" />
-      <window_info anchor="right" id="SciView" />
-      <window_info anchor="right" id="R Graphics" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32936078" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32936078" />
+      <window_info anchor="bottom" id="Database Changes" order="9" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.32936078" />
+      <window_info anchor="bottom" id="Python Console" order="12" weight="0.32936078" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="SciView" order="3" />
+      <window_info anchor="right" id="R Graphics" order="4" />
+      <window_info anchor="right" id="R Packages" order="5" />
+      <window_info anchor="right" id="Database" order="6" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/PlantData3/settings.py">
+    <entry file="file://$PROJECT_DIR$/Farmer/templates">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/Farmer/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="45" selection-start-line="4" selection-start-column="45" selection-end-line="4" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/PlantData3/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="13" selection-start-column="13" selection-end-column="13" />
+          <folding>
+            <element signature="e#634#666#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Farmer/static/Farmer/css/AdminLTE.css">
       <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Farmer/static/Farmer/js/pages/dashboard.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PlantData3/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="42" selection-start-line="42" selection-end-line="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
     </entry>
   </component>
 </project>
