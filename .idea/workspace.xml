@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96ac9d60-0c01-4819-8dda-e094a7ae3380" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Farmer/templates/Farmer/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/Farmer/templates/Farmer/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Farmer/templates/Farmer/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Farmer/templates/Farmer/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Farmer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Farmer/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Farmer/templates/Farmer/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/Farmer/templates/Farmer/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PlantData3/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/PlantData3/urls.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -30,8 +29,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/base.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" selection-start-line="14" selection-end-line="26" selection-end-column="85" />
+            <state relative-caret-position="299">
+              <caret line="234" selection-start-line="234" selection-end-line="238" selection-end-column="64" />
             </state>
           </provider>
         </entry>
@@ -39,8 +38,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="537">
-              <caret line="213" column="16" selection-start-line="213" selection-start-column="16" selection-end-line="213" selection-end-column="16" />
+            <state relative-caret-position="761">
+              <caret line="66" column="22" selection-start-line="66" selection-start-column="22" selection-end-line="66" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -48,13 +47,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/login.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="21" column="62" lean-forward="true" selection-start-line="21" selection-start-column="62" selection-end-line="21" selection-end-column="62" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#label#0;n#div#0;n#div#0;n#div#2;n#form#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#0;n#label#0;n#div#0;n#div#0;n#div#2;n#form#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#ins#0;n#div#0;n#label#0;n#div#0;n#div#0;n#div#2;n#form#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="336">
+              <caret line="40" column="7" selection-start-line="40" selection-start-column="7" selection-end-line="40" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -107,7 +101,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="634" />
     <option name="width" value="1293" />
     <option name="height" value="1047" />
@@ -304,7 +298,7 @@
       <workItem from="1545392478773" duration="604000" />
       <workItem from="1545444488088" duration="8246000" />
       <workItem from="1545454042746" duration="1581000" />
-      <workItem from="1545620944747" duration="9883000" />
+      <workItem from="1545620944747" duration="12501000" />
     </task>
     <task id="LOCAL-00001" summary="test adminlte">
       <created>1545451291750</created>
@@ -317,7 +311,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20314000" />
+    <option name="totallyTimeSpent" value="22932000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -435,29 +429,24 @@
     <entry file="file://$PROJECT_DIR$/Farmer/static/Farmer/css/AdminLTE.css">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/login.html">
+    <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="62" lean-forward="true" selection-start-line="21" selection-start-column="62" selection-end-line="21" selection-end-column="62" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#label#0;n#div#0;n#div#0;n#div#2;n#form#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#0;n#label#0;n#div#0;n#div#0;n#div#2;n#form#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#ins#0;n#div#0;n#label#0;n#div#0;n#div#0;n#div#2;n#form#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="299">
+          <caret line="234" selection-start-line="234" selection-end-line="238" selection-end-column="64" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/base.html">
+    <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/login.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" selection-start-line="14" selection-end-line="26" selection-end-column="85" />
+        <state relative-caret-position="336">
+          <caret line="40" column="7" selection-start-line="40" selection-start-column="7" selection-end-line="40" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="537">
-          <caret line="213" column="16" selection-start-line="213" selection-start-column="16" selection-end-line="213" selection-end-column="16" />
+        <state relative-caret-position="761">
+          <caret line="66" column="22" selection-start-line="66" selection-start-column="22" selection-end-line="66" selection-end-column="22" />
         </state>
       </provider>
     </entry>
