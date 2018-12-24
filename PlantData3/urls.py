@@ -19,5 +19,6 @@ from Farmer import views as farmer_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', farmer_views.index)
+    path('', farmer_views.index, name='index'),
+    path('login/', farmer_views.login, name='login')
 ]
