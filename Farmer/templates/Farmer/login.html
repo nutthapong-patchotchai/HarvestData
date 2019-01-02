@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>HarvestData | Log in</title>
+  <title>HarvestData | เข้าสู่ระบบ</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="{% static 'Farmer/css/bootstrap.min.css' %}">
@@ -34,19 +34,20 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>Harvest</b>Data</a>
+    <a href="{% url 'login' %}"><b>Harvest</b>Data</a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <h2 class="login-box-msg">Log in</h2>
+    <h2 class="login-box-msg">เข้าสู่ระบบ</h2>
 
-    <form action="../../index2.html" method="post">
+    <form method="post">
+        {% csrf_token %}
       <div class="form-group has-feedback">
-        <input type="email" class="form-control" placeholder="Username">
+        <input type="email" class="form-control" placeholder="ชื่อผู้ใช้">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password">
+        <input type="password" class="form-control" placeholder="รหัสผ่าน">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
@@ -54,7 +55,7 @@
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+          <a class="btn btn-primary btn-block btn-flat" href="{% url 'index' %}">เข้าสู่ระบบ</a>
         </div>
         <!-- /.col -->
       </div>

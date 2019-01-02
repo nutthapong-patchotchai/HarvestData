@@ -2,57 +2,238 @@
 {% load static %}
 {% block content %}
 <section class="content">
-
-      <div class="row">
-        <div class="col-md-3">
-
-          <!-- Profile Image -->
-          <div class="box box-success">
-            <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="{% static 'Farmer/img/user2-160x160.jpg' %}" alt="User profile picture">
-
-              <h3 class="profile-username text-center">Alexander Pierce</h3>
-
-              <p class="text-muted text-center">Software Engineer</p>
-
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
+<div class="row" >
+    <div class="col-md-1">
+<a type="button" class="btn btn-block btn-success btn-lg" href="{% url 'createFarmer' %}">เพิ่ม</a>
         </div>
-
+    <div class="col-md-11"></div>
+</div>
+    <br>
+      <div class="row">
         <!-- /.col -->
-        <div class="col-md-9">
+        <div class="col-md-12">
             <div class="box box-success">
                 <div class="box-header">
-                <h3 class="box-title">Hover Data Table</h3>
+                <h3 class="box-title">ตาราง ข้อมูลเกษตรกร</h3>
                 </div>
             <!-- /.box-header -->
             <div class="box-body">
               <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12"><table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
                 <thead>
                 <tr role="row">
-                    <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">First Name</th>
-                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Last name</th>
-                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Age</th>
-                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">Address</th>
-                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Status</th></tr>
+                    <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">ชื่อ</th>
+                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">นามสกุล</th>
+                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">อายุ</th>
+                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">ที่อยู่</th>
+                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">เบอร์โทรศัพท์</th>
+                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">สถานะ</th></tr>
                 </thead>
                 <tbody>
+
                 <tr role="row" class="odd">
                   <td class="sorting_1">Gecko</td>
-                  <td>Molalas</td>
-                  <td>22</td>
-                  <td>michigan</td>
-                  <td>Single</td>
+                    <td>Molalas</td>
+                    <td>22</td>
+                    <td>michigan</td>
+                    <td>0857110853</td>
+                  <td>
+                      <ul class="sidebar-menu skin-green-light" data-widget="tree">
+                        <li class="treeview skin-green-light">
+                            <a href="#"class="btn btn-primary">ข้อมูล</a>
+                                <ul class="treeview-menu">
+                                    <button type="button" class="btn btn-block btn-info">ดูข้อมูล</button>
+                                    <button type="button" class="btn btn-block btn-warning">แก้ไข</button>
+                                    <button type="button" class="btn btn-block btn-danger">ลบ</button>
+                                </ul>
+                        </li>
+                      </ul>
+                  </td>
+                </tr>
+
+                <tr role="row" class="odd">
+                  <td class="sorting_1">Gecko</td>
+                    <td>Molalas</td>
+                    <td>22</td>
+                    <td>michigan</td>
+                    <td>0857110853</td>
+                  <td>
+                      <ul class="sidebar-menu skin-green-light" data-widget="tree">
+                        <li class="treeview skin-green-light">
+                            <a href="#"class="btn btn-primary">ข้อมูล</a>
+                                <ul class="treeview-menu">
+                                    <button type="button" class="btn btn-block btn-info">ดูข้อมูล</button>
+                                    <button type="button" class="btn btn-block btn-warning">แก้ไข</button>
+                                    <button type="button" class="btn btn-block btn-danger">ลบ</button>
+                                </ul>
+                        </li>
+                      </ul>
+                  </td>
+                </tr>
+
+                <tr role="row" class="odd">
+                  <td class="sorting_1">Gecko</td>
+                    <td>Molalas</td>
+                    <td>22</td>
+                    <td>michigan</td>
+                    <td>0857110853</td>
+                  <td>
+                      <ul class="sidebar-menu skin-green-light" data-widget="tree">
+                        <li class="treeview skin-green-light">
+                            <a href="#"class="btn btn-primary">ข้อมูล</a>
+                                <ul class="treeview-menu">
+                                    <button type="button" class="btn btn-block btn-info">ดูข้อมูล</button>
+                                    <button type="button" class="btn btn-block btn-warning">แก้ไข</button>
+                                    <button type="button" class="btn btn-block btn-danger">ลบ</button>
+                                </ul>
+                        </li>
+                      </ul>
+                  </td>
+                </tr>
+
+                <tr role="row" class="odd">
+                  <td class="sorting_1">Gecko</td>
+                    <td>Molalas</td>
+                    <td>22</td>
+                    <td>michigan</td>
+                    <td>0857110853</td>
+                  <td>
+                      <ul class="sidebar-menu skin-green-light" data-widget="tree">
+                        <li class="treeview skin-green-light">
+                            <a href="#"class="btn btn-primary">ข้อมูล</a>
+                                <ul class="treeview-menu">
+                                    <button type="button" class="btn btn-block btn-info">ดูข้อมูล</button>
+                                    <button type="button" class="btn btn-block btn-warning">แก้ไข</button>
+                                    <button type="button" class="btn btn-block btn-danger">ลบ</button>
+                                </ul>
+                        </li>
+                      </ul>
+                  </td>
+                </tr>
+
+                <tr role="row" class="odd">
+                  <td class="sorting_1">Gecko</td>
+                    <td>Molalas</td>
+                    <td>22</td>
+                    <td>michigan</td>
+                    <td>0857110853</td>
+                  <td>
+                      <ul class="sidebar-menu skin-green-light" data-widget="tree">
+                        <li class="treeview skin-green-light">
+                            <a href="#"class="btn btn-primary">ข้อมูล</a>
+                                <ul class="treeview-menu">
+                                    <button type="button" class="btn btn-block btn-info">ดูข้อมูล</button>
+                                    <button type="button" class="btn btn-block btn-warning">แก้ไข</button>
+                                    <button type="button" class="btn btn-block btn-danger">ลบ</button>
+                                </ul>
+                        </li>
+                      </ul>
+                  </td>
+                </tr>
+
+                <tr role="row" class="odd">
+                  <td class="sorting_1">Gecko</td>
+                    <td>Molalas</td>
+                    <td>22</td>
+                    <td>michigan</td>
+                    <td>0857110853</td>
+                  <td>
+                      <ul class="sidebar-menu skin-green-light" data-widget="tree">
+                        <li class="treeview skin-green-light">
+                            <a href="#"class="btn btn-primary">ข้อมูล</a>
+                                <ul class="treeview-menu">
+                                    <button type="button" class="btn btn-block btn-info">ดูข้อมูล</button>
+                                    <button type="button" class="btn btn-block btn-warning">แก้ไข</button>
+                                    <button type="button" class="btn btn-block btn-danger">ลบ</button>
+                                </ul>
+                        </li>
+                      </ul>
+                  </td>
+                </tr>
+
+                <tr role="row" class="odd">
+                  <td class="sorting_1">Gecko</td>
+                    <td>Molalas</td>
+                    <td>22</td>
+                    <td>michigan</td>
+                    <td>0857110853</td>
+                  <td>
+                      <ul class="sidebar-menu skin-green-light" data-widget="tree">
+                        <li class="treeview skin-green-light">
+                            <a href="#"class="btn btn-primary">ข้อมูล</a>
+                                <ul class="treeview-menu">
+                                    <button type="button" class="btn btn-block btn-info">ดูข้อมูล</button>
+                                    <button type="button" class="btn btn-block btn-warning">แก้ไข</button>
+                                    <button type="button" class="btn btn-block btn-danger">ลบ</button>
+                                </ul>
+                        </li>
+                      </ul>
+                  </td>
+                </tr>
+
+                <tr role="row" class="odd">
+                  <td class="sorting_1">Gecko</td>
+                    <td>Molalas</td>
+                    <td>22</td>
+                    <td>michigan</td>
+                    <td>0857110853</td>
+                  <td>
+                      <ul class="sidebar-menu skin-green-light" data-widget="tree">
+                        <li class="treeview skin-green-light">
+                            <a href="#"class="btn btn-primary">ข้อมูล</a>
+                                <ul class="treeview-menu">
+                                    <button type="button" class="btn btn-block btn-info">ดูข้อมูล</button>
+                                    <button type="button" class="btn btn-block btn-warning">แก้ไข</button>
+                                    <button type="button" class="btn btn-block btn-danger">ลบ</button>
+                                </ul>
+                        </li>
+                      </ul>
+                  </td>
+                </tr>
+
+                <tr role="row" class="odd">
+                  <td class="sorting_1">Gecko</td>
+                    <td>Molalas</td>
+                    <td>22</td>
+                    <td>michigan</td>
+                    <td>0857110853</td>
+                  <td>
+                      <ul class="sidebar-menu skin-green-light" data-widget="tree">
+                        <li class="treeview skin-green-light">
+                            <a href="#"class="btn btn-primary">ข้อมูล</a>
+                                <ul class="treeview-menu">
+                                    <button type="button" class="btn btn-block btn-info">ดูข้อมูล</button>
+                                    <button type="button" class="btn btn-block btn-warning">แก้ไข</button>
+                                    <button type="button" class="btn btn-block btn-danger">ลบ</button>
+                                </ul>
+                        </li>
+                      </ul>
+                  </td>
+                </tr>
+
+                <tr role="row" class="odd">
+                  <td class="sorting_1">Gecko</td>
+                    <td>Molalas</td>
+                    <td>22</td>
+                    <td>michigan</td>
+                    <td>0857110853</td>
+                  <td>
+                      <ul class="sidebar-menu skin-green-light" data-widget="tree">
+                        <li class="treeview skin-green-light">
+                            <a href="#"class="btn btn-primary">ข้อมูล</a>
+                                <ul class="treeview-menu">
+                                    <button type="button" class="btn btn-block btn-info">ดูข้อมูล</button>
+                                    <button type="button" class="btn btn-block btn-warning">แก้ไข</button>
+                                    <button type="button" class="btn btn-block btn-danger">ลบ</button>
+                                </ul>
+                        </li>
+                      </ul>
+                  </td>
                 </tr>
 
                 </tbody>
               </table></div></div>
                   <div class="row">
                       <div class="col-sm-5">
-                          <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries
-                          </div>
                       </div>
                       <div class="col-sm-7">
                           <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">

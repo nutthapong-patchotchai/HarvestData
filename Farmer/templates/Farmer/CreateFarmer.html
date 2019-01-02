@@ -1,0 +1,69 @@
+{% extends "Farmer/base.html" %}
+{% load static %}
+{% block content %}
+    <br>
+    <div class="row">
+    <div class="col-md-1"></div>
+        <div class="col-md-10">
+    <div class="box box-success">
+            <div class="box-header with-border">
+              <h3 class="box-title">เพิ่มข้อมูล เกษตรกร</h3>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                <label>ชื่อ</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-info"></i>
+                  </div>
+                  <input type="text" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" data-mask="">
+                </div>
+              </div>
+
+                <div class="form-group">
+                <label>นามสกุล</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-info"></i>
+                  </div>
+                  <input type="text" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" data-mask="">
+                </div>
+              </div>
+
+                <div class="form-group">
+                <label>อายุ</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-male"></i>
+                  </div>
+                  <input type="text" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" data-mask="">
+                </div>
+              </div>
+                                <div class="form-group">
+                <label>ที่อยู่</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-rss"></i>
+                  </div>
+                  <input type="text" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" data-mask="">
+                </div>
+              </div>
+
+                <div class="form-group">
+                <label>เบอร์โทร</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-phone"></i>
+                  </div>
+                  <input type="text" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" data-mask="">
+                </div>
+              </div>
+                <br>
+                <a type="submit" class="btn btn-primary" href="{% url 'index' %}">Submit</a>
+
+            </div>
+    </div>
+            </div>
+    <div class="col-md-1"></div>
+    </div>
+{% endblock %}
