@@ -21,5 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', farmer_views.index, name='index'),
     path('login/', farmer_views.login, name='login'),
-    path('farmer/create/', farmer_views.CreateFarmer, name='createFarmer')
+    path('farmer/create/', farmer_views.CreateFarmer, name='createFarmer'),
+    path('Farmer/1/edit', farmer_views.EditFarmer, name='editFarmer'),
+    path('Farmer/1/delete', farmer_views.DeleteFarmer, name='deleteFarmer')
 ]
