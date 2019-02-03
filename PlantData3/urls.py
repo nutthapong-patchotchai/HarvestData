@@ -16,20 +16,24 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from Farmer import views as farmer_views
+from django.contrib.auth import views as auth_view
+from Farmer.models import Farmer,Plant,Harvest
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', farmer_views.index, name='index'),
-    path('login/', farmer_views.login, name='login'),
+    path('login/', auth_view.LoginView.as_view(template_name='Farmer/login.html'), name='login'),
+    path('logout/', auth_view.LogoutView.as_view(template_name='Farmer/logout.html'), name='logout'),
     path('farmer/create/', farmer_views.CreateFarmer, name='createFarmer'),
     path('farmer/1/edit', farmer_views.EditFarmer, name='editFarmer'),
     path('farmer/1/delete', farmer_views.DeleteFarmer, name='deleteFarmer'),
-    path('farmer/1/plant/1', farmer_views.ViewFarmer, name='viewFarmer'),
+    path('farmer/<int:User_id>/plant', farmer_views.ViewFarmer, name='viewFarmer'),
     path('farmer/1/plant/1/edit', farmer_views.EditPlant, name='editPlant'),
     path('farmer/1/plant/1/delete', farmer_views.DeletePlant, name='deletePlant'),
     path('farmer/1/plant/create', farmer_views.CreatePlant, name='createPlant'),
-    path('farmer/1/plant/1/harvest/1', farmer_views.ViewHarvest, name='viewHarvest'),
+    path('farmer/<int:id>/plant/<int:id>/harvest/', farmer_views.ViewHarvest, name='viewHarvest'),
     path('farmer/1/plant/1/harvest/1/edit', farmer_views.EditHarvest, name='editHarvest'),
     path('farmer/1/plant/1/harvest/1/delete', farmer_views.DeleteHarvest, name='deleteHarvest'),
-    path('farmer/1/plant/1/harvest/1/create', farmer_views.CreateHarvest, name='createHarvest')
+    path('farmer/1/plant/1/harvest/1/create', farmer_views.CreateHarvest, name='createHarvest'),
+    path('test/', farmer_views.test, name='test')
 ]

@@ -17,39 +17,30 @@
                 <h3 class="box-title">ตาราง ข้อมูลเกษตรกร</h3>
                 </div>
             <!-- /.box-header -->
+
             <div class="box-body">
               <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12"><table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
                 <thead>
                 <tr role="row">
-                    <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">ชื่อ</th>
-                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">นามสกุล</th>
+                    <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">ชื่อ - นามสกุล</th>
                     <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">อายุ</th>
                     <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">ที่อยู่</th>
                     <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">เบอร์โทรศัพท์</th>
                     <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">สถานะ</th></tr>
                 </thead>
                 <tbody>
-
+                {% for F in Farmer %}
                 <tr role="row" class="odd">
-                  <td class="sorting_1">นัทธพงศ์</td>
-                    <td>ปัตโชติชัย</td>
-                    <td>22</td>
-                    <td>393/160 ต.บ่อแฮ้ว อ.เมือง จ.ลำปาง 52100</td>
-                    <td>054350359</td>
+                  <td><a type="button"  href="{% url 'viewFarmer' F.id %}" >{{ F.name }} {{ F.lastname }}</a></td>
+                    <td>{{ F.age }}</td>
+                    <td>{{ F.address }}</td>
+                    <td>{{ F.tel }}</td>
                   <td>
-                      <ul class="sidebar-menu skin-green-light" data-widget="tree">
-                        <li class="treeview skin-green-light">
-                            <a href="#"class="btn btn-primary">ข้อมูล</a>
-                                <ul class="treeview-menu">
-                                    <a type="button" class="btn btn-block btn-info" href="{% url 'viewFarmer' %}">ดูข้อมูล</a>
-                                    <a type="button" class="btn btn-block btn-warning" href="{% url 'editFarmer' %}">แก้ไข</a>
-                                    <a type="button" class="btn btn-block btn-danger" href="{% url 'deleteFarmer' %}">ลบ</a>
-                                </ul>
-                        </li>
-                      </ul>
+                      <a type="button"  href="{% url 'editFarmer' %}">[แก้ไข]</a>
+                      <a type="button"  href="{% url 'deleteFarmer' %}">[ลบ]</a>
                   </td>
                 </tr>
-
+                {% endfor %}
 
 
                 </tbody>
