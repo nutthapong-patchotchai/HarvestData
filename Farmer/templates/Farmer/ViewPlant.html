@@ -30,22 +30,19 @@
                     <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">สถานะ</th></tr>
                 </thead>
                 <tbody>
-                {% for ca in ca %}
-                {% for ba in ba %}
+                {% for VP in viewplant %}
                 <tr role="row" class="odd">
-                  <td class="sorting_1"><a type="button" href="#">{{ ba.fruit_name }}</a></td>
-                    <td>{{ ba.fruit_breed }}</td>
-                    <td>{{ ba.scale }} ไร่</td>
+                  <td class="sorting_1"><a type="button" href="{% url 'viewHarvest' VP.Farmer_id_id VP.id  %}">{{ VP.fruit_name }}</a></td>
+                    <td>{{ VP.fruit_breed }}</td>
+                    <td>{{ VP.scale }} ไร่</td>
                   <td>
 
                       <a type="button" href="{% url 'editPlant' %}">[แก้ไข]</a>
                       <a type="button" href="{% url 'deletePlant' %}">[ลบ]</a>
                   </td>
-                <td>{{ ba.id }}</td>
+                <td>{{ VP.id }}</td>
                 </tr>
                 {% endfor %}
-                {% endfor %}
-
                 </tbody>
               </table></div></div>
                   <div class="row">

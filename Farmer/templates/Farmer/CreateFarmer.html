@@ -1,4 +1,5 @@
 {% extends "Farmer/base.html" %}
+{% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
     <br>
@@ -11,60 +12,18 @@
             </div>
             <div class="box-body">
                 <div class="form-group">
-                <label>ชื่อ</label>
-                <div class="input-group">
-                  <div class="input-group-addon">
-                    <i class="fa fa-info"></i>
-                  </div>
-                  <input type="text" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" data-mask="">
-                </div>
-              </div>
+                <form method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+    {% csrf_token %}
+            <fieldset class="form-group">
+                {{ farmerform|crispy }}
+            </fieldset>
 
-                <div class="form-group">
-                <label>นามสกุล</label>
-                <div class="input-group">
-                  <div class="input-group-addon">
-                    <i class="fa fa-info"></i>
-                  </div>
-                  <input type="text" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" data-mask="">
-                </div>
-              </div>
-
-                <div class="form-group">
-                <label>อายุ</label>
-                <div class="input-group">
-                  <div class="input-group-addon">
-                    <i class="fa fa-male"></i>
-                  </div>
-                  <input type="text" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" data-mask="">
-                </div>
-              </div>
-
-                <div class="form-group">
-                <label>ที่อยู่</label>
-                <div class="input-group">
-                  <div class="input-group-addon">
-                    <i class="fa fa-rss"></i>
-                  </div>
-                  <input type="text" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" data-mask="">
-                </div>
-              </div>
-
-                <div class="form-group">
-                <label>เบอร์โทร</label>
-                <div class="input-group">
-                  <div class="input-group-addon">
-                    <i class="fa fa-phone"></i>
-                  </div>
-                  <input type="text" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" data-mask="">
-                </div>
-              </div>
-                <br>
-                <a type="submit" class="btn btn-primary" href="{% url 'index' %}">Submit</a>
-
+                <button class="btn btn-success" type="submit">Add</button>
+                <a href="{% url 'index' %}" class="btn btn-danger" role="button">Cancel</a>
+            </div>
+        </form>
             </div>
     </div>
             </div>
-    <div class="col-md-1"></div>
-    </div>
 {% endblock %}

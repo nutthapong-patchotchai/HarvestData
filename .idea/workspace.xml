@@ -3,13 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="96ac9d60-0c01-4819-8dda-e094a7ae3380" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Farmer/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/Farmer/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Farmer/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Farmer/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Farmer/templates/Farmer/CreateFarmer.html" beforeDir="false" afterPath="$PROJECT_DIR$/Farmer/templates/Farmer/CreateFarmer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Farmer/templates/Farmer/EditFarmer.html" beforeDir="false" afterPath="$PROJECT_DIR$/Farmer/templates/Farmer/EditFarmer.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Farmer/templates/Farmer/ViewHarvest.html" beforeDir="false" afterPath="$PROJECT_DIR$/Farmer/templates/Farmer/ViewHarvest.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Farmer/templates/Farmer/ViewPlant.html" beforeDir="false" afterPath="$PROJECT_DIR$/Farmer/templates/Farmer/ViewPlant.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Farmer/templates/Farmer/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/Farmer/templates/Farmer/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Farmer/templates/Farmer/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Farmer/templates/Farmer/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Farmer/templates/Farmer/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/Farmer/templates/Farmer/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Farmer/templates/Farmer/test.html" beforeDir="false" afterPath="$PROJECT_DIR$/Farmer/templates/Farmer/test.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Farmer/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Farmer/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PlantData3/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/PlantData3/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PlantData3/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/PlantData3/urls.py" afterDir="false" />
@@ -29,26 +29,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/base.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="969">
-              <caret line="57" column="80" selection-start-line="57" selection-start-column="80" selection-end-line="57" selection-end-column="80" />
+            <state relative-caret-position="34">
+              <caret line="2" column="14" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/ViewHarvest.html">
+        <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/CreateFarmer.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="35" column="34" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/ViewPlant.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="35" column="64" selection-start-line="35" selection-start-column="64" selection-end-line="35" selection-end-column="64" />
+            <state relative-caret-position="476">
+              <caret line="28" column="14" lean-forward="true" selection-start-line="28" selection-start-column="14" selection-end-line="28" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -56,41 +47,65 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="33" column="62" selection-start-line="33" selection-start-column="62" selection-end-line="33" selection-end-column="62" />
+            <state relative-caret-position="398">
+              <caret line="39" column="69" selection-start-line="39" selection-start-column="69" selection-end-line="39" selection-end-column="69" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Farmer/models.py">
+        <entry file="file://$PROJECT_DIR$/Farmer/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="39" column="38" selection-start-line="39" selection-start-column="38" selection-end-line="39" selection-end-column="38" />
+            <state relative-caret-position="34">
+              <caret line="65" column="13" selection-start-line="65" selection-start-column="13" selection-end-line="65" selection-end-column="13" />
               <folding>
-                <element signature="e#0#28#0" expanded="true" />
+                <element signature="e#0#43#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/ViewHarvest.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="19" column="30" lean-forward="true" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/ViewPlant.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="42" column="25" selection-start-line="42" selection-start-column="25" selection-end-line="42" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/EditFarmer.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="23" column="18" lean-forward="true" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/test.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Farmer/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="756">
-              <caret line="66" column="41" selection-start-line="66" selection-start-column="41" selection-end-line="66" selection-end-column="41" />
-              <folding>
-                <element signature="e#0#35#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PlantData3/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="433">
-              <caret line="33" column="37" selection-start-line="33" selection-start-column="37" selection-end-line="33" selection-end-column="37" />
+            <state relative-caret-position="425">
+              <caret line="29" column="58" selection-start-line="29" selection-start-column="58" selection-end-line="29" selection-end-column="58" />
               <folding>
                 <element signature="e#634#666#0" expanded="true" />
               </folding>
@@ -99,18 +114,9 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/logout.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="18" selection-start-column="18" selection-end-column="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/login.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
+            <state relative-caret-position="84">
               <caret line="42" column="76" selection-start-line="42" selection-start-column="76" selection-end-line="42" selection-end-column="76" />
             </state>
           </provider>
@@ -126,36 +132,37 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/PlantData3" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/PlantData3/settings.py" />
-        <option value="$PROJECT_DIR$/Farmer/templates/Farmer/CreateFarmer.html" />
         <option value="$PROJECT_DIR$/Farmer/templates/Farmer/DeleteFarmerForm.html" />
-        <option value="$PROJECT_DIR$/Farmer/templates/Farmer/EditFarmer.html" />
         <option value="$PROJECT_DIR$/Farmer/templates/Farmer/CreatePlant.html" />
         <option value="$PROJECT_DIR$/Farmer/templates/Farmer/EditPlant.html" />
         <option value="$PROJECT_DIR$/Farmer/templates/Farmer/DeletePlant.html" />
         <option value="$PROJECT_DIR$/Farmer/templates/Farmer/DeleteHarvest.html" />
         <option value="$PROJECT_DIR$/Farmer/templates/Farmer/CreateHarvest.html" />
         <option value="$PROJECT_DIR$/Farmer/templates/Farmer/EditHarvest.html" />
-        <option value="$PROJECT_DIR$/Farmer/templates/Farmer/test.html" />
         <option value="$PROJECT_DIR$/Farmer/admin.py" />
-        <option value="$PROJECT_DIR$/Farmer/templates/Farmer/index.html" />
         <option value="$PROJECT_DIR$/Farmer/templates/Farmer/logout.html" />
         <option value="$PROJECT_DIR$/Farmer/templates/Farmer/login.html" />
-        <option value="$PROJECT_DIR$/Farmer/templates/Farmer/base.html" />
-        <option value="$PROJECT_DIR$/Farmer/templates/Farmer/ViewHarvest.html" />
+        <option value="$PROJECT_DIR$/Farmer/templates/Farmer/CreateFarmer.html" />
         <option value="$PROJECT_DIR$/Farmer/models.py" />
+        <option value="$PROJECT_DIR$/Farmer/forms.py" />
+        <option value="$PROJECT_DIR$/PlantData3/settings.py" />
+        <option value="$PROJECT_DIR$/Farmer/templates/Farmer/base.html" />
+        <option value="$PROJECT_DIR$/Farmer/templates/Farmer/test.html" />
+        <option value="$PROJECT_DIR$/Farmer/templates/Farmer/EditFarmer.html" />
+        <option value="$PROJECT_DIR$/Farmer/templates/Farmer/index.html" />
         <option value="$PROJECT_DIR$/Farmer/templates/Farmer/ViewPlant.html" />
-        <option value="$PROJECT_DIR$/PlantData3/urls.py" />
+        <option value="$PROJECT_DIR$/Farmer/templates/Farmer/ViewHarvest.html" />
         <option value="$PROJECT_DIR$/Farmer/views.py" />
+        <option value="$PROJECT_DIR$/PlantData3/urls.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="546" />
     <option name="width" value="1381" />
     <option name="height" value="1047" />
@@ -179,50 +186,6 @@
               <item name="PlantData3" type="b2602c69:ProjectViewProjectNode" />
               <item name="PlantData3" type="462c0819:PsiDirectoryNode" />
               <item name="Farmer" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PlantData3" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlantData3" type="462c0819:PsiDirectoryNode" />
-              <item name="Farmer" type="462c0819:PsiDirectoryNode" />
-              <item name="migrations" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PlantData3" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlantData3" type="462c0819:PsiDirectoryNode" />
-              <item name="Farmer" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PlantData3" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlantData3" type="462c0819:PsiDirectoryNode" />
-              <item name="Farmer" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="Farmer" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PlantData3" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlantData3" type="462c0819:PsiDirectoryNode" />
-              <item name="Farmer" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="Farmer" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="PlantData3" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlantData3" type="462c0819:PsiDirectoryNode" />
-              <item name="Farmer" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="Farmer" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
-              <item name="font-awesome.css" type="620a8d5e:NestingTreeNode" />
-            </path>
-            <path>
-              <item name="PlantData3" type="b2602c69:ProjectViewProjectNode" />
-              <item name="PlantData3" type="462c0819:PsiDirectoryNode" />
-              <item name="Farmer" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="Farmer" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="PlantData3" type="b2602c69:ProjectViewProjectNode" />
@@ -257,7 +220,7 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../PlantData2" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="restartRequiresConfirmation" value="false" />
@@ -343,7 +306,13 @@
       <workItem from="1549053817038" duration="102000" />
       <workItem from="1549095636433" duration="12744000" />
       <workItem from="1549129940043" duration="6286000" />
-      <workItem from="1549185632450" duration="4453000" />
+      <workItem from="1549185632450" duration="5131000" />
+      <workItem from="1549457333079" duration="8720000" />
+      <workItem from="1549872341452" duration="700000" />
+      <workItem from="1549887771638" duration="4315000" />
+      <workItem from="1549964920965" duration="5378000" />
+      <workItem from="1549980070967" duration="3146000" />
+      <workItem from="1550049140125" duration="5377000" />
     </task>
     <task id="LOCAL-00001" summary="test adminlte">
       <created>1545451291750</created>
@@ -356,7 +325,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="99154000" />
+    <option name="totallyTimeSpent" value="127468000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -369,21 +338,22 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13539445" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14498934" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49946696" visible="true" weight="0.065005414" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4988645" visible="true" weight="0.32286024" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3997833" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32932165" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32827735" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32932165" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50053304" side_tool="true" weight="0.32936078" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5011355" side_tool="true" weight="0.32603937" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.32827735" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32936078" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -444,32 +414,11 @@
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/Farmer/static/Farmer/img/user2-160x160.jpg" />
-    <entry file="file://$PROJECT_DIR$/PlantData3/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2176">
-          <caret line="128" column="19" selection-start-line="128" selection-start-column="19" selection-end-line="128" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/DeletePlant" />
     <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/DeleteFarmerForm.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
           <caret line="10" column="18" lean-forward="true" selection-end-line="25" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/EditFarmer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="51" lean-forward="true" selection-end-line="70" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/CreateFarmer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="14" column="28" selection-end-line="69" selection-end-column="14" />
         </state>
       </provider>
     </entry>
@@ -522,20 +471,6 @@
     <entry file="file://$PROJECT_DIR$/Farmer/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/test.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="39" selection-start-line="9" selection-start-column="39" selection-end-line="9" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="969">
-          <caret line="57" column="80" selection-start-line="57" selection-start-column="80" selection-end-line="57" selection-end-column="80" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Farmer/admin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
@@ -553,60 +488,105 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="42" column="76" selection-start-line="42" selection-start-column="76" selection-end-line="42" selection-end-column="76" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/ViewHarvest.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="35" column="34" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="33" column="62" selection-start-line="33" selection-start-column="62" selection-end-line="33" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Farmer/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="39" column="38" selection-start-line="39" selection-start-column="38" selection-end-line="39" selection-end-column="38" />
+        <state relative-caret-position="374">
+          <caret line="23" column="39" selection-start-line="23" selection-start-column="39" selection-end-line="23" selection-end-column="39" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/ViewPlant.html">
+    <entry file="file://$PROJECT_DIR$/Farmer/forms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="35" column="64" selection-start-line="35" selection-start-column="64" selection-end-line="35" selection-end-column="64" />
+        <state relative-caret-position="221">
+          <caret line="13" column="20" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/PlantData3/urls.py">
+    <entry file="file://$PROJECT_DIR$/PlantData3/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="433">
-          <caret line="33" column="37" selection-start-line="33" selection-start-column="37" selection-end-line="33" selection-end-column="37" />
-          <folding>
-            <element signature="e#634#666#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="387">
+          <caret line="43" column="14" lean-forward="true" selection-start-line="43" selection-start-column="14" selection-end-line="43" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="14" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="42" column="76" selection-start-line="42" selection-start-column="76" selection-end-line="42" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/EditFarmer.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="18" lean-forward="true" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/CreateFarmer.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="28" column="14" lean-forward="true" selection-start-line="28" selection-start-column="14" selection-end-line="28" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="398">
+          <caret line="39" column="69" selection-start-line="39" selection-start-column="69" selection-end-line="39" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/ViewPlant.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="42" column="25" selection-start-line="42" selection-start-column="25" selection-end-line="42" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Farmer/templates/Farmer/ViewHarvest.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="19" column="30" lean-forward="true" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Farmer/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="756">
-          <caret line="66" column="41" selection-start-line="66" selection-start-column="41" selection-end-line="66" selection-end-column="41" />
+        <state relative-caret-position="34">
+          <caret line="65" column="13" selection-start-line="65" selection-start-column="13" selection-end-line="65" selection-end-column="13" />
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#0#43#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PlantData3/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="29" column="58" selection-start-line="29" selection-start-column="58" selection-end-line="29" selection-end-column="58" />
+          <folding>
+            <element signature="e#634#666#0" expanded="true" />
           </folding>
         </state>
       </provider>
