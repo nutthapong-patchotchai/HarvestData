@@ -31,13 +31,13 @@
                 <tbody>
                 {% for VF in viewFarmer %}
                 <tr role="row" class="odd">
-                  <td><a type="button"  href="{% url 'viewFarmer' VF.id %}" >{{ VF.name }} {{ VF.lastname }}</a></td>
+                  <td><a type="button"  href="{% url 'viewFarmer' VF.id  %}" >{{ VF.name }} {{ VF.lastname }}</a></td>
                     <td>{{ VF.age }}</td>
                     <td>{{ VF.address }}</td>
                     <td>{{ VF.tel }}</td>
                   <td>
-                      <a type="button"  href="{% url 'editFarmer' VF.id %}">[แก้ไข]</a>
-                      <a type="button"  href="{% url 'deleteFarmer' VF.id %}">[ลบ]</a>
+                      <a type="button"  href="{% url 'editFarmer' VF.id  %}">[แก้ไข]</a>
+                      <a type="button"  href="{% url 'deleteFarmer' VF.id  %}">[ลบ]</a>
                   </td>
                 </tr>
                 {% endfor %}

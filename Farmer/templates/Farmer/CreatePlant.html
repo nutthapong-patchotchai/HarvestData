@@ -1,4 +1,5 @@
 {% extends "Farmer/base.html" %}
+{% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
     <br>
@@ -7,45 +8,22 @@
         <div class="col-md-10">
     <div class="box box-success">
             <div class="box-header with-border">
-              <h3 class="box-title">เพิ่มข้อมูล การปลูกของเกษตรกร</h3>
+              <h3 class="box-title">เพิ่มข้อมูล ข้อมูลการปลูกของเกษตรกร</h3>
             </div>
             <div class="box-body">
                 <div class="form-group">
-                <label>ชื่อ</label>
-                <div class="input-group">
-                  <div class="input-group-addon">
-                    <i class="fa fa-info"></i>
-                  </div>
-                  <input type="text" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" data-mask="">
-                </div>
-              </div>
+                <form method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+    {% csrf_token %}
+            <fieldset class="form-group">
+                {{ plantform|crispy }}
+            </fieldset>
 
-                <div class="form-group">
-                <label>สายพันธุ์</label>
-                <div class="input-group">
-                  <div class="input-group-addon">
-                    <i class="fa fa-info"></i>
-                  </div>
-                  <input type="text" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" data-mask="">
-                </div>
-              </div>
-
-                <div class="form-group">
-                <label>จำนวน</label>
-                <div class="input-group">
-                  <div class="input-group-addon">
-                    <i class="fa fa-male"></i>
-                  </div>
-                  <input type="text" class="form-control" data-inputmask="&quot;mask&quot;: &quot;(999) 999-9999&quot;" data-mask="">
-                </div>
-              </div>
-
-                <br>
-                <a type="submit" class="btn btn-primary" href="{% url 'viewFarmer' %}">Submit</a>
-
+                <button class="btn btn-success" type="submit">Add</button>
+                <a href="{% url 'index' %}" class="btn btn-danger" role="button">Cancel</a>
+            </div>
+        </form>
             </div>
     </div>
             </div>
-    <div class="col-md-1"></div>
-    </div>
 {% endblock %}

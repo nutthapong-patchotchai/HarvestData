@@ -4,7 +4,7 @@
 <section class="content">
 <div class="row" >
     <div class="col-md-1">
-<a type="button" class="btn btn-block btn-success btn-lg" href="{% url 'createPlant' %}">เพิ่ม</a>
+<a type="button" class="btn btn-block btn-success btn-lg" href="{% url 'createPlant' user.id %}">เพิ่ม</a>
         </div>
     <div class="col-md-1">
         <a type="button" class="btn btn-block btn-danger btn-lg" href="{% url 'index' %}">ย้อนกลับ</a>
@@ -37,8 +37,8 @@
                     <td>{{ VP.scale }} ไร่</td>
                   <td>
 
-                      <a type="button" href="{% url 'editPlant' %}">[แก้ไข]</a>
-                      <a type="button" href="{% url 'deletePlant' %}">[ลบ]</a>
+                      <a type="button" href="{% url 'editPlant' VP.Farmer_id_id VP.id %}">[แก้ไข]</a>
+                      <a type="button" href="{% url 'deletePlant' VP.Farmer_id_id VP.id %}">[ลบ]</a>
                   </td>
                 <td>{{ VP.id }}</td>
                 </tr>
