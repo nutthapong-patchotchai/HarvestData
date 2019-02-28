@@ -4,8 +4,9 @@
 <section class="content">
 <div class="row" >
     <div class="col-md-1">
-<a type="button" class="btn btn-block btn-success btn-lg" href="{% url 'createPlant' user.id %}">เพิ่ม</a>
-        </div>
+
+<a type="button" class="btn btn-block btn-success btn-lg" href="{% url 'createPlant' viewfarmer.id %}">เพิ่ม</a>
+    </div>
     <div class="col-md-1">
         <a type="button" class="btn btn-block btn-danger btn-lg" href="{% url 'index' %}">ย้อนกลับ</a>
     </div>
@@ -14,10 +15,10 @@
     <br>
       <div class="row">
         <!-- /.col -->
-        <div class="col-md-12">
+        <div class="col-md-7">
             <div class="box box-success">
                 <div class="box-header">
-                <h3 class="box-title">ตาราง ข้อมูลการปลูกของเกษตรกร</h3>
+                <h3 class="box-title">ตาราง ข้อมูลการปลูกของ {{ viewfarmer.name }}   {{ viewfarmer.lastname}}  </h3>
                 </div>
             <!-- /.box-header -->
             <div class="box-body">

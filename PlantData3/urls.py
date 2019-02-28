@@ -31,9 +31,9 @@ urlpatterns = [
     path('farmer/<int:Farmer_id>/plant/<int:Plant_id>/edit', farmer_views.EditPlant, name='editPlant'),
     path('farmer/<int:Farmer_id>/plant/<int:Plant_id>/delete', farmer_views.DeletePlant, name='deletePlant'),
     path('farmer/<int:Farmer_id>/plant/create', farmer_views.CreatePlant, name='createPlant'),
-    path('farmer/<int:Farmer_id>/plant/<int:Plant_id>/harvest/', farmer_views.ViewHarvest, name='viewHarvest'),
-    path('farmer/<int:Farmer_id>/plant/<int:Harvest_id>/harvest/edit', farmer_views.EditHarvest, name='editHarvest'),
-    path('farmer/<int:Farmer_id>/plant/<int:Harvest_id>/delete', farmer_views.DeleteHarvest, name='deleteHarvest'),
-    path('farmer/<int:Farmer_id>/plant/harvest/create', farmer_views.CreateHarvest, name='createHarvest'),
+    path('plant/<int:Farmer_id>/harvest/<int:Plant_id>/', farmer_views.ViewHarvest, name='viewHarvest'),
+    path('plant/<int:Farmer_id>/harvest/<int:Harvest_id>/edit', farmer_views.EditHarvest, name='editHarvest'),
+    path('farmer/harvest/<int:Harvest_id>/delete', farmer_views.DeleteHarvest, name='deleteHarvest'),
+    path('farmer/<int:Harvest_id>/plant/harvest/create', farmer_views.CreateHarvest, name='createHarvest'),
     path('test/', farmer_views.test, name='test')
 ]

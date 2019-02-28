@@ -4,15 +4,20 @@ from Farmer.models import Farmer, Plant, Harvest
 from django.contrib.auth.decorators import login_required
 from Farmer.forms import addFarmer, addPlant, addHarvest
 from django.contrib import messages
+from django.core.paginator import Paginator
+
 import sweetify
 
 
 @login_required
 def ViewFarmer(request):
     viewfarmer = Farmer.objects.filter(User_id=request.user)
-
+    paginator = Paginator(viewfarmer, 10)
+    page = request.GET.get('page')
+    farmerpage = paginator.get_page(page)
     viewfarmerpage = {
-            'viewFarmer': viewfarmer
+            'viewFarmer': viewfarmer,
+            'famerpage': farmerpage
     }
     return render(request, 'Farmer/index.html', viewfarmerpage)
 
@@ -23,9 +28,10 @@ def CreateFarmer(request, Farmer_id):
         farmerform = addFarmer(request.POST)
         if farmerform.is_valid():
             createfarmer = farmerform.save(commit=False)
+            createfarmer.User_id = User(Farmer_id)
             createfarmer.user = request.user
             createfarmer.save()
-            return redirect("/")
+            return redirect('/')
     else:
         farmerform = addFarmer()
 
@@ -64,9 +70,11 @@ def DeleteFarmer(request, Farmer_id):
 
 @login_required
 def ViewPlant(request, Farmer_id):
+    viewfarmer = Farmer.objects.get(id=Farmer_id)
     viewplant = Plant.objects.filter(Farmer_id=Farmer_id)
     viewplantpage = {
-                'viewplant': viewplant
+                'viewplant': viewplant,
+                'viewfarmer': viewfarmer
     }
     return render(request, 'Farmer/ViewPlant.html', viewplantpage)
 
@@ -97,27 +105,36 @@ def DeletePlant(request,Farmer_id,Plant_id):
 
 @login_required
 def CreatePlant(request, Farmer_id):
+    viewfarmer = Farmer.objects.get(id=Farmer_id)
     if request.method == 'POST':
         plantform = addPlant(request.POST)
         if plantform.is_valid():
             createplant = plantform.save(commit=False)
+            createplant.Farmer_id = Farmer(Farmer_id)
             createplant.user = request.user
             createplant.save()
-            return redirect("/")
+            return redirect('/farmer/')
     else:
         plantform = addPlant()
 
     plantcreateform ={
         'plantform': plantform,
+        'viewfarmer': viewfarmer
     }
     return render(request, 'Farmer/CreatePlant.html', plantcreateform)
 
 
 @login_required
-def ViewHarvest(request,Farmer_id, Plant_id):
+def ViewHarvest(request, Farmer_id, Plant_id):
+    viewfarmer = Farmer.objects.get(id=Farmer_id)
+    viewplant = Plant.objects.get(id=Plant_id)
+    viewharvests = Plant.objects.get(id=Plant_id)
     viewharvest = Harvest.objects.filter(Plant_id=Plant_id)
     viewharvestpage = {
-        'viewharvest': viewharvest
+        'viewplant': viewplant,
+        'viewharvest': viewharvest,
+        'viewharvests': viewharvests,
+        'viewfarmer': viewfarmer
     }
     return render(request, 'Farmer/ViewHarvest.html', viewharvestpage)
 
@@ -140,18 +157,20 @@ def EditHarvest(request, Farmer_id, Harvest_id):
 
 
 @login_required
-def DeleteHarvest(request,Farmer_id,Harvest_id):
-    deleteHarvest = get_object_or_404(Harvest, id=Harvest_id)
+def DeleteHarvest(request,Harvest_id):
+    deleteHarvest = get_object_or_404(Harvest, pk=Harvest_id)
     deleteHarvest.delete()
     return redirect('/')
 
 
 @login_required
-def CreateHarvest(request, Farmer_id):
+def CreateHarvest(request, Harvest_id):
+    viewplant = Plant.objects.get(id=Harvest_id)
     if request.method == 'POST':
         harvestform = addHarvest(request.POST)
         if harvestform.is_valid():
             createharvest = harvestform.save(commit=False)
+            createharvest.Plant_id = Plant(Harvest_id)
             createharvest.user = request.user
             createharvest.save()
             return redirect("/")
@@ -159,13 +178,17 @@ def CreateHarvest(request, Farmer_id):
         harvestform = addHarvest()
 
     harvestcreateform ={
-        'harvestform' : harvestform
+        'harvestform': harvestform,
+        'viewplant': viewplant,
     }
     return render(request, 'Farmer/CreateHarvest.html', harvestcreateform)
 
 
 @login_required
 def test(request):
-    sweetify.success(request, 'You did it', text='Good job! You successfully showed a SweetAlert message',
-                     persistent='Hell yeah')
-    return redirect('/')
+    contact_list = Farmer.objects.filter(User_id=request.user)
+    paginator = Paginator(contact_list, 10)
+
+    page = request.GET.get('page')
+    contacts = paginator.get_page(page)
+    return render(request, 'Farmer/test.html', {'contacts': contacts})

@@ -5,10 +5,10 @@
     <br>
     <div class="row">
     <div class="col-md-1"></div>
-        <div class="col-md-10">
+        <div class="col-md-6">
     <div class="box box-success">
             <div class="box-header with-border">
-              <h3 class="box-title">เพิ่มข้อมูล ข้อมูลการปลูกของเกษตรกร</h3>
+              <h3 class="box-title">เพิ่มข้อมูล ข้อมูลการปลูกของ {{ viewfarmer.name }}   {{ viewfarmer.lastname}} </h3>
             </div>
             <div class="box-body">
                 <div class="form-group">
@@ -18,7 +18,6 @@
             <fieldset class="form-group">
                 {{ plantform|crispy }}
             </fieldset>
-
                 <button class="btn btn-success" type="submit">Add</button>
                 <a href="{% url 'index' %}" class="btn btn-danger" role="button">Cancel</a>
             </div>
@@ -26,4 +25,7 @@
             </div>
     </div>
             </div>
+            <div class="col-md-1"></div>
+                    </div>
+    </div>
 {% endblock %}

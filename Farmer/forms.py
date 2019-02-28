@@ -11,7 +11,6 @@ class addFarmer(forms.ModelForm):
             'age',
             'address',
             'tel',
-            'User_id'
         ]
 
 class addPlant(forms.ModelForm):
@@ -20,8 +19,7 @@ class addPlant(forms.ModelForm):
         fields = [
             'fruit_name',
             'fruit_breed',
-            'scale',
-            'Farmer_id'
+            'scale'
         ]
 
 class addHarvest(forms.ModelForm):
@@ -29,6 +27,5 @@ class addHarvest(forms.ModelForm):
         model = Harvest
         fields = [
             'product',
-            'years',
-            'Plant_id'
+            'years'
         ]

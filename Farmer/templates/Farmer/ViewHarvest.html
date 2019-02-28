@@ -5,21 +5,21 @@
 <section class="content">
 <div class="row" >
     <div class="col-md-1">
-<a type="button" class="btn btn-block btn-success btn-lg" href="{% url 'createHarvest' user.id %}">เพิ่ม</a>
-        </div>
+<a type="button" class="btn btn-block btn-success btn-lg" href="{% url 'createHarvest' viewharvests.id %}">เพิ่ม</a>
+    </div>
     <div class="col-md-1">
-        <a type="button" class="btn btn-block btn-danger btn-lg" href="{% url 'index'  %}">ย้อนกลับ</a>
+        <a type="button" class="btn btn-block btn-danger btn-lg" href="{% url 'viewFarmer' viewfarmer.id %}">ย้อนกลับ</a>
     </div>
     <div class="col-md-10"></div>
 </div>
     <br>
       <div class="row">
         <!-- /.col -->
-        <div class="col-md-12">
+        <div class="col-md-5">
             <div class="box box-success">
                 <div class="box-header">
-                <h3 class="box-title">ตาราง ข้อมูลการเก็บเกี่ยวของเกษตรกร </h3>
-                    {% for VH in viewharvest %}
+                <h3 class="box-title">ตาราง ข้อมูลการเก็บเกี่ยวของเ {{ viewplant.fruit_name }} สายพันธุ์ : {{ viewplant.fruit_breed }}</h3>
+
                 </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -32,12 +32,12 @@
                 </thead>
                 <tbody>
                  <tr role="row" class="odd">
-
+                {% for VH in viewharvest %}
                     <td>{{ VH.product }} กิโลกรัม</td>
                     <td>{{ VH.years }}</td>
                   <td>
-                      <a type="button"  href="{% url 'editHarvest' VH.Plant_id_id VH.pk %}">[แก้ไข]</a>
-                      <a type="button"  href="{% url 'deleteHarvest' VH.Plant_id_id VH.pk %}">[ลบ]</a>
+                      <a type="button"  href="{% url 'editHarvest' VH.Plant_id_id VH.id %}">[แก้ไข]</a>
+                      <a type="button"  href="{% url 'deleteHarvest' VH.id %}">[ลบ]</a>
                   </td>
                 </tr>
                 {% endfor %}
@@ -62,6 +62,27 @@
             </div>
             </div>
         </div>
+      <div class="col-md-5">
+            <div class="box box-success">
+                <div class="box-header">
+                <h3 class="box-title">ตาราง ข้อมูลการเก็บเกี่ยวของเ {{ viewplant.fruit_name }} สายพันธุ์ : {{ viewplant.fruit_breed }}</h3>
+                </div>
+                <div id="plot">
+
+                    <script>
+
+                        var data = [{
+                        x: [{% for VH in viewharvest %}{{ VH.years }}{% endfor %}],
+                        y: [{% for VH in viewharvest %}{{ VH.product }}{% endfor %}],
+
+                        type: 'bar'
+                        }];
+                        Plotly.newPlot('plot', data, {}, {showSendToCloud:true});
+
+                    </script>
+                </div>
+            </div>
+      </div>
           </div>
 </section>
 

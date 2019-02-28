@@ -40,4 +40,4 @@ class Harvest(models.Model):
     Plant_id = models.ForeignKey(Plant, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.Plant_id)+"/"+str(self.product)+"กิโลกรัม/"+str(self.years)
+        return str(self.id)+" "+str(self.Plant_id)+"/"+str(self.product)+"กิโลกรัม/"+str(self.years)

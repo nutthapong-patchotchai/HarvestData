@@ -5,25 +5,47 @@
     <br>
     <div class="row">
     <div class="col-md-1"></div>
-        <div class="col-md-10">
+        <div class="col-md-6">
     <div class="box box-success">
             <div class="box-header with-border">
-              <h3 class="box-title">เพิ่มข้อมูล เกษตรกร</h3>
+              <h1 class="box-title">เพิ่มข้อมูล เกษตรกร</h1>
             </div>
             <div class="box-body">
                 <div class="form-group">
                 <form method="POST" enctype="multipart/form-data">
-    <div class="form-group">
-    {% csrf_token %}
-            <fieldset class="form-group">
-                {{ farmerform|crispy }}
-            </fieldset>
-
+            <div class="form-group">
+                {% csrf_token %}
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">ชื่อ :</span>
+                </div>
+                {{ farmerform.name }}
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">นามสกุล :</span>
+                </div>
+                {{ farmerform.lastname }}
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">อายุ :</span>
+                </div>
+                {{ farmerform.age }}
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">ที่อยู่ :</span>
+                </div>
+                {{ farmerform.address }}
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">เบอร์โทร :</span>
+                </div>
+                {{ farmerform.tel }}
+            </div>
+                </div>
+                <br>
                 <button class="btn btn-success" type="submit">Add</button>
                 <a href="{% url 'index' %}" class="btn btn-danger" role="button">Cancel</a>
             </div>
         </form>
             </div>
+        </div>
+
     </div>
             </div>
+            <div class="col-md-1"></div>
 {% endblock %}
