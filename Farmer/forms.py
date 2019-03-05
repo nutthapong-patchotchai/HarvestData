@@ -13,6 +13,11 @@ class addFarmer(forms.ModelForm):
             'tel',
         ]
 
+        def __init__(self, *args, **kwargs):
+            super(Farmer, self).__init__(*args, **kwargs)
+            self.helper = addFarmer()
+            self.helper.form_show_title = False
+
 class addPlant(forms.ModelForm):
     class Meta:
         model = Plant

@@ -18,23 +18,23 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-sm">ชื่อ :</span>
                 </div>
-                {{ farmerform.name }}
+                {{ farmerform.name |as_crispy_field }}
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-sm">นามสกุล :</span>
                 </div>
-                {{ farmerform.lastname }}
+                {{ farmerform.lastname |as_crispy_field }}
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-sm">อายุ :</span>
                 </div>
-                {{ farmerform.age }}
+                {{ farmerform.age |as_crispy_field }}
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-sm">ที่อยู่ :</span>
                 </div>
-                {{ farmerform.address }}
+                {{ farmerform.address |as_crispy_field }}
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-sm">เบอร์โทร :</span>
                 </div>
-                {{ farmerform.tel }}
+                {{ farmerform.tel |as_crispy_field }}
             </div>
                 </div>
                 <br>
