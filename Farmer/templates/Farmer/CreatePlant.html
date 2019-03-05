@@ -8,16 +8,28 @@
         <div class="col-md-6">
     <div class="box box-success">
             <div class="box-header with-border">
-              <h3 class="box-title">เพิ่มข้อมูล ข้อมูลการปลูกของ {{ viewfarmer.name }}   {{ viewfarmer.lastname}} </h3>
+              <h3 class="box-title">เพิ่มข้อมูลการปลูกของ {{ viewfarmer.name }}   {{ viewfarmer.lastname}} </h3>
             </div>
             <div class="box-body">
                 <div class="form-group">
                 <form method="POST" enctype="multipart/form-data">
     <div class="form-group">
     {% csrf_token %}
-            <fieldset class="form-group">
-                {{ plantform|crispy }}
-            </fieldset>
+        <div>
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">ชื่อ :</span>
+                </div>
+                {{ plantform.fruit_name }}
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">สายพันธุ์ :</span>
+                </div>
+                {{ plantform.fruit_breed }}
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">พื้นที่/ไร่ :</span>
+                </div>
+                {{ plantform.scale }}
+        </br></br>
+            </div>
                 <button class="btn btn-success" type="submit">Add</button>
                 <a href="{% url 'index' %}" class="btn btn-danger" role="button">Cancel</a>
             </div>

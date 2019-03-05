@@ -113,7 +113,7 @@ def CreatePlant(request, Farmer_id):
             createplant.Farmer_id = Farmer(Farmer_id)
             createplant.user = request.user
             createplant.save()
-            return redirect('/farmer/')
+            return redirect('/')
     else:
         plantform = addPlant()
 
