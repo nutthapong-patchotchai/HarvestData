@@ -31,76 +31,63 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
       <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+        <style type="text/css">
+        .asteriskField{
+            display: none;
+        }
+        .col-form-label{
+            display: none;
+        }
+    </style>
 </head>
-<body class="hold-transition skin-green sidebar-mini">
-<div class="wrapper">
-
-  <!-- Main Header -->
-  <header class="main-header">
-
-    <!-- Logo -->
+<body class="skin-purple-light sidebar-mini wysihtml5-supported" >
+  <header class="main-header" style="background-image: url({% static 'Login/images/bg-01.jpg' %} );">
     <a href="{% url 'index' %}" class="logo">
-      <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>H</b>D</span>
-      <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Harvest </b>Data</span>
+      <span class="logo-lg"><b>Harvest</b>Data</span>
     </a>
-
-    <!-- Header Navbar -->
-    <nav class="navbar navbar-static-top" role="navigation">
-      <!-- Sidebar toggle button-->
-      <!-- Navbar Right Menu -->
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          <!-- User Account Menu -->
-          <li class="dropdown user user-menu">
-            <!-- Menu Toggle Button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <span class="hidden-xs">{{ user.first_name }} {{ user.last_name }}</span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- The user image in the menu -->
-              <li class="user-header">
-                <p>{{ user.first_name }} {{ user.last_name }}</p>
-              </li>
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-right">
-                  <a href="{% url 'logout' %}" class="btn btn-default btn-flat">Sign out</a>
-                </div>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </nav>
   </header>
-  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar" >
+    <section class="sidebar" style="height: auto;">
+      <ul class="sidebar-menu tree" data-widget="tree">
+        <li class="header">รายการ</li>
+        <li><a href="{% url 'index' %}"><i class="fa fa-user"></i> <span>{{  user.first_name }}</span>  <span>{{user.last_name}}</span></a></li>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+          <li class="lowercase"><a href="{% url 'logout' %}" ><span>ออกจากระบบ</span></a></li>
+      </ul>
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-      {% block content %}
+    </section>
+  </aside>
+
+  <div class="content-wrapper" style="background-image: url({% static 'Login/images/bg-01.jpg' %} );">
+    <section class="content-header">
+      <h1>
+        ตารางข้อมูล
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="{% url 'index' %}"><i class="fa fa-dashboard"></i> หน้าแรก</a></li>
+      </ol>
+    </section>
+
+    <section class="content" >
+{% block content %}
     {% endblock %}
+        </section>
+      </div>
 
-  </div>
-  <!-- /.content-wrapper -->
 
-  <!-- Main Footer -->
   <footer class="main-footer">
-    <!-- To the right -->
     <div class="pull-right hidden-xs">
-      Nutthapong Patchotchai
+      <b>Version</b> 1.0.0
     </div>
-    <!-- Default to the left -->
-    <strong>Copyright &copy; 2019 </strong>
+      <strong>Copyright © 2019 by Nutthapong Patchotchai</strong>
   </footer>
-</div>
 <!-- jQuery 3 -->
 <script src="{% static 'Farmer/js/jquery.min.js' %}"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="{% static 'Farmer/js/bootstrap.min.js' %}"></script>
 <!-- AdminLTE App -->
 <script src="{% static 'Farmer/js/adminlte.min.js' %}"></script>
-
+</div>
 </body>
 </html>

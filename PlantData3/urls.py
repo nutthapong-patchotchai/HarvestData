@@ -35,5 +35,6 @@ urlpatterns = [
     path('plant/<int:Farmer_id>/harvest/<int:Harvest_id>/edit', farmer_views.EditHarvest, name='editHarvest'),
     path('farmer/harvest/<int:Harvest_id>/delete', farmer_views.DeleteHarvest, name='deleteHarvest'),
     path('farmer/<int:Harvest_id>/plant/harvest/create', farmer_views.CreateHarvest, name='createHarvest'),
-    path('test/', farmer_views.test, name='test')
+    path('test/', farmer_views.test, name='test'),
+    path('test2/', farmer_views.test_view, name='test')
 ]

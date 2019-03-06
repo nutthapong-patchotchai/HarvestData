@@ -5,7 +5,7 @@
 <div class="row" >
     <div class="col-md-1">
 
-<a type="button" class="btn btn-block btn-success btn-lg" href="{% url 'createPlant' viewfarmer.id %}">เพิ่ม</a>
+<a type="button" class="btn btn-block btn-primary btn-lg" href="{% url 'createPlant' viewfarmer.id %}">เพิ่ม</a>
     </div>
     <div class="col-md-1">
         <a type="button" class="btn btn-block btn-danger btn-lg" href="{% url 'index' %}">ย้อนกลับ</a>
@@ -16,7 +16,7 @@
       <div class="row">
         <!-- /.col -->
         <div class="col-md-7">
-            <div class="box box-success">
+            <div class="box box-primary">
                 <div class="box-header">
                 <h3 class="box-title">ตาราง ข้อมูลการปลูกของ {{ viewfarmer.name }}   {{ viewfarmer.lastname}}  </h3>
                 </div>
@@ -45,19 +45,27 @@
                 {% endfor %}
                 </tbody>
               </table></div></div>
-                  <div class="row">
+                          <div class="row">
                       <div class="col-sm-5">
                       </div>
                       <div class="col-sm-7">
-                          <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
-                              <ul class="pagination">
-                                  <li class="paginate_button previous disabled" id="example2_previous">
-                                      <a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0">Previous</a>
-                                  </li>
-                                  <li class="paginate_button active">
-                                      <a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0">1</a>
-                                  </li>
-                          </div>
+                        <div class="pagination">
+                            <span class="step-links">
+        {% if famerpage.has_previous %}
+            <a href="?page=1">หน้าแรก</a>
+            <a href="?page={{ famerpage.previous_page_number }}">ก่อนหน้า</a>
+        {% endif %}
+
+        <span class="current">
+            หน้า {{ famerpage.number }}  จาก {{ famerpage.paginator.num_pages }}
+        </span>
+
+        {% if famerpage.has_next %}
+            <a href="?page={{ famerpage.next_page_number }}">ถัดไป</a>
+            <a href="?page={{ famerpage.paginator.num_pages }}">สุดท้าย</a>
+        {% endif %}
+    </span>
+</div>
                       </div>
                   </div>
                 </div>

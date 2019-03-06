@@ -4,20 +4,44 @@
 <section class="content">
 <div class="row" >
     <div class="col-md-1">
-<a type="button" class="btn btn-block btn-success btn-lg" href="{% url 'createFarmer' user.id %}">เพิ่ม</a>
+<a type="button" class="btn btn-block btn-primary btn-lg" href="{% url 'createFarmer' user.id %}">เพิ่ม</a>
         </div>
-    <div class="col-md-11"></div>
+
+
+
+    <div class="col-md-3">
+    <form action='' method='GET' class='sidebar-form'>
+        <div class="input-group">
+          <input type="text" name="q" class="form-control" placeholder="ค้นหา...." value='{{ request.get.q }}'>
+          <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat" value="Search"><i class="fa fa-search"></i>
+                </button>
+              </span>
+        </div>
+      </form>
+    </div>
+
+
+
+    <div class="col-md-8"></div>
 </div>
     <br>
+
+
+
+
       <div class="row">
         <!-- /.col -->
         <div class="col-md-12">
-            <div class="box box-success">
+            <div class="box box-primary">
                 <div class="box-header">
                 <h3 class="box-title">ตาราง ข้อมูลเกษตรกร</h3>
                 </div>
             <!-- /.box-header -->
-
+	<div class="limiter">
+		<div class="container-login100" >
+			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+				<form class="login100-form validate-form" action="" method="post" name="Login_Form" >
             <div class="box-body">
               <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12"><table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
                 <thead>
@@ -26,7 +50,8 @@
                     <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">อายุ</th>
                     <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">ที่อยู่</th>
                     <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">เบอร์โทรศัพท์</th>
-                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">สถานะ</th></tr>
+                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">สถานะ</th>
+                </tr>
                 </thead>
                 <tbody>
                 {% for VF in famerpage %}
@@ -39,12 +64,19 @@
                       <a type="button"  href="{% url 'editFarmer' VF.id  %}">[แก้ไข]</a>
                       <a type="button"  href="{% url 'deleteFarmer' VF.id  %}">[ลบ]</a>
                   </td>
+                <td>
+                    <button class="preview" id="ale">Preview</button>
+                </td>
                 </tr>
                 {% endfor %}
 
 
                 </tbody>
               </table></div></div>
+
+
+
+
                   <div class="row">
                       <div class="col-sm-5">
                       </div>
@@ -52,17 +84,17 @@
                         <div class="pagination">
                             <span class="step-links">
         {% if famerpage.has_previous %}
-            <a href="?page=1">หน้าแรก</a>
-            <a href="?page={{ famerpage.previous_page_number }}">ก่อนหน้า</a>
+            <a href="?page=1&q={{ request.GET.q }}">หน้าแรก</a>
+            <a href="?page={{ famerpage.previous_page_number }}&q={{ request.GET.q }}">ก่อนหน้า</a>
         {% endif %}
 
         <span class="current">
-            หน้า {{ famerpage.number }} จาก {{ famerpage.paginator.num_pages }}
+            หน้า {{ famerpage.number }}  จาก {{ famerpage.paginator.num_pages }}
         </span>
 
         {% if famerpage.has_next %}
-            <a href="?page={{ famerpage.next_page_number }}">ถัดไป</a>
-            <a href="?page={{ famerpage.paginator.num_pages }}">สุดท้าย</a>
+            <a href="?page={{ famerpage.next_page_number }}&q={{ request.GET.q }}">ถัดไป</a>
+            <a href="?page={{ famerpage.paginator.num_pages }}&q={{ request.GET.q }}">สุดท้าย</a>
         {% endif %}
     </span>
 </div>
@@ -70,6 +102,11 @@
                   </div>
                 </div>
             </div>
+				</form>
+			</div>
+		</div>
+	</div>
+
             </div>
         </div>
           </div>

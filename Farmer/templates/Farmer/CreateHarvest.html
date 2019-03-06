@@ -20,11 +20,11 @@
             <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-sm">ปริมาณ/กิโลกรัม</span>
                 </div>
-                {{ harvestform.product }}
+                {{ harvestform.product|as_crispy_field }}
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-sm">ปี</span>
                 </div>
-                {{ harvestform.years }}
+                {{ harvestform.years|as_crispy_field }}
    </br></br>
             </div>
                 <button class="btn btn-success" type="submit">Add</button>

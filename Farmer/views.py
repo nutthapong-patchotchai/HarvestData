@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from Farmer.forms import addFarmer, addPlant, addHarvest
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 import sweetify
 
@@ -12,9 +13,20 @@ import sweetify
 @login_required
 def ViewFarmer(request):
     viewfarmer = Farmer.objects.filter(User_id=request.user)
+    # if request.user.is_staff or request.user.is_superuser:
+    #     viewfarmer = Farmer.objects.all()
+
+    query = request.GET.get("q")
+    if query:
+            viewfarmer = viewfarmer.filter(
+            Q(name__icontains=query) |
+            Q(lastname__icontains=query)
+        ).distinct()
     paginator = Paginator(viewfarmer, 10)
     page = request.GET.get('page')
     farmerpage = paginator.get_page(page)
+
+
     viewfarmerpage = {
             'viewFarmer': viewfarmer,
             'famerpage': farmerpage
@@ -72,9 +84,13 @@ def DeleteFarmer(request, Farmer_id):
 def ViewPlant(request, Farmer_id):
     viewfarmer = Farmer.objects.get(id=Farmer_id)
     viewplant = Plant.objects.filter(Farmer_id=Farmer_id)
+    paginator = Paginator(viewplant, 10)
+    page = request.GET.get('page')
+    plantpage = paginator.get_page(page)
     viewplantpage = {
                 'viewplant': viewplant,
-                'viewfarmer': viewfarmer
+                'viewfarmer': viewfarmer,
+                'famerpage': plantpage
     }
     return render(request, 'Farmer/ViewPlant.html', viewplantpage)
 
@@ -130,11 +146,15 @@ def ViewHarvest(request, Farmer_id, Plant_id):
     viewplant = Plant.objects.get(id=Plant_id)
     viewharvests = Plant.objects.get(id=Plant_id)
     viewharvest = Harvest.objects.filter(Plant_id=Plant_id)
+    paginator = Paginator(viewharvest, 10)
+    page = request.GET.get('page')
+    harvestpage = paginator.get_page(page)
     viewharvestpage = {
         'viewplant': viewplant,
         'viewharvest': viewharvest,
         'viewharvests': viewharvests,
-        'viewfarmer': viewfarmer
+        'viewfarmer': viewfarmer,
+        'famerpage': harvestpage
     }
     return render(request, 'Farmer/ViewHarvest.html', viewharvestpage)
 
@@ -192,3 +212,7 @@ def test(request):
     page = request.GET.get('page')
     contacts = paginator.get_page(page)
     return render(request, 'Farmer/test.html', {'contacts': contacts})
+
+def test_view(request):
+    sweetify.success(request, 'You did it', text='Good job! You successfully showed a SweetAlert message', persistent='Hell yeah')
+    return redirect('/')

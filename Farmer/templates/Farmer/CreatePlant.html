@@ -19,15 +19,15 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-sm">ชื่อ :</span>
                 </div>
-                {{ plantform.fruit_name }}
+                {{ plantform.fruit_name|as_crispy_field }}
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-sm">สายพันธุ์ :</span>
                 </div>
-                {{ plantform.fruit_breed }}
+                {{ plantform.fruit_breed|as_crispy_field }}
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-sm">พื้นที่/ไร่ :</span>
                 </div>
-                {{ plantform.scale }}
+                {{ plantform.scale|as_crispy_field }}
         </br></br>
             </div>
                 <button class="btn btn-success" type="submit">Add</button>

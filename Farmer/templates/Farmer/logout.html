@@ -1,11 +1,81 @@
-{% extends 'Farmer/base.html' %}
-{% block content %}
-    <main class="container">
-        <h2>You have been logged out</h2>
-        <div class="border-top pt-3">
-            <small class="text-muted">
-                <a href="{% url 'login' %}">Log In Again</a>
-            </small>
-        </div>
-    </main>
-{% endblock %}
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>เข้าสู่ระบบ</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="{% static 'Login/images/icons/favicon.ico' %} ">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Login/vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Login/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Login/fonts/iconic/css/material-design-iconic-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Login/vendor/animate/animate.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Login/vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Login/vendor/animsition/css/animsition.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Login/vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Login/vendor/daterangepicker/daterangepicker.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'Login/css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'Login/css/main.css' %}">
+<!--===============================================================================================-->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <style type="text/css">
+        .asteriskField{
+            display: none;
+        }
+        .col-form-label{
+            display: none;
+        }
+    </style>
+
+</head>
+<body>
+
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url({% static 'Login/images/bg-01.jpg' %} );">
+			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+				<form class="login100-form validate-form" action="" method="post" name="Login_Form" >
+					<span class="login100-form-title p-b-49">
+						ออกจากระบบ HarvestData
+                        เรียบร้อย
+					</span>
+                   <center> <a href="{% url 'login' %}" >ต้องการเข้าระบบอีกครั้ง</a> </center>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+	<div id="dropDownSelect1"></div>
+
+<!--===============================================================================================-->
+	<script src="{% static 'Login/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'Login/vendor/animsition/js/animsition.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'Login/vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'Login/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'Login/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'Login/vendor/daterangepicker/moment.min.js' %}"></script>
+	<script src="{% static 'Login/vendor/daterangepicker/daterangepicker.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'Login/vendor/countdowntime/countdowntime.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'Login/js/main.js' %}"></script>
+
+</body>
+</html>
+
