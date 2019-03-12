@@ -12,6 +12,16 @@ class YearSet(models.Model):
         return self.year
 
 
+class Fruit(models.Model):
+    fruit_name = models.CharField(max_length=50, default='')
+
+    class Meta:
+        ordering = ["fruit_name"]
+
+    def __str__(self):
+        return self.fruit_name
+
+
 class Farmer(models.Model):
     User_id = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, default='')
@@ -25,9 +35,9 @@ class Farmer(models.Model):
 
 
 class Plant(models.Model):
-    fruit_name = models.CharField(max_length=100, default='')
+    fruit_name = models.ForeignKey(Fruit, on_delete=models.CASCADE, default='')
     fruit_breed = models.CharField(max_length=100, default='')
-    scale = models.CharField(max_length=100, default='')
+    scale = models.IntegerField(default='')
     Farmer_id = models.ForeignKey(Farmer, on_delete=models.CASCADE)
 
     def __str__(self):

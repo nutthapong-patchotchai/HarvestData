@@ -4,18 +4,18 @@
 
 <section class="content">
 <div class="row" >
-    <div class="col-md-1">
-<a type="button" class="btn btn-block btn-primary btn-lg" href="{% url 'createHarvest' viewharvests.id %}">เพิ่ม</a>
+    <div class="col-md-3">
+<a type="button" class="btn btn-block btn-primary btn-lg" href="{% url 'createHarvest' viewharvests.Farmer_id_id viewharvests.id %}">เพิ่มข้อมูลการเก็บเกี่ยวของ{{ viewplant.fruit_name }} {{ viewplant.fruit_breed }}</a>
     </div>
     <div class="col-md-1">
-        <a type="button" class="btn btn-block btn-danger btn-lg" href="{% url 'viewFarmer' viewfarmer.id %}">ย้อนกลับ</a>
+        <a type="button" class="btn btn-block btn-danger btn-lg" href="{% url 'viewFarmer' user.id viewfarmer.id %}">ย้อนกลับ</a>
     </div>
     <div class="col-md-10"></div>
 </div>
     <br>
       <div class="row">
         <!-- /.col -->
-        <div class="col-md-5">
+        <div class="col-md-3">
             <div class="box box-primary">
                 <div class="box-header">
                 <h3 class="box-title">ตาราง ข้อมูลการเก็บเกี่ยวของ {{ viewplant.fruit_name }} สายพันธุ์ : {{ viewplant.fruit_breed }}</h3>
@@ -36,8 +36,8 @@
                     <td>{{ VH.product }} กิโลกรัม</td>
                     <td>{{ VH.years }}</td>
                   <td>
-                      <a type="button"  href="{% url 'editHarvest' VH.Plant_id_id VH.id %}">[แก้ไข]</a>
-                      <a type="button"  href="{% url 'deleteHarvest' VH.id %}">[ลบ]</a>
+                      <a type="button"  href="{% url 'editHarvest' viewharvests.Farmer_id_id viewharvests.id VH.id %}">[แก้ไข]</a>
+                      <a type="button"  href="{% url 'deleteHarvest' viewharvests.Farmer_id_id viewharvests.id VH.id %}">[ลบ]</a>
                   </td>
                 </tr>
                 {% endfor %}
@@ -70,7 +70,7 @@
             </div>
             </div>
         </div>
-      <div class="col-md-7">
+      <div class="col-md-9">
             <div class="box box-primary">
                 <div class="box-header">
                 <h3 class="box-title">กราฟแสดงข้อมูลการเก็บเกี่ยวของ {{ viewplant.fruit_name }} สายพันธุ์ : {{ viewplant.fruit_breed }}</h3>
@@ -91,6 +91,54 @@
                 </div>
             </div>
       </div>
+      </div>
+      <div class="row">
+      <div>
+          <div class="col-md-7">
+            <div class="box box-primary">
+                <div class="box-header">
+                <h3 class="box-title">กราฟแสดงข้อมูลการเก็บเกี่ยวของ {{ viewplant.fruit_name }} สายพันธุ์ : {{ viewplant.fruit_breed }}</h3>
+                </div>
+                <div id="LinePlot">
+                    <script>
+                        var trace1 = {
+                                        x: [{% for VH in viewharvest %}{{ VH.years }},{% endfor %}],
+                                        y: [{% for VH in viewharvest %}{{ VH.product }},{% endfor %}],
+                                        mode: 'lines+markers', type: 'scatter'
+                                    };
+                        var data = [trace1];
+
+                        Plotly.newPlot('LinePlot', data);
+                    </script>
+                </div>
+            </div>
+      </div>
+      </div>
+      <div>
+          <div class="col-md-5">
+            <div class="box box-primary">
+                <div class="box-header">
+                <h3 class="box-title">กราฟแสดงข้อมูลการเก็บเกี่ยวของ {{ viewplant.fruit_name }} สายพันธุ์ : {{ viewplant.fruit_breed }}</h3>
+                </div>
+                <div id="pie-charts">
+                    <script>
+                        var data = [{
+                        values: [{% for VH in viewharvest %}{{ VH.product }},{% endfor %}],
+                        labels: [{% for VH in viewharvest %}{{ VH.years }},{% endfor %}],
+                        type: 'pie'
+                        }];
+
+                        var layout = {
+                                        height: 400,
+                                        width: 500
+                                        };
+                        Plotly.newPlot('pie-charts', data, layout);
+                    </script>
+                </div>
+            </div>
+      </div>
+      </div>
+          </div>
           </div>
 </section>
 

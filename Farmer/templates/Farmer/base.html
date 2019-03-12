@@ -41,42 +41,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
         }
     </style>
 </head>
-<body class="skin-purple-light sidebar-mini wysihtml5-supported" >
+<body class="skin-purple-light sidebar-mini wysihtml5-supported"  style="background-image: url({% static 'Login/images/bg-01.jpg' %} );">
   <header class="main-header" style="background-image: url({% static 'Login/images/bg-01.jpg' %} );">
     <a href="{% url 'index' %}" class="logo">
       <span class="logo-lg"><b>Harvest</b>Data</span>
     </a>
   </header>
-  <aside class="main-sidebar" >
+  <aside class="main-sidebar"style="background-image: url({% static 'Login/images/bg-01.jpg' %} );" >
     <section class="sidebar" style="height: auto;">
       <ul class="sidebar-menu tree" data-widget="tree">
-        <li class="header">รายการ</li>
         <li><a href="{% url 'index' %}"><i class="fa fa-user"></i> <span>{{  user.first_name }}</span>  <span>{{user.last_name}}</span></a></li>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-          <li class="lowercase"><a href="{% url 'logout' %}" ><span>ออกจากระบบ</span></a></li>
       </ul>
 
     </section>
   </aside>
 
-  <div class="content-wrapper" style="background-image: url({% static 'Login/images/bg-01.jpg' %} );">
-    <section class="content-header">
-      <h1>
-        ตารางข้อมูล
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="{% url 'index' %}"><i class="fa fa-dashboard"></i> หน้าแรก</a></li>
-      </ol>
-    </section>
+  <div class="content-wrapper"  style="background-image: url({% static 'Login/images/bg-01.jpg' %} );">
 
-    <section class="content" >
 {% block content %}
     {% endblock %}
-        </section>
+
       </div>
 
 
-  <footer class="main-footer">
+  <footer class="main-footer" style="background-image: url({% static 'Login/images/bg-01.jpg' %} );">
     <div class="pull-right hidden-xs">
       <b>Version</b> 1.0.0
     </div>
