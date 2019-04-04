@@ -35,19 +35,24 @@ class Farmer(models.Model):
 
 
 class Plant(models.Model):
+    User_id = models.ForeignKey(User, on_delete=models.CASCADE,default='')
     fruit_name = models.ForeignKey(Fruit, on_delete=models.CASCADE, default='')
     fruit_breed = models.CharField(max_length=100, default='')
     scale = models.IntegerField(default='')
     Farmer_id = models.ForeignKey(Farmer, on_delete=models.CASCADE)
 
+
     def __str__(self):
-        return self.fruit_name
+        return str(self.fruit_name)
 
 
 class Harvest(models.Model):
+    User_id = models.ForeignKey(User, on_delete=models.CASCADE,default='')
     product = models.IntegerField(default='')
     years = models.ForeignKey(YearSet, on_delete=models.CASCADE, default='2017')
     Plant_id = models.ForeignKey(Plant, on_delete=models.CASCADE)
 
+
     def __str__(self):
         return str(self.id)+" "+str(self.Plant_id)+"/"+str(self.product)+"กิโลกรัม/"+str(self.years)
+

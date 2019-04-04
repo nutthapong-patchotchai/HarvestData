@@ -1,18 +1,11 @@
 {% load static %}
-{% load sweetify %}
-{% sweetify %}
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
-<html>
-<head>
-
+<html style="height: auto; min-height: 100%;"><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Harvest Data</title>
+  <title>HarvestData</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="{% static 'Farmer/css/bootstrap.min.css' %}">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{% static 'Farmer/css/font-awesome.min.css' %}">
@@ -20,19 +13,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{% static 'Farmer/css/ionicons.min.css' %}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{% static 'Farmer/css/AdminLTE.min.css' %}">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="{% static 'Farmer/css/skins/_all-skins.css'%}">
 
-     <link rel="stylesheet" href="{% static 'Farmer/css/alt/AdminLTE-bootstrap-social.min.css' %}">
-     <link rel="stylesheet" href="{% static 'Farmer/css/alt/AdminLTE-fullcalendar.min.css' %}">
-     <link rel="stylesheet" href="{% static 'Farmer/css/alt/AdminLTE-select2.min.css' %}">
-     <link rel="stylesheet" href="{% static 'Farmer/css/alt/AdminLTE-without-plugins.min.css' %}">
-    <link rel="stylesheet" href="{% static 'Farmer/css/skins/_all-skins.min.css' %}">
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
 
   <!-- Google Font -->
-  <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-      <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-
-        <style type="text/css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+            <style type="text/css">
         .asteriskField{
             display: none;
         }
@@ -41,41 +35,100 @@ scratch. This page gets rid of all links and provides the needed markup only.
         }
     </style>
 </head>
-<body class="skin-purple-light sidebar-mini wysihtml5-supported"  style="background-image: url({% static 'Login/images/bg-01.jpg' %} );">
-  <header class="main-header" style="background-image: url({% static 'Login/images/bg-01.jpg' %} );">
-    <a href="{% url 'index' %}" class="logo">
-      <span class="logo-lg"><b>Harvest</b>Data</span>
-    </a>
-  </header>
-  <aside class="main-sidebar"style="background-image: url({% static 'Login/images/bg-01.jpg' %} );" >
-    <section class="sidebar" style="height: auto;">
-      <ul class="sidebar-menu tree" data-widget="tree">
-        <li><a href="{% url 'index' %}"><i class="fa fa-user"></i> <span>{{  user.first_name }}</span>  <span>{{user.last_name}}</span></a></li>
-      </ul>
+<!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
+<body class="skin-blue layout-top-nav" style="height: auto; min-height: 100%;">
+<div class="wrapper" style="height: auto; min-height: 100%;">
 
-    </section>
-  </aside>
+  <header class="main-header">
+    <nav class="navbar navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="{% url 'index' %}" class="navbar-brand"><b>Harvest</b>Data</a>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+        </div>
 
-  <div class="content-wrapper"  style="background-image: url({% static 'Login/images/bg-01.jpg' %} );">
-
-{% block content %}
-    {% endblock %}
-
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+          <form class="navbar-form navbar-left" role="search" method="GET">
+            <div class="form-group">
+              <input type="text" class="form-control" id="navbar-search-input" placeholder="Search" name="q" value='{{ request.get.q }}'>
+            </div>
+          </form>
+        </div>
+        <!-- /.navbar-collapse -->
+        <!-- Navbar Right Menu -->
+        <div class="navbar-custom-menu">
+          <ul class="nav navbar-nav">
+            <!-- User Account Menu -->
+            <li class="dropdown user user-menu">
+              <!-- Menu Toggle Button -->
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                <span class="hidden-xs"><span>{{  user.first_name }}</span>  <span>{{user.last_name}}</span></span>
+              </a>
+              <ul class="dropdown-menu">
+                <!-- The user image in the menu -->
+                <li class="user-header">
+                  <p>
+                    <span>{{  user.first_name }}</span>  <span>{{user.last_name}}</span>
+                  </p>
+                </li>
+                <!-- Menu Body -->
+                <!-- Menu Footer-->
+                <li class="user-footer">
+                  <div class="pull-right">
+                    <a href="{% url 'logout' %}" class="btn btn-default btn-flat">Sign out</a>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <!-- /.navbar-custom-menu -->
       </div>
+      <!-- /.container-fluid -->
+    </nav>
+  </header>
+  <!-- Full Width Column -->
+  <div class="content-wrapper" style="min-height: 781px;">
+    <div class="container">
+      <!-- Content Header (Page header) -->
 
 
-  <footer class="main-footer" style="background-image: url({% static 'Login/images/bg-01.jpg' %} );">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 1.0.0
+      <!-- Main content -->
+      <section class="content">
+          {% block content %}
+    {% endblock %}
+        </section>
+      <!-- /.content -->
     </div>
+    <!-- /.container -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="pull-right hidden-xs">
+        <b>Version</b> 1.0.1
+      </div>
       <strong>Copyright © 2019 by Nutthapong Patchotchai</strong>
+    </div>
+    <!-- /.container -->
   </footer>
+</div>
+<!-- ./wrapper -->
+
+<!-- SlimScroll -->
+<script src="{% static 'Farmer/js/jquery.slim.min.js' %}"></script>
+<!-- FastClick -->
+<script src='{% static 'Farmer/js/fastclick.js' %}'></script>
 <!-- jQuery 3 -->
 <script src="{% static 'Farmer/js/jquery.min.js' %}"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="{% static 'Farmer/js/bootstrap.min.js' %}"></script>
 <!-- AdminLTE App -->
 <script src="{% static 'Farmer/js/adminlte.min.js' %}"></script>
-</div>
-</body>
-</html>
+
+
+</body></html>

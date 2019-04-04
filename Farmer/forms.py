@@ -19,7 +19,7 @@ class addPlant(forms.ModelForm):
         fields = [
             'fruit_name',
             'fruit_breed',
-            'scale'
+            'scale',
         ]
 
 class addHarvest(forms.ModelForm):

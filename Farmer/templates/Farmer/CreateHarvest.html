@@ -5,10 +5,10 @@
     <br>
     <div class="row">
     <div class="col-md-1"></div>
-        <div class="col-md-6">
+        <div class="col-md-10">
     <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">เพิ่มข้อมูล ้อมูลการเก็บเกี่ยวของ</h3><br>
+                <h3 class="box-title">เพิ่มข้อมูลการเก็บเกี่ยวของ</h3><br>
                 <h3>{{ viewplant.fruit_name }}</h3> <h3 class="box-title">สายพันธุ์ :</h3> <h3>{{ viewplant.fruit_breed }}</h3>
             </div>
             <div class="box-body">
@@ -28,7 +28,7 @@
    </br></br>
             </div>
                 <button class="btn btn-success" type="submit">Add</button>
-                <a href="{% url 'index' %}" class="btn btn-danger" role="button">Cancel</a>
+                <a href="{% url 'viewHarvest' viewfarmers.id viewplant.id  %}" class="btn btn-danger" role="button">Cancel</a>
             </div>
         </form>
             </div>
