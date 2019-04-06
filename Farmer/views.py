@@ -52,6 +52,12 @@ class ViewData(LoginRequiredMixin, UserPassesTestMixin):
         viewfarmer = Farmer.objects.get(id=Farmer_id)
         if request.user.id == viewfarmer.User_id.id:
             viewplant = Plant.objects.filter(Farmer_id=Farmer_id)
+            query = request.GET.get("q")
+            if query:
+                viewplant = viewplant.filter(
+                    Q(fruit_name__fruit_name__icontains=query) |
+                    Q(fruit_breed__icontains=query)
+                ).distinct()
             paginator = Paginator(viewplant, 5)
             page = request.GET.get('page')
             plantpage = paginator.get_page(page)
@@ -170,10 +176,11 @@ class CreateData():
                 createharvest.User_id = User(id)
                 createharvest.Plant_id = Plant(Harvest_id)
                 createharvest.user = request.user
-                if not Harvest.objects.filter(years=createharvest.years).exists():
+                if not Harvest.objects.filter(years=createharvest.years).exists() :
                     createharvest.save()
                     return redirect("../../")
                 else:
+                    messages.warning(request, 'เพิ่มไม่สำเร็จ')
                     harvestcreateform = {
                         'viewFarmer': viewfarmer,
                         'harvestform': harvestform,

@@ -1,35 +1,32 @@
 {% extends "Farmer/base.html" %}
 {% load static %}
 {% block content %}
-          <section class="content-header">
+    <section class="content-header">
         <center><h1>
-          ข้อมูลเกษตรกร
+         <span> ข้อมูลเกษตรกร</span>
         </h1></center>
-      </section>
-<section class="content">
-
-{% if messages %}
-<div class="row">
-<div class="col-sm-6 col-sm-offset-3">
- {% for message in messages %}
-    <center><p {% if message.tags == "success" %} class="message alert alert-success alert-dismissible"
-        {% elif message.tags == "error" %} class="message alert alert-danger alert-dismissible"
-            {% elif message.tags == "warning" %} class="message alert alert-warning alert-dismissible"
-    {% endif %}
-        >
-            {{ message }}
-        </p></center>
-
-    {% endfor %}
-    </div>
-    </div>
-{% endif %}
+    </section>
+    <section class="content">
+        {% if messages %}
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    {% for message in messages %}
+                        <center><p {% if message.tags == "success" %} class="message alert alert-success alert-dismissible"
+                        {% elif message.tags == "error" %} class="message alert alert-danger alert-dismissible"
+                        {% elif message.tags == "warning" %} class="message alert alert-warning alert-dismissible"
+                        {% endif %}>
+                            {{ message }}
+                        </p></center>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
 
 
 
 <div class="row" >
     <div class="col-sm-3">
-<a type="button" class="btn btn-block btn-primary btn-lg" href="{% url 'createFarmer' user.id %}">เพิ่มข้อมูลเกษตรกร</a>
+<a type="button" class="btn btn-block btn-primary btn-lg" href="{% url 'createFarmer' user.id %}" style="background-color: #67b168;">เพิ่มข้อมูลเกษตรกร</a>
         </div>
 
 
@@ -44,9 +41,9 @@
       <div class="row">
         <!-- /.col -->
         <div class="col-md-12">
-            <div class="box box-primary">
+            <div class="box box-success" >
                 <div class="box-header">
-                <h3 class="box-title">ตาราง ข้อมูลเกษตรกร</h3>
+                <center><h3 class="box-title">ตาราง ข้อมูลเกษตรกร</h3></center>
                 </div>
             <!-- /.box-header -->
 	<div class="limiter">
@@ -82,8 +79,8 @@
                     <td>{{ VF.address }}</td>
                     <td>{{ VF.tel }}</td>
                   <td>
-                      <a type="button"  href="{% url 'editFarmer' VF.id  %}">[แก้ไข]</a>
-                      <a type="button"  href="{% url 'deleteFarmer' VF.id  %}">[ลบ]</a>
+                      <a type="button" class="btn btn-warning"  href="{% url 'editFarmer' VF.id  %}">[แก้ไข]</a>
+                      <a type="button" class="btn btn-danger"  href="{% url 'deleteFarmer' VF.id  %}">[ลบ]</a>
                   </td>
                 </tr>
                 {% endfor %}

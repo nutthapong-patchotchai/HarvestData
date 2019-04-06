@@ -26,6 +26,7 @@
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
             <style type="text/css">
         .asteriskField{
             display: none;
@@ -39,8 +40,8 @@
 <body class="skin-blue layout-top-nav" style="height: auto; min-height: 100%;">
 <div class="wrapper" style="height: auto; min-height: 100%;">
 
-  <header class="main-header">
-    <nav class="navbar navbar-static-top">
+  <header class="main-header"  >
+    <nav class="navbar navbar-static-top" style="background-color: #67b168;">
       <div class="container">
         <div class="navbar-header">
           <a href="{% url 'index' %}" class="navbar-brand"><b>Harvest</b>Data</a>
@@ -49,7 +50,7 @@
           </button>
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
+          <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
           <form class="navbar-form navbar-left" role="search" method="GET">
             <div class="form-group">
@@ -57,6 +58,7 @@
             </div>
           </form>
         </div>
+
         <!-- /.navbar-collapse -->
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
