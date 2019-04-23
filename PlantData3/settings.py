@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django_adminlte_theme',
     'Farmer.apps.FarmerConfig',
     'crispy_forms',
-    'sweetify'
+    'sweetify',
 
 
 ]

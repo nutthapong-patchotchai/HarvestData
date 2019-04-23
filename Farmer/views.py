@@ -10,6 +10,7 @@ from Farmer.forms import addFarmer, addPlant, addHarvest
 from django.contrib import messages, auth
 from django.core.paginator import Paginator
 from django.db.models import Q,Exists
+import json as simplejson
 
 import sweetify
 
@@ -28,7 +29,6 @@ class ViewData(LoginRequiredMixin, UserPassesTestMixin):
         viewfarmer = Farmer.objects.filter(User_id=request.user)
         # if request.user.is_staff or request.user.is_superuser:
         #     viewfarmer = Farmer.objects.all()
-
         query = request.GET.get("q")
         if query:
             viewfarmer = viewfarmer.filter(
@@ -41,9 +41,26 @@ class ViewData(LoginRequiredMixin, UserPassesTestMixin):
 
         viewfarmerpage = {
             'viewFarmer': viewfarmer,
-            'famerpage': farmerpage
+            'famerpage': farmerpage,
         }
         return render(request, 'Farmer/index.html', viewfarmerpage)
+
+    @login_required
+    def getDatadependent(request):
+        person_name = request.GET['person']
+        print("ajax person_name ", person_name)
+
+        result_set = []
+        all_fruit = []
+        answer = str(person_name[1:-1])
+        selected_person = Plant.objects.get(name=answer)
+        print("selected person name ", selected_person)
+        all_fruit = selected_person.fruit_name_set.all()
+        for fruit in all_fruit:
+            print("fruit name", fruit.name)
+            result_set.append({'name': fruit.name})
+        return HttpResponse(simplejson.dumps(result_set), mimetype='application/json', content_type='application/json')
+
 
 
     @login_required
@@ -176,18 +193,17 @@ class CreateData():
                 createharvest.User_id = User(id)
                 createharvest.Plant_id = Plant(Harvest_id)
                 createharvest.user = request.user
-                if not Harvest.objects.filter(years=createharvest.years).exists() :
-                    createharvest.save()
-                    return redirect("../../")
-                else:
-                    messages.warning(request, 'เพิ่มไม่สำเร็จ')
-                    harvestcreateform = {
+                createharvest.save()
+                return redirect("../../")
+            else:
+                messages.warning(request, 'เพิ่มไม่สำเร็จ')
+                harvestcreateform = {
                         'viewFarmer': viewfarmer,
                         'harvestform': harvestform,
                         'viewplant': viewplant,
                         'viewfarmers': viewfarmers
-                    }
-                    return render(request, 'Farmer/CreateHarvest.html', harvestcreateform)
+                }
+                return render(request, 'Farmer/CreateHarvest.html', harvestcreateform)
 
         else:
             harvestform = addHarvest()

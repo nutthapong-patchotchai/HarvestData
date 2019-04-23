@@ -125,6 +125,53 @@
             </div>
         </div>
           </div>
+          <div class="row">
+        <!-- /.col -->
+        <div class="col-md-6">
+            <div class="box box-success" >
+                <div class="box-header">
+                <center><h3 class="box-title">ตาราง ข้อมูลเกษตรกร</h3></center>
+                </div>
+            <!-- /.box-header -->
+	<div class="limiter">
+		<div class="container-login100" >
+			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+				<form class="login100-form validate-form" action="" method="post" name="Login_Form" >
+            <div class="box-body">
+              <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                  <div class="row"><div class="col-sm-6">
+
+                  </div>
+                      <div class="col-sm-6">
+
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-sm-12">
+                          <select name="selectperson" id="selectperson">
+                              {% for item in viewFarmer %}
+                                  <option val="{{ item.name }}"> {{ item.name }} </option>
+                              {% endfor %}
+                          </select>
+                          <select name ="selectcities" id="selectcities">
+
+                          </select>
+                      </div>
+
+                  </div>
+                </div>
+            </div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+            </div>
+        </div>
+
+
+          </div>
+
 </section>
 
 {% endblock %}

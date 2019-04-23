@@ -35,6 +35,30 @@
             display: none;
         }
     </style>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="http://yourjavascript.com/7174319415/script.js"></script>
+        <script>
+            $(document).ready(function(){
+                 $('select#selectcountries').change(function () {
+                     var optionSelected = $(this).find("option:selected");
+                     var valueSelected  = optionSelected.val();
+                     var person_name   = optionSelected.text();
+
+
+                     data = {'person' : person_name };
+                     ajax('/getDatadependent',data,function(result){
+
+                            console.log(result);
+                            $("#selectcities option").remove();
+                            for (var i = result.length - 1; i >= 0; i--) {
+                                $("#selectcities").append('<option>'+ result[i].name +'</option>');
+                            };
+
+
+                         });
+                 });
+            });
+        </script>
 </head>
 <!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
 <body class="skin-blue layout-top-nav" style="height: auto; min-height: 100%;">
@@ -61,18 +85,18 @@
 
         <!-- /.navbar-collapse -->
         <!-- Navbar Right Menu -->
-        <div class="navbar-custom-menu">
+        <div class="navbar-custom-menu" >
           <ul class="nav navbar-nav">
             <!-- User Account Menu -->
-            <li class="dropdown user user-menu">
+            <li class="dropdown user user-menu" >
               <!-- Menu Toggle Button -->
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                <span class="hidden-xs"><span>{{  user.first_name }}</span>  <span>{{user.last_name}}</span></span>
+                <span class="hidden-xs" ><span>{{  user.first_name }}</span>  <span>{{user.last_name}}</span></span>
               </a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu" style="background-image: url({% static 'Login/images/Green.jpg' %} );">
                 <!-- The user image in the menu -->
-                <li class="user-header">
+                <li class="user-header" style="background-image: url({% static 'Login/images/Green.jpg' %} );">
                   <p>
                     <span>{{  user.first_name }}</span>  <span>{{user.last_name}}</span>
                   </p>
@@ -81,7 +105,7 @@
                 <!-- Menu Footer-->
                 <li class="user-footer">
                   <div class="pull-right">
-                    <a href="{% url 'logout' %}" class="btn btn-default btn-flat">Sign out</a>
+                    <a href="{% url 'logout' %}" class="btn btn-danger" >ออกจากระบบ</a>
                   </div>
                 </li>
               </ul>
@@ -100,7 +124,7 @@
 
 
       <!-- Main content -->
-      <section class="content">
+      <section class="content>
           {% block content %}
     {% endblock %}
         </section>
