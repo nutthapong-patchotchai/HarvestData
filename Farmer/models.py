@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import ImageField
+# from spyder.config.base import get_image_path
+from six import python_2_unicode_compatible
+
 
 
 class YearSet(models.Model):
@@ -16,7 +20,7 @@ class Fruit(models.Model):
     fruit_name = models.CharField(max_length=50, default='')
 
     class Meta:
-        ordering = ["fruit_name"]
+        ordering = ["id"]
 
     def __str__(self):
         return self.fruit_name
@@ -35,7 +39,7 @@ class Farmer(models.Model):
 
 
 class Plant(models.Model):
-    User_id = models.ForeignKey(User, on_delete=models.CASCADE,default='')
+    User_id = models.ForeignKey(User, on_delete=models.CASCADE, default='')
     fruit_name = models.ForeignKey(Fruit, on_delete=models.CASCADE, default='')
     fruit_breed = models.CharField(max_length=100, default='')
     scale = models.IntegerField(default='')
@@ -43,16 +47,17 @@ class Plant(models.Model):
 
 
     def __str__(self):
-        return str(self.fruit_name)
+        return str(self.id)+" "+str(self.fruit_name)
 
 
 class Harvest(models.Model):
-    User_id = models.ForeignKey(User, on_delete=models.CASCADE,default='')
+    User_id = models.ForeignKey(User, on_delete=models.CASCADE, default='')
     product = models.IntegerField(default='')
+    price = models.IntegerField(default='0')
     years = models.ForeignKey(YearSet, on_delete=models.CASCADE, default='2017')
     Plant_id = models.ForeignKey(Plant, on_delete=models.CASCADE)
 
 
     def __str__(self):
-        return str(self.id)+" "+str(self.Plant_id)+"/"+str(self.product)+"กิโลกรัม/"+str(self.years)
+        return str(self.Plant_id.id)+" "+str(self.Plant_id)+" "+str(self.Plant_id.fruit_name)+"/"+str(self.Plant_id)+"/"+str(self.product)+"/"+str(self.years)+" "+str(self.years_id)
 

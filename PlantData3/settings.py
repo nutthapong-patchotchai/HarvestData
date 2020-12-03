@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'Farmer.apps.FarmerConfig',
     'crispy_forms',
     'sweetify',
+    'django_extensions',
 
 
 ]

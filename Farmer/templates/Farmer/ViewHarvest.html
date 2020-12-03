@@ -3,7 +3,7 @@
 {% block content %}
     <section class="content-header">
         <center><h1>
-         <span> ข้อมูลการเก็บเกี่ยวของ '{{ viewplant.fruit_name }}' สายพันธุ์ : '{{ viewplant.fruit_breed }}'</span>
+            <span> ข้อมูลการเก็บเกี่ยวของ '{{ viewplant.fruit_name }}' สายพันธุ์ : '{{ viewplant.fruit_breed }}'</span>
         </h1></center>
     </section>
     <section class="content">
@@ -11,7 +11,8 @@
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-3">
                     {% for message in messages %}
-                        <center><p {% if message.tags == "success" %} class="message alert alert-success alert-dismissible"
+                        <center><p {% if message.tags == "success" %}
+                            class="message alert alert-success alert-dismissible"
                         {% elif message.tags == "error" %} class="message alert alert-danger alert-dismissible"
                         {% elif message.tags == "warning" %} class="message alert alert-warning alert-dismissible"
                         {% endif %}>
@@ -22,120 +23,184 @@
             </div>
         {% endif %}
 
-<div class="row" >
-    <div class="col-md-4">
-<a type="button" class="btn btn-block btn-primary btn-lg" style="background-color: #67b168;" href="{% url 'createHarvest' viewharvests.Farmer_id_id viewharvests.id user.id %}">เพิ่มข้อมูลการเก็บเกี่ยวของ{{ viewplant.fruit_name }} {{ viewplant.fruit_breed }}</a>
-    </div>
-    <div class="col-md-6">
-
-    </div>
-    <div class="col-md-2">
-        <a type="button" class="btn btn-block btn-light btn-lg" href="{% url 'viewFarmer' viewfarmer.id %}">ย้อนกลับ</a>
-    </div>
-</div>
-    <br>
-      <div class="row">
-        <!-- /.col -->
-        <div class="col-md-12">
-            <div class="box box-success">
-                <div class="box-header">
-                <center><h3 class="box-title">ตาราง ข้อมูลการเก็บเกี่ยวของ '{{ viewplant.fruit_name }}' สายพันธุ์ : '{{ viewplant.fruit_breed }}' </h3></center>
-
-                </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap"><div class="row"><div class="col-sm-6"></div><div class="col-sm-6"></div></div><div class="row"><div class="col-sm-12"><table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
-                <thead>
-                <tr role="row">
-                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">จำนวนการเก็บเกียว</th>
-                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">ปี</th>
-                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">สถานะ</th></tr>
-                </thead>
-                <tbody>
-                 <tr role="row" class="odd">
-                {% for VH in viewharvest %}
-                    <td>{{ VH.product }} กิโลกรัม</td>
-                    <td>{{ VH.years }}</td>
-                  <td>
-                      <a type="button" class="btn btn-warning"  href="{% url 'editHarvest' viewharvests.Farmer_id_id viewharvests.id VH.id %}">[แก้ไข]</a>
-                      <a type="button" class="btn btn-danger" href="{% url 'deleteHarvest' viewharvests.Farmer_id_id viewharvests.id VH.id %}">[ลบ]</a>
-                  </td>
-                </tr>
-                {% endfor %}
-                </tbody>
-              </table></div></div>
-                </div>
+        <div class="row">
+            <div class="col-md-8">
+                <a type="button" class="btn btn-block btn-primary btn-lg" style="background-color: #67b168;"
+                   href="{% url 'createHarvest' viewharvests.Farmer_id_id viewharvests.id user.id %}">เพิ่มข้อมูลการเก็บเกี่ยวของ
+                    "{{ viewplant.fruit_name }}" สายพันธุ์ "{{ viewplant.fruit_breed }}"</a>
             </div>
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-2">
+                <a type="button" class="btn btn-block btn-light btn-lg" href="{% url 'viewFarmer' viewfarmer.id %}">ย้อนกลับ</a>
             </div>
         </div>
-      <div class="col-md-12">
-            <div class="box box-success">
-                <div class="box-header">
-                <center><h3 class="box-title">กราฟแสดงข้อมูลการเก็บเกี่ยวของ {{ viewplant.fruit_name }} สายพันธุ์ : {{ viewplant.fruit_breed }}</h3></center>
-                </div>
-                    <div id="plot">
-                    <script>
-                        var data = [{
-                        x: [{% for VH in viewharvest %}{{ VH.years }},{% endfor %}],
-                        y: [{% for VH in viewharvest %}{{ VH.product }},{% endfor %}],
-                        type: 'bar'
-                        }];
-                        Plotly.newPlot('plot', data, {}, {showSendToCloud:true});
+        <br>
+        <div class="row">
+            <!-- /.col -->
+            <div class="col-md-12">
+                <div class="box box-success">
+                    <div class="box-header">
+                        <center><h3 class="box-title">ตาราง ข้อมูลการเก็บเกี่ยวของ '{{ viewplant.fruit_name }}'
+                            สายพันธุ์ : '{{ viewplant.fruit_breed }}' </h3></center>
 
-                    </script>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                            <div class="row">
+                                <div class="col-sm-6"></div>
+                                <div class="col-sm-6"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="example2" class="table table-bordered table-hover dataTable" role="grid"
+                                           aria-describedby="example2_info">
+                                        <thead>
+                                        <tr role="row">
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
+                                                colspan="1" aria-label="Platform(s): activate to sort column ascending">
+                                                จำนวนการเก็บเกียว
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
+                                                colspan="1" aria-label="Platform(s): activate to sort column ascending">
+                                                ปี
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
+                                                colspan="1" aria-label="Platform(s): activate to sort column ascending">
+                                                ราคา
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1"
+                                                colspan="1" aria-label="CSS grade: activate to sort column ascending">
+                                                สถานะ
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for VH in viewharvest %}
+                                            <td>{{ VH.product }} กิโลกรัม</td>
+                                            <td>{{ VH.years }}</td>
+                                            <td>{{ VH.price }} บาท/กิโลกรัม</td>
+                                            <td>
+                                                <a type="button" class="btn btn-warning"
+                                                   href="{% url 'editHarvest' viewharvests.Farmer_id_id viewharvests.id VH.id %}">[แก้ไข]</a>
+                                                <a type="button" class="btn btn-danger"
+                                                   href="{% url 'deleteHarvest' viewharvests.Farmer_id_id viewharvests.id VH.id %}">[ลบ]</a>
+                                            </td>
+
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-      </div>
-      </div>
-      <div class="row">
-      <div>
-          <div class="col-md-12">
-            <div class="box box-success">
-                <div class="box-header">
-                <center><h3 class="box-title">กราฟแสดงข้อมูลการเก็บเกี่ยวของ {{ viewplant.fruit_name }} สายพันธุ์ : {{ viewplant.fruit_breed }}</h3></center>
-                </div>
-                <div id="LinePlot">
-                    <script>
-                        var trace1 = {
-                                        x: [{% for VH in viewharvest %}{{ VH.years }},{% endfor %}],
-                                        y: [{% for VH in viewharvest %}{{ VH.product }},{% endfor %}],
-                                        mode: 'lines+markers', type: 'scatter'
-                                    };
-                        var data = [trace1];
+            {#      <div class="col-md-12">#}
+            {#            <div class="box box-success">#}
+            {#                <div class="box-header">#}
+            {#                <center><h3 class="box-title">กราฟแสดงข้อมูลการเก็บเกี่ยวของ {{ viewplant.fruit_name }} สายพันธุ์ : {{ viewplant.fruit_breed }}</h3></center>#}
+            {#                </div>#}
+            {#                    <div id="plot">#}
+            {#                    <script>#}
+            {#                        var data = [{#}
+            {#                        x: [{% for VH in viewharvest %}{{ VH.years }},{% endfor %}],#}
+            {#                        y: [{% for VH in viewharvest %}{{ VH.product }},{% endfor %}],#}
+            {#                        type: 'bar'#}
+            {#                        }];#}
+            {#                        Plotly.newPlot('plot', data, {}, {showSendToCloud:true});#}
+            {##}
+            {#                    </script>#}
+            {#                </div>#}
+            {#            </div>#}
+            {#      </div>#}
 
-                        Plotly.newPlot('LinePlot', data);
-                    </script>
+        </div>
+        <div class="row">
+
+
+            <div>
+                <div class="col-md-12">
+                    <div class="box box-success">
+                        <div class="box-header">
+                            <center><h3 class="box-title">กราฟแสดงข้อมูลการเก็บเกี่ยวหน่วยเป็นกิโลกรัม
+                                และราคาต่อกิโลกรัมหน่วยเป็นบาทของ {{ viewplant.fruit_name }} สายพันธุ์
+                                : {{ viewplant.fruit_breed }} </h3></center>
+                        </div>
+                        <div id="iLinePlot">
+                            <script>
+                                var price = {
+                                    x: [{% for VH in viewharvest %}{{ VH.years }}, {% endfor %}],
+                                    y: [{% for VH in viewharvest %}{{ VH.price }}, {% endfor %}],
+                                    type: 'scatter',
+                                    yaxis: 'y1',
+                                    name: 'ราคา',
+
+                                };
+
+                                var product = {
+                                    x: [{% for VH in viewharvest %}{{ VH.years }}, {% endfor %}],
+                                    y: [{% for VH in viewharvest %}{{ VH.product }}, {% endfor %}],
+                                    type: 'bar',
+                                    name: 'ปริมาณหน่วยเป็นกิโลกรัม'
+                                };
+                                var data = [price];
+                                {#Plotly.newPlot('iLinePlot', data);#}
+
+                                var trace1 = {
+                                    x: [{% for VH in viewharvest %}{{ VH.years }}, {% endfor %}],
+                                    y: [{% for VH in viewharvest %}{{ VH.product }}, {% endfor %}],
+                                    name: 'ข้อมูลการเก็บเกี่ยว',
+                                    type: 'bar',
+                                    marker: {
+                                        color: 'rgb(218,165,32)'
+                                    }
+                                };
+
+                                var trace2 = {
+                                    x: [{% for VH in viewharvest %}{{ VH.years }}, {% endfor %}],
+                                    y: [{% for VH in viewharvest %}{{ VH.price }}, {% endfor %}],
+                                    name: 'ข้อมูลราคา',
+                                    yaxis: 'y2',
+                                    type: 'scatter',
+                                    line: {
+                                        color: 'rgb(255,0,0)',
+                                        width: 8
+                                    }
+                                };
+
+                                var data = [trace1, trace2];
+
+                                var layout = {
+                                    title: 'ข้อมูลการเก็บเกี่ยวหน่วยเป็นกิโลกรัม และราคาต่อกิโลกรัมหน่วยเป็นบาท',
+                                    yaxis: {
+                                        title: 'ปริมาณการเก็บเกี่ยวหน่วยเป็นกิโลกรัม',
+                                        titlefont: {color: 'rgb(0, 0, 0)'},
+                                        tickfont: {color: 'rgb(0, 0, 0)'}
+                                    },
+                                    yaxis2: {
+                                        title: 'ราคาต่อกิโลกรัมหน่วยเป็นบาท',
+                                        titlefont: {color: 'rgb(255, 0, 0)'},
+                                        tickfont: {color: 'rgb(255, 0, 0)'},
+                                        overlaying: 'y',
+                                        side: 'right',
+
+                                    },
+                                };
+
+                                Plotly.newPlot('iLinePlot', data, layout);
+                            </script>
+                        </div>
+                    </div>
                 </div>
             </div>
-      </div>
-      </div>
-      <div>
-          <div class="col-md-12">
-            <div class="box box-success">
-                <div class="box-header">
-                <center><h3 class="box-title">กราฟแสดงข้อมูลการเก็บเกี่ยวของ {{ viewplant.fruit_name }} สายพันธุ์ : {{ viewplant.fruit_breed }}</h3></center>
-                </div>
-                <center><div id="pie-charts">
-                    <script>
-                        var data = [{
-                        values: [{% for VH in viewharvest %}{{ VH.product }},{% endfor %}],
-                        labels: [{% for VH in viewharvest %}{{ VH.years}},{% endfor %}],
-                        type: 'pie'
-                        }];
-
-                        var layout = {
-                                        height: 400,
-                                        width: 500
-                                        };
-                        Plotly.newPlot('pie-charts', data, layout);
-                    </script>
-                </div>
-                    </center>
+            <div>
 
             </div>
-      </div>
-      </div>
-          </div>
-          </div>
-</section>
+        </div>
+
+    </section>
 {% endblock %}

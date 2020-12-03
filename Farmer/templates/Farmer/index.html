@@ -1,177 +1,652 @@
 {% extends "Farmer/base.html" %}
 {% load static %}
 {% block content %}
-    <section class="content-header">
-        <center><h1>
-         <span> ข้อมูลเกษตรกร</span>
-        </h1></center>
-    </section>
-    <section class="content">
-        {% if messages %}
+    {% if user.is_superuser %}
+
+        {# !<----- ส่วนแอดมิน ------>! #}
+        <section class="content-header">
+            <center><h1>
+                <span> ข้อมูลเกษตรกร</span>
+            </h1></center>
+        </section>
+        <section class="content">
+            {% if messages %}
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        {% for message in messages %}
+                            <center><p {% if message.tags == "success" %}
+                                class="message alert alert-success alert-dismissible"
+                            {% elif message.tags == "error" %} class="message alert alert-danger alert-dismissible"
+                            {% elif message.tags == "warning" %} class="message alert alert-warning alert-dismissible"
+                            {% endif %}>
+                                {{ message }}
+                            </p></center>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+
+
             <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    {% for message in messages %}
-                        <center><p {% if message.tags == "success" %} class="message alert alert-success alert-dismissible"
-                        {% elif message.tags == "error" %} class="message alert alert-danger alert-dismissible"
-                        {% elif message.tags == "warning" %} class="message alert alert-warning alert-dismissible"
-                        {% endif %}>
-                            {{ message }}
-                        </p></center>
-                    {% endfor %}
+                <div class="col-sm-3">
+                    <a type="button" class="btn btn-block btn-primary btn-lg" href="{% url 'createFarmer' user.id %}"
+                       style="background-color: #67b168;">เพิ่มข้อมูลเกษตรกร</a>
                 </div>
+
+
+                <div class="col-md-5"></div>
+                <div class="col-md-2"></div>
             </div>
-        {% endif %}
+            <br>
 
 
+            <div class="row">
+                <!-- /.col -->
+                <div class="col-md-12">
+                    <div class="box box-success">
+                        <div class="box-header">
+                            <center><h3 class="box-title">ตาราง ข้อมูลเกษตรกร</h3></center>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="limiter">
+                            <div class="container-login100">
+                                <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+                                    <form class="login100-form validate-form" action="" method="post" name="Login_Form">
+                                        <div class="box-body">
+                                            <div id="example2_wrapper"
+                                                 class="dataTables_wrapper form-inline dt-bootstrap">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
 
-<div class="row" >
-    <div class="col-sm-3">
-<a type="button" class="btn btn-block btn-primary btn-lg" href="{% url 'createFarmer' user.id %}" style="background-color: #67b168;">เพิ่มข้อมูลเกษตรกร</a>
-        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <table id="example2"
+                                                               class="table table-bordered table-hover dataTable"
+                                                               role="grid" aria-describedby="example2_info">
+                                                            <thead>
+                                                            <tr role="row">
+                                                                <th class="sorting_asc" tabindex="0"
+                                                                    aria-controls="example2" rowspan="1" colspan="1"
+                                                                    aria-sort="ascending"
+                                                                    aria-label="Rendering engine: activate to sort column descending">
+                                                                    id
+                                                                </th>
+                                                                <th class="sorting_asc" tabindex="0"
+                                                                    aria-controls="example2" rowspan="1" colspan="1"
+                                                                    aria-sort="ascending"
+                                                                    aria-label="Rendering engine: activate to sort column descending">
+                                                                    Username
+                                                                </th>
+                                                                <th class="sorting_asc" tabindex="0"
+                                                                    aria-controls="example2" rowspan="1" colspan="1"
+                                                                    aria-sort="ascending"
+                                                                    aria-label="Rendering engine: activate to sort column descending">
+                                                                    first name
+                                                                </th>
+                                                                <th class="sorting_asc" tabindex="0"
+                                                                    aria-controls="example2" rowspan="1" colspan="1"
+                                                                    aria-sort="ascending"
+                                                                    aria-label="Rendering engine: activate to sort column descending">
+                                                                    last name
+                                                                </th>
+                                                                <th class="sorting_asc" tabindex="0"
+                                                                    aria-controls="example2" rowspan="1" colspan="1"
+                                                                    aria-sort="ascending"
+                                                                    aria-label="Rendering engine: activate to sort column descending">
+                                                                    ชื่อ - นามสกุล
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="example2" rowspan="1" colspan="1"
+                                                                    aria-label="Platform(s): activate to sort column ascending">
+                                                                    อายุ
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="example2" rowspan="1" colspan="1"
+                                                                    aria-label="CSS grade: activate to sort column ascending">
+                                                                    เบอร์โทรศัพท์
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="example2" rowspan="1" colspan="1"
+                                                                    aria-label="CSS grade: activate to sort column ascending">
+                                                                    สถานะ
+                                                                </th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {% for VF in famerpage %}
+                                                                <tr role="row" class="odd">
+                                                                    <td>{{ VF.User_id.id }}</td>
+                                                                    <td>{{ VF.User_id }}</td>
+                                                                    <td>{{ VF.User_id.first_name }}</td>
+                                                                    <td>{{ VF.User_id.last_name }}</td>
+                                                                    <td><a type="button"
+                                                                           href="{% url 'viewFarmer' VF.id %}">{{ VF.name }} {{ VF.lastname }}</a>
+                                                                    </td>
+                                                                    <td>{{ VF.age }}</td>
+                                                                    <td>{{ VF.tel }}</td>
+                                                                    <td>
+                                                                        <a type="button" class="btn btn-warning"
+                                                                           href="{% url 'editFarmer' VF.id %}">[แก้ไข]</a>
+                                                                        <a type="button" class="btn btn-danger"
+                                                                           href="{% url 'deleteFarmer' VF.id %}">[ลบ]</a>
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
 
 
-    <div class="col-md-5"></div>
-    <div class="col-md-2"></div>
-</div>
-    <br>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
 
 
-
-
-      <div class="row">
-        <!-- /.col -->
-        <div class="col-md-12">
-            <div class="box box-success" >
-                <div class="box-header">
-                <center><h3 class="box-title">ตาราง ข้อมูลเกษตรกร</h3></center>
-                </div>
-            <!-- /.box-header -->
-	<div class="limiter">
-		<div class="container-login100" >
-			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-				<form class="login100-form validate-form" action="" method="post" name="Login_Form" >
-            <div class="box-body">
-              <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-                  <div class="row"><div class="col-sm-6">
-
-                  </div>
-                      <div class="col-sm-6">
-
-                      </div>
-                  </div>
-                  <div class="row">
-                      <div class="col-sm-12">
-                          <table id="example2" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="example2_info">
-                <thead>
-                <tr role="row">
-                    <th class="sorting_asc" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">ชื่อ - นามสกุล</th>
-                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">อายุ</th>
-                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">ที่อยู่</th>
-                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">เบอร์โทรศัพท์</th>
-                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">สถานะ</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for VF in famerpage %}
-                <tr role="row" class="odd">
-                  <td><a type="button"  href="{% url 'viewFarmer' VF.id  %}" >{{ VF.name }} {{ VF.lastname }}</a></td>
-                    <td>{{ VF.age }}</td>
-                    <td>{{ VF.address }}</td>
-                    <td>{{ VF.tel }}</td>
-                  <td>
-                      <a type="button" class="btn btn-warning"  href="{% url 'editFarmer' VF.id  %}">[แก้ไข]</a>
-                      <a type="button" class="btn btn-danger"  href="{% url 'deleteFarmer' VF.id  %}">[ลบ]</a>
-                  </td>
-                </tr>
-                {% endfor %}
-
-
-                </tbody>
-              </table></div></div>
-
-
-
-
-                  <div class="row">
-                      <div class="col-sm-5">
-                      </div>
-                      <div class="col-sm-7">
-                        <div class="pagination">
+                                                <div class="row">
+                                                    <div class="col-sm-5">
+                                                    </div>
+                                                    <div class="col-sm-7">
+                                                        <div class="pagination">
                             <span class="step-links">
         {% if famerpage.has_previous %}
             <a href="?page=1&q={{ request.GET.q }}">หน้าแรก</a>
             <a href="?page={{ famerpage.previous_page_number }}&q={{ request.GET.q }}">ก่อนหน้า</a>
         {% endif %}
 
-        <span class="current">
+                                <span class="current">
             หน้า {{ famerpage.number }}  จาก {{ famerpage.paginator.num_pages }}
         </span>
 
-        {% if famerpage.has_next %}
-            <a href="?page={{ famerpage.next_page_number }}&q={{ request.GET.q }}">ถัดไป</a>
-            <a href="?page={{ famerpage.paginator.num_pages }}&q={{ request.GET.q }}">สุดท้าย</a>
-        {% endif %}
+                                {% if famerpage.has_next %}
+                                    <a href="?page={{ famerpage.next_page_number }}&q={{ request.GET.q }}">ถัดไป</a>
+                                    <a href="?page={{ famerpage.paginator.num_pages }}&q={{ request.GET.q }}">สุดท้าย</a>
+                                {% endif %}
     </span>
-</div>
-                      </div>
-                  </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <!-- /.col -->
+                            <div class="col-md-12">
+                                <div class="box box-success">
+                                    <div class="box-header">
+                                        <center><h3 class="box-title">ตาราง ข้อมูลเกษตรกร</h3></center>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="limiter">
+                                        <div class="container-login100">
+                                            <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+                                                <form class="login100-form validate-form" action="" method="post"
+                                                      name="Login_Form">
+                                                    <div class="box-body">
+                                                        <div id="example2_wrapper"
+                                                             class="dataTables_wrapper form-inline dt-bootstrap">
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+
+                                                                </div>
+                                                                <div class="col-sm-6">
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <table id="example2"
+                                                                           class="table table-bordered table-hover dataTable"
+                                                                           role="grid" aria-describedby="example2_info">
+                                                                        <thead>
+                                                                        <tr role="row">
+                                                                            <th class="sorting_asc" tabindex="0"
+                                                                                aria-controls="example2" rowspan="1"
+                                                                                colspan="1" aria-sort="ascending"
+                                                                                aria-label="Rendering engine: activate to sort column descending">
+                                                                                id
+                                                                            </th>
+                                                                            <th class="sorting_asc" tabindex="0"
+                                                                                aria-controls="example2" rowspan="1"
+                                                                                colspan="1" aria-sort="ascending"
+                                                                                aria-label="Rendering engine: activate to sort column descending">
+                                                                                Username
+                                                                            </th>
+                                                                            <th class="sorting_asc" tabindex="0"
+                                                                                aria-controls="example2" rowspan="1"
+                                                                                colspan="1" aria-sort="ascending"
+                                                                                aria-label="Rendering engine: activate to sort column descending">
+                                                                                Password
+                                                                            </th>
+                                                                            <th class="sorting_asc" tabindex="0"
+                                                                                aria-controls="example2" rowspan="1"
+                                                                                colspan="1" aria-sort="ascending"
+                                                                                aria-label="Rendering engine: activate to sort column descending">
+                                                                                first name
+                                                                            </th>
+                                                                            <th class="sorting_asc" tabindex="0"
+                                                                                aria-controls="example2" rowspan="1"
+                                                                                colspan="1" aria-sort="ascending"
+                                                                                aria-label="Rendering engine: activate to sort column descending">
+                                                                                last name
+                                                                            </th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        {% for VU in viewuser %}
+                                                                            <tr role="row" class="odd">
+                                                                                <td>{{ VU.id }}</td>
+                                                                                <td>{{ VU.username }}</td>
+                                                                                <td>{{ VU.password }}</td>
+                                                                                <td>{{ VU.first_name }}</td>
+                                                                                <td>{{ VU.last_name }}</td>
+
+                                                                            </tr>
+                                                                        {% endfor %}
+
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+        </section>
+
+        {# <--------------------> #}
+
+    {% else %}
+
+        <section class="content-header">
+            <center><h1>
+                <span> ข้อมูลเกษตรกร</span>
+            </h1></center>
+        </section>
+        <section class="content">
+            {% if messages %}
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        {% for message in messages %}
+                            <center><p {% if message.tags == "success" %}
+                                class="message alert alert-success alert-dismissible"
+                            {% elif message.tags == "error" %} class="message alert alert-danger alert-dismissible"
+                            {% elif message.tags == "warning" %} class="message alert alert-warning alert-dismissible"
+                            {% endif %}>
+                                {{ message }}
+                            </p></center>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <a type="button" class="btn btn-block btn-primary btn-lg" href="{% url 'createFarmer' user.id %}"
+                       style="background-color: #67b168;">เพิ่มข้อมูลเกษตรกร</a>
+                </div>
+
+
+                <div class="col-md-5"></div>
+                <div class="col-md-2"></div>
+            </div>
+            <br>
+
+
+            <div class="row">
+                <!-- /.col -->
+                <div class="col-md-12">
+                    <div class="box box-success">
+                        <div class="box-header">
+                            <center><h3 class="box-title">ตาราง ข้อมูลเกษตรกร</h3></center>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="limiter">
+                            <div class="container-login100">
+                                <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+                                    <form class="login100-form validate-form" action="" method="post" name="Login_Form">
+                                        <div class="box-body">
+                                            <div id="example2_wrapper"
+                                                 class="dataTables_wrapper form-inline dt-bootstrap">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+
+                                                    </div>
+                                                    <div class="col-sm-6">
+
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <table id="example2"
+                                                               class="table table-bordered table-hover dataTable"
+                                                               role="grid" aria-describedby="example2_info">
+                                                            <thead>
+                                                            <tr role="row">
+                                                                <th class="sorting_asc" tabindex="0"
+                                                                    aria-controls="example2" rowspan="1" colspan="1"
+                                                                    aria-sort="ascending"
+                                                                    aria-label="Rendering engine: activate to sort column descending">
+                                                                    ชื่อ - นามสกุล
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="example2" rowspan="1" colspan="1"
+                                                                    aria-label="Platform(s): activate to sort column ascending">
+                                                                    อายุ
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="example2" rowspan="1" colspan="1"
+                                                                    aria-label="CSS grade: activate to sort column ascending">
+                                                                    เบอร์โทรศัพท์
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="example2" rowspan="1" colspan="1"
+                                                                    aria-label="CSS grade: activate to sort column ascending">
+                                                                    สถานะ
+                                                                </th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {% for VF in famerpage %}
+                                                                <tr role="row" class="odd">
+                                                                    <td><a type="button"
+                                                                           href="{% url 'viewFarmer' VF.id %}">{{ VF.name }} {{ VF.lastname }}</a>
+                                                                    </td>
+                                                                    <td>{{ VF.age }}</td>
+                                                                    <td>{{ VF.tel }}</td>
+                                                                    <td>
+                                                                        <a type="button" class="btn btn-warning"
+                                                                           href="{% url 'editFarmer' VF.id %}">[แก้ไข]</a>
+                                                                        <a type="button" class="btn btn-danger"
+                                                                           href="{% url 'deleteFarmer' VF.id %}">[ลบ]</a>
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row">
+                                                    <div class="col-sm-5">
+                                                    </div>
+                                                    <div class="col-sm-7">
+                                                        <div class="pagination">
+                            <span class="step-links">
+        {% if famerpage.has_previous %}
+            <a href="?page=1&q={{ request.GET.q }}">หน้าแรก</a>
+            <a href="?page={{ famerpage.previous_page_number }}&q={{ request.GET.q }}">ก่อนหน้า</a>
+        {% endif %}
+
+                                <span class="current">
+            หน้า {{ famerpage.number }}  จาก {{ famerpage.paginator.num_pages }}
+        </span>
+
+                                {% if famerpage.has_next %}
+                                    <a href="?page={{ famerpage.next_page_number }}&q={{ request.GET.q }}">ถัดไป</a>
+                                    <a href="?page={{ famerpage.paginator.num_pages }}&q={{ request.GET.q }}">สุดท้าย</a>
+                                {% endif %}
+    </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-				</form>
-			</div>
-		</div>
-	</div>
 
-            </div>
-        </div>
-          </div>
-          <div class="row">
-        <!-- /.col -->
-        <div class="col-md-6">
-            <div class="box box-success" >
-                <div class="box-header">
-                <center><h3 class="box-title">ตาราง ข้อมูลเกษตรกร</h3></center>
+            {#    <----ลอง---->#}
+            <div class="row">
+                <!-- /.col -->
+                <div class="col-md-12">
+                    <div class="box box-success">
+                        <div class="box-header">
+                            <center><h3 class="box-title">ตาราง ข้อมูลพืชพันธุ์</h3></center>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="limiter">
+                            <div class="container-login100">
+                                <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+                                    <form class="login100-form validate-form" action="" method="post" name="Login_Form">
+                                        <div class="box-body">
+                                            <div id="example2_wrapper"
+                                                 class="dataTables_wrapper form-inline dt-bootstrap">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+
+                                                    </div>
+                                                    <div class="col-sm-6">
+
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <table id="example2"
+                                                               class="table table-bordered table-hover dataTable"
+                                                               role="grid" aria-describedby="example2_info">
+                                                            <thead>
+                                                            <tr role="row">
+                                                                <th class="sorting_asc" tabindex="0"
+                                                                    aria-controls="example2" rowspan="1" colspan="1"
+                                                                    aria-sort="ascending"
+                                                                    aria-label="Rendering engine: activate to sort column descending">
+                                                                    ชื่อพืชพันธุ์
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="example2" rowspan="1" colspan="1"
+                                                                    aria-label="Platform(s): activate to sort column ascending">
+                                                                    จำนวนผู้ปลูก
+                                                                </th>
+                                                                <th class="sorting" tabindex="0"
+                                                                    aria-controls="example2" rowspan="1" colspan="1"
+                                                                    aria-label="Platform(s): activate to sort column ascending">
+                                                                    <center>
+                                                                        ข้อมูลค่าเฉลี่ยราคาต่อกิโลกรัมและจำนวนเก็บเกี่ยวทั้งหมดหน่วยเป็นกิโลกรัม
+                                                                        ปี2014-2018
+                                                                    </center>
+                                                                </th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+
+
+                                                            {% for VFI in viewFruit %}
+                                                                {#                                                                {% for VP in viewPlant %}#}
+                                                                {#                                                                {% if VFI.id == VP.fruit_name.id  %}#}
+                                                                <tr role="row" class="odd">
+
+                                                                    <td>
+
+                                                                        <a href="{% url 'Fruit' VFI.id %}">{{ VFI.fruit_name }} </a>
+
+                                                                    </td>
+                                                                    <td>
+                                                                        <script>
+                                                                            numbers = [{% for VF in viewPlant %}
+                                                                                {% if VF.fruit_name.id  == VFI.id %}1, {% endif %}{% endfor %}]
+                                                                            arrSum = function (arr) {
+                                                                                return arr.reduce(function (a, b) {
+                                                                                    return a + b
+                                                                                }, 0);
+                                                                            }
+                                                                            if (arrSum(numbers) > 0) {
+                                                                                document.write(arrSum(numbers) + " คน");
+                                                                            }
+                                                                        </script>
+                                                                    </td>
+
+
+                                                                    <td>
+                                                                        <div id="avproduct{{ VFI.id }}">
+                                                                            <script>
+                                                                                function calculate(array) {
+                                                                                    var sum = 0;
+                                                                                    var count = array.length;
+                                                                                    for (var i = 0; i < count; i++) {
+                                                                                        sum = sum + array[i];
+                                                                                    }
+                                                                                    return sum / count;
+                                                                                }
+
+                                                                                function sum(input) {
+                                                                                    if (toString.call(input) !== "[object Array]")
+                                                                                        return false;
+                                                                                    var total = 0;
+                                                                                    for (var i = 0; i < input.length; i++) {
+                                                                                        if (isNaN(input[i])) {
+                                                                                            continue;
+                                                                                        }
+                                                                                        total += Number(input[i]);
+                                                                                    }
+                                                                                    return total;
+                                                                                }
+
+                                                                                var trace1 = {
+                                                                                    x: [{% for VP in viewyears %}{{ VP.year }}, {% endfor %}],
+                                                                                    y: [
+                                                                                        sum
+                                                                                        ([{% for VP in viewHarvest %}{% if VP.Plant_id.fruit_name.id  == VFI.id and VP.years.id == 7 %}{{ VP.product }}, {% endif %}{% endfor %}]),
+                                                                                        sum([{% for VP in viewHarvest %}{% if VP.Plant_id.fruit_name.id  == VFI.id and VP.years.id == 6 %}{{ VP.product }}, {% endif %}{% endfor %}]),
+                                                                                        sum([{% for VP in viewHarvest %}{% if VP.Plant_id.fruit_name.id  == VFI.id and VP.years.id == 5 %}{{ VP.product }}, {% endif %}{% endfor %}]),
+                                                                                        sum([{% for VP in viewHarvest %}{% if VP.Plant_id.fruit_name.id  == VFI.id and VP.years.id == 4 %}{{ VP.product }}, {% endif %}{% endfor %}]),
+                                                                                        sum([{% for VP in viewHarvest %}{% if VP.Plant_id.fruit_name.id  == VFI.id and VP.years.id == 3 %}{{ VP.product }}, {% endif %}{% endfor %}]),],
+                                                                                    name: 'ข้อมูลการเก็บเกี่ยว',
+                                                                                    type: 'bar',
+                                                                                    marker: {
+                                                                                        color: 'rgb(218,165,32)'
+                                                                                    }
+                                                                                };
+
+                                                                                var trace2 = {
+                                                                                    x: [{% for VP in viewyears %}{{ VP.year }}, {% endfor %}],
+                                                                                    y: [
+                                                                                        calculate
+                                                                                        ([{% for VP in viewHarvest %}{% if VP.Plant_id.fruit_name.id  == VFI.id  and VP.years.id == 7 %}{{ VP.price }}, {% endif %}{% endfor %}])
+                                                                                            .toFixed(2),
+                                                                                        calculate([{% for VP in viewHarvest %}{% if VP.Plant_id.fruit_name.id  == VFI.id and VP.years.id == 6 %}{{ VP.price }}, {% endif %}{% endfor %}]).toFixed(2),
+                                                                                        calculate([{% for VP in viewHarvest %}{% if VP.Plant_id.fruit_name.id  == VFI.id and VP.years.id == 5 %}{{ VP.price }}, {% endif %}{% endfor %}]).toFixed(2),
+                                                                                        calculate([{% for VP in viewHarvest %}{% if VP.Plant_id.fruit_name.id  == VFI.id and VP.years.id == 4 %}{{ VP.price }}, {% endif %}{% endfor %}]).toFixed(2),
+                                                                                        calculate([{% for VP in viewHarvest %}{% if VP.Plant_id.fruit_name.id  == VFI.id and VP.years.id == 3 %}{{ VP.price }}, {% endif %}{% endfor %}]).toFixed(2),
+                                                                                    ],
+                                                                                    name: 'ข้อมูลราคา',
+                                                                                    yaxis: 'y2',
+                                                                                    type: 'scatter',
+                                                                                    line: {
+                                                                                        color: 'rgb(255,0,0)',
+                                                                                        width: 8
+                                                                                    },
+
+                                                                                };
+
+                                                                                var data = [trace1, trace2];
+
+                                                                                var layout = {
+                                                                                    title: 'ข้อมูลการเก็บเกี่ยวของ "{{ VFI.fruit_name }}" หน่วยเป็นกิโลกรัม และราคาต่อกิโลกรัมหน่วยเป็นบาท',
+                                                                                    yaxis: {
+                                                                                        title: 'ปริมาณการเก็บเกี่ยวหน่วยเป็นกิโลกรัม',
+                                                                                        titlefont: {color: 'rgb(0, 0, 0)'},
+                                                                                        tickfont: {color: 'rgb(0, 0, 0)'}
+                                                                                    },
+                                                                                    yaxis2: {
+                                                                                        title: 'ราคาต่อกิโลกรัมหน่วยเป็นบาท',
+                                                                                        titlefont: {color: 'rgb(255, 0, 0)'},
+                                                                                        tickfont: {color: 'rgb(255, 0, 0)'},
+                                                                                        overlaying: 'y',
+                                                                                        side: 'right',
+
+                                                                                    },
+                                                                                    autosize: false,
+                                                                                    width: 900,
+                                                                                    height: 500,
+                                                                                };
+
+                                                                                Plotly.newPlot('avproduct' +{{ VFI.id }}, data, layout);
+                                                                            </script>
+
+                                                                            <span>จำนวนผู้ปลูก {{ VFI.fruit_name }} มีพื้นที่การปลูกทั้งหมด
+                                                <script>
+                                                    arrSum = function (arr) {
+                                                        return arr.reduce(function (a, b) {
+                                                            return a + b
+                                                        }, 0);
+                                                    }
+                                                    document.write(arrSum([{% for VP in viewPlant %}{% if VP.fruit_name.id  == VFI.id %}{{ VP.scale }}, {% endif %}{% endfor %}]))
+                                                </script>
+                                                ไร่
+                                            </span>
+                                                                            <span>และราคาเฉลี่ยต่อกิโลกรัมปี2014-2018 เท่ากับ
+                                                <script>
+                                                    function calculate(array) {
+                                                        var sum = 0;
+                                                        var count = array.length;
+                                                        for (var i = 0; i < count; i++) {
+                                                            sum = sum + array[i];
+                                                        }
+                                                        return sum / count;
+                                                    }
+
+                                                    document.write(calculate([{% for VP in viewHarvest %}{% if VP.Plant_id.fruit_name.id  == VFI.id and VP.years.id == 7 %}{{ VP.price }},
+
+                                                        {% elif VP.Plant_id.fruit_name.id  == viewfruit.id and VP.years.id == 6 %}{{ VP.price }},
+                                                        {% elif VP.Plant_id.fruit_name.id  == viewfruit.id and VP.years.id == 5 %}{{ VP.price }},
+                                                        {% elif VP.Plant_id.fruit_name.id  == viewfruit.id and VP.years.id == 4 %}{{ VP.price }},
+                                                        {% elif VP.Plant_id.fruit_name.id  == viewfruit.id and VP.years.id == 3 %}{{ VP.price }},
+                                                        {% endif %}{% endfor %}]).toFixed(2))
+                                                </script>
+
+                                                บาท
+                                            </span>
+                                                                        </div>
+                                                                    </td>
+
+                                                                </tr>
+                                                                {#                                                                {% endif %}#}
+                                                                {##}
+                                                                {#{% endfor %}#}
+                                                            {% endfor %}
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
-            <!-- /.box-header -->
-	<div class="limiter">
-		<div class="container-login100" >
-			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-				<form class="login100-form validate-form" action="" method="post" name="Login_Form" >
-            <div class="box-body">
-              <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-                  <div class="row"><div class="col-sm-6">
-
-                  </div>
-                      <div class="col-sm-6">
-
-                      </div>
-                  </div>
-                  <div class="row">
-                      <div class="col-sm-12">
-                          <select name="selectperson" id="selectperson">
-                              {% for item in viewFarmer %}
-                                  <option val="{{ item.name }}"> {{ item.name }} </option>
-                              {% endfor %}
-                          </select>
-                          <select name ="selectcities" id="selectcities">
-
-                          </select>
-                      </div>
-
-                  </div>
-                </div>
             </div>
-				</form>
-			</div>
-		</div>
-	</div>
 
-            </div>
-        </div>
+            {#    <-----จบ----->#}
 
-
-          </div>
-
-</section>
-
+        </section>
+    {% endif %}
 {% endblock %}

@@ -16,6 +16,7 @@
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="{% static 'Farmer/css/skins/_all-skins.css'%}">
+    <link rel="icon" type="image/png" href="{% static 'Farmer/img/green.png' %} ">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -85,6 +86,7 @@
 
         <!-- /.navbar-collapse -->
         <!-- Navbar Right Menu -->
+
         <div class="navbar-custom-menu" >
           <ul class="nav navbar-nav">
             <!-- User Account Menu -->
@@ -104,6 +106,9 @@
                 <!-- Menu Body -->
                 <!-- Menu Footer-->
                 <li class="user-footer">
+                    <div class="pull-left">
+                        <a href="{% url 'ChangePassword' %}" class="btn btn-warning">เปลี่ยนรหัสผ่าน</a>
+                    </div>
                   <div class="pull-right">
                     <a href="{% url 'logout' %}" class="btn btn-danger" >ออกจากระบบ</a>
                   </div>

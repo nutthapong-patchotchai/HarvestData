@@ -1,5 +1,5 @@
 from django import forms
-from Farmer.models import Farmer,Plant,Harvest
+from Farmer.models import Farmer, Plant, Harvest
 
 
 class addFarmer(forms.ModelForm):
@@ -27,5 +27,6 @@ class addHarvest(forms.ModelForm):
         model = Harvest
         fields = [
             'product',
-            'years'
+            'years',
+            'price',
         ]

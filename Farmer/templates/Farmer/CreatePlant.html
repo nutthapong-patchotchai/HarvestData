@@ -2,6 +2,11 @@
 {% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
+        <section class="content-header">
+        <center><h3>
+          เพิ่มข้อมูลการปลูกของเกษตรกร '{{ viewfarmer.name }}   {{ viewfarmer.lastname}}'
+        </h3></center>
+      </section>
     <br>
     <div class="row">
     <div class="col-md-1"></div>
@@ -30,8 +35,8 @@
                 {{ plantform.scale|as_crispy_field }}
         </br></br>
             </div>
-                <button class="btn btn-success" type="submit">Add</button>
-                <a class="btn btn-danger" role="button" href="{% url 'viewFarmer' viewfarmer.id %}" >Cancel</a>
+                <button class="btn btn-success" type="submit">เพิ่ม</button>
+                <a class="btn btn-danger" role="button" href="{% url 'viewFarmer' viewfarmer.id %}" >ยกเลิก</a>
             </div>
         </form>
             </div>

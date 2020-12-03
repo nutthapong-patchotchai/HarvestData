@@ -34,7 +34,11 @@ urlpatterns = [
     path('plant/<int:Farmer_id>/harvest/<int:Plant_id>/', farmer_views.ViewData.ViewHarvest, name='viewHarvest'),
     path('plant/<int:Farmer_id>/harvest/<int:Harvest_id>/edit/<int:id>', farmer_views.EditData.EditHarvest, name='editHarvest'),
     path('plant/<int:Plant_id>/harvest/<int:Harvest_id>/delete/<int:id>', farmer_views.DeleteData.DeleteHarvest, name='deleteHarvest'),
-    path('plant/<int:Plant_id>/harvest/<int:Harvest_id>/create/account<int:id>/', farmer_views.CreateData.CreateHarvest, name='createHarvest'),
+    path('plant/<int:Plant_id>/harvest/<int:Harvest_id>/create/account<int:ids>/', farmer_views.CreateData.CreateHarvest, name='createHarvest'),
     path('base/', farmer_views.ViewData.base, name='base'),
-    path('test/', farmer_views.test)
+    path('test/', farmer_views.test),
+    path('fruit/<int:Fruit_id>', farmer_views.Fruits.Fruitss,name="Fruit"),
+    path('fruit/<int:Fruit_id>/Year/<int:Year_id>', farmer_views.Fruits.Fruitssyear,name="FruitYear"),
+    path('changepassword/',farmer_views.EditData.EditPassword,name="ChangePassword")
+
 ]

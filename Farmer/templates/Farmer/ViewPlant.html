@@ -39,7 +39,8 @@
         <div class="col-md-12">
             <div class="box box-success">
                 <div class="box-header">
-               <center> <h3 class="box-title">ตาราง ข้อมูลการปลูกของ '{{ viewfarmer.name }}   {{ viewfarmer.lastname}}'  </h3> </center>
+               <center> <h3 class="box-title">ตาราง ข้อมูลการปลูกของ '{{ viewfarmer.name }}   {{ viewfarmer.lastname}}</h3> </center>
+                    <center> <br><h2>ที่อยู่ {{ viewfarmer.address }}</h2> </center>
                 </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -90,24 +91,6 @@
                     </script>
                 </div>
                 </center>
-            </div>
-      </div>
-            <div class="col-md-12">
-            <div class="box box-success">
-                <div class="box-header">
-                <center><h3 class="box-title">กราฟแสดงข้อมูลการปลูกของ {{ viewfarmer.name }} {{ viewfarmer.lastname }}</h3></center>
-                </div>
-                    <div id="plot">
-                    <script>
-                        var data = [{
-                        x: [{% for VP in viewplant %}'{{ VP.fruit_name }}',{% endfor %}],
-                        y: [{% for VP in viewplant %}{{ VP.scale }},{% endfor %}],
-                        type: 'bar'
-                        }];
-                        Plotly.newPlot('plot', data, {}, {showSendToCloud:true});
-
-                    </script>
-                </div>
             </div>
       </div>
       </div>

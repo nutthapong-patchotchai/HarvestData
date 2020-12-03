@@ -2,6 +2,11 @@
 {% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
+        <section class="content-header">
+        <center><h3>
+          เพิ่มข้อมูลของเกษตรกร
+        </h3></center>
+      </section>
     <br>
     <div class="row">
     <div class="col-md-1"></div>
@@ -38,8 +43,8 @@
             </div>
                 </div>
                 <br>
-                <button class="btn btn-success" type="submit">Add</button>
-                <a href="{% url 'index' %}" class="btn btn-danger" role="button">Cancel</a>
+                <button class="btn btn-success" type="submit">เพิ่ม</button>
+                <a href="{% url 'index' %}" class="btn btn-danger" role="button">ยกเลิก</a>
             </div>
         </form>
             </div>

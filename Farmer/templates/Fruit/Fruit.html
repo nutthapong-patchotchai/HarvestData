@@ -1,0 +1,281 @@
+{% extends "Farmer/base.html" %}
+{% load static %}
+{% block content %}
+
+    <section class="content-header">
+        <center><h1>
+            <span> {{ viewfruit.fruit_name }}</span>
+        </h1></center>
+    </section>
+
+
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-6">
+
+        </div>
+        <div class="col-md-2">
+            <a type="button" class="btn btn-block btn-light btn-lg right" href="{% url 'index' %}">ย้อนกลับ</a>
+        </div>
+    </div>
+    <section class="content">
+        {#    <----ลอง---->#}
+        <div class="row">
+            <!-- /.col -->
+            <div class="col-md-12">
+                <div class="box box-success">
+                    <div class="box-header">
+                        <center><h3 class="box-title">ข้อมูลรายปี</h3></center>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="limiter">
+                        <div class="container-login100">
+                            <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+                                <form class="login100-form validate-form" action="" method="post" name="Login_Form">
+                                    <div class="box-body">
+                                        <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+
+                                                </div>
+                                                <div class="col-sm-6">
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <table id="example2"
+                                                           class="table table-bordered table-hover dataTable"
+                                                           role="grid" aria-describedby="example2_info">
+                                                        <thead>
+                                                        <tr role="row">
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                        <tr role="row" class="odd">
+                                                            {% for VY in viewyears %}
+                                                                <td><a href="{% url 'FruitYear' viewfruit.id VY.id %}">ปี {{ VY.year }}</a>
+                                                                </td>{% endfor %}
+
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        {#    <-----จบ----->#}
+
+        <div class="row">
+            <!-- /.col -->
+            <div class="col-md-12">
+                <div class="box box-success">
+                    <div class="box-header">
+                        <center><h3 class="box-title">{{ viewfruit.fruit_name }}</h3></center>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="limiter">
+                        <div class="container-login100">
+                            <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+                                <form class="login100-form validate-form" action="" method="post" name="Login_Form">
+                                    <div class="box-body">
+                                        <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <table id="example2"
+                                                           class="table table-bordered table-hover dataTable"
+                                                           role="grid" aria-describedby="example2_info">
+                                                        <thead>
+                                                        <tr role="row">
+                                                            <th class="sorting" tabindex="0" aria-controls="example2"
+                                                                rowspan="1" colspan="1"
+                                                                aria-label="Platform(s): activate to sort column ascending">
+                                                                ชื่อเกษตรกรที่ปลูก
+                                                            </th>
+                                                            <th class="sorting" tabindex="0" aria-controls="example2"
+                                                                rowspan="1" colspan="1"
+                                                                aria-label="Engine version: activate to sort column ascending">
+                                                                พื้นที่
+                                                            </th>
+                                                        </tr>
+                                                        <div class="row">
+                                                            </center>
+                                                        </div>
+
+
+                                                        <div class="col-md-12">
+                                                            <div id="avproduct">
+                                                                <script>
+                                                                    function calculate(array) {
+                                                                        var sum = 0;
+                                                                        var count = array.length;
+                                                                        for (var i = 0; i < count; i++) {
+                                                                            sum = sum + array[i];
+                                                                        }
+                                                                        return sum / count;
+                                                                    }
+
+                                                                    function sum(input) {
+                                                                        if (toString.call(input) !== "[object Array]")
+                                                                            return false;
+                                                                        var total = 0;
+                                                                        for (var i = 0; i < input.length; i++) {
+                                                                            if (isNaN(input[i])) {
+                                                                                continue;
+                                                                            }
+                                                                            total += Number(input[i]);
+                                                                        }
+                                                                        return total;
+                                                                    }
+
+                                                                    var trace1 = {
+                                                                        x: [{% for VP in viewyears %}{{ VP.year }}, {% endfor %}],
+                                                                        y: [sum([{% for VP in viewHarvest %}{% if VP.Plant_id.fruit_name.id  == viewfruit.id and VP.years.id == 7 %}{{ VP.product }}, {% endif %}{% endfor %}]),
+                                                                            sum([{% for VP in viewHarvest %}{% if VP.Plant_id.fruit_name.id  == viewfruit.id and VP.years.id == 6 %}{{ VP.product }}, {% endif %}{% endfor %}]),
+                                                                            sum([{% for VP in viewHarvest %}{% if VP.Plant_id.fruit_name.id  == viewfruit.id and VP.years.id == 5 %}{{ VP.product }}, {% endif %}{% endfor %}]),
+                                                                            sum([{% for VP in viewHarvest %}{% if VP.Plant_id.fruit_name.id  == viewfruit.id and VP.years.id == 4 %}{{ VP.product }}, {% endif %}{% endfor %}]),
+                                                                            sum([{% for VP in viewHarvest %}{% if VP.Plant_id.fruit_name.id  == viewfruit.id and VP.years.id == 3 %}{{ VP.product }}, {% endif %}{% endfor %}]),],
+                                                                        name: 'ข้อมูลการเก็บเกี่ยว',
+                                                                        type: 'bar',
+                                                                        marker: {
+                                                                            color: 'rgb(218,165,32)'
+                                                                        }
+                                                                    };
+
+                                                                    var trace2 = {
+                                                                        x: [{% for VP in viewyears %}{{ VP.year }}, {% endfor %}],
+                                                                        y: [calculate([{% for VP in viewHarvest %}{% if VP.Plant_id.fruit_name.id  == viewfruit.id  and VP.years.id == 7 %}{{ VP.price }}, {% endif %}{% endfor %}]).toFixed(2),
+                                                                            calculate([{% for VP in viewHarvest %}{% if VP.Plant_id.fruit_name.id  == viewfruit.id and VP.years.id == 6 %}{{ VP.price }}, {% endif %}{% endfor %}]).toFixed(2),
+                                                                            calculate([{% for VP in viewHarvest %}{% if VP.Plant_id.fruit_name.id  == viewfruit.id and VP.years.id == 5 %}{{ VP.price }}, {% endif %}{% endfor %}]).toFixed(2),
+                                                                            calculate([{% for VP in viewHarvest %}{% if VP.Plant_id.fruit_name.id  == viewfruit.id and VP.years.id == 4 %}{{ VP.price }}, {% endif %}{% endfor %}]).toFixed(2),
+                                                                            calculate([{% for VP in viewHarvest %}{% if VP.Plant_id.fruit_name.id  == viewfruit.id and VP.years.id == 3 %}{{ VP.price }}, {% endif %}{% endfor %}]).toFixed(2)
+                                                                        ],
+                                                                        name: 'ข้อมูลราคา',
+                                                                        yaxis: 'y2',
+                                                                        type: 'scatter',
+                                                                        line: {
+                                                                            color: 'rgb(255,0,0)',
+                                                                            width: 8
+                                                                        }
+                                                                    };
+
+                                                                    var data = [trace1, trace2];
+
+                                                                    var layout = {
+                                                                        title: 'ข้อมูลการเก็บเกี่ยวหน่วยเป็นกิโลกรัม และราคาต่อกิโลกรัมหน่วยเป็นบาท',
+                                                                        yaxis: {
+                                                                            title: 'ปริมาณการเก็บเกี่ยวหน่วยเป็นกิโลกรัม',
+                                                                            titlefont: {color: 'rgb(0, 0, 0)'},
+                                                                            tickfont: {color: 'rgb(0, 0, 0)'}
+                                                                        },
+                                                                        yaxis2: {
+                                                                            title: 'ราคาต่อกิโลกรัมหน่วยเป็นบาท',
+                                                                            titlefont: {color: 'rgb(255, 0, 0)'},
+                                                                            tickfont: {color: 'rgb(255, 0, 0)'},
+                                                                            overlaying: 'y',
+                                                                            side: 'right',
+
+                                                                        },
+                                                                    };
+
+                                                                    Plotly.newPlot('avproduct', data, layout);
+                                                                </script>
+                                                            </div>
+                                                        </div>
+                                                        <center>
+                                                            <div class="col-md-6">
+                                                                <div id="ipie-charts">
+                                                                    <script>
+                                                                        var data = [{
+                                                                            values: [{% for VP in viewPlant %}{% if VP.fruit_name.id  == viewfruit.id %}{{ VP.scale }}, {% endif %}{% endfor %}],
+                                                                            labels: [{% for VP in viewPlant %}{% if VP.fruit_name.id  == viewfruit.id %}"{{ VP.Farmer_id.name }} {{ VP.Farmer_id.lastname }}", {% endif %}{% endfor %}],
+                                                                            type: 'pie'
+                                                                        }];
+                                                                        var layout = {
+                                                                            height: 400,
+                                                                            width: 500,
+                                                                            title: 'สัดส่วนพื้นที่การปลูกของเกษตรกร'
+                                                                        };
+                                                                        Plotly.newPlot('ipie-charts', data, layout);
+                                                                    </script>
+                                                                </div>
+                                                            </div>
+                                                        </center>
+                                                </div>
+                                            </div>
+
+                                            <tbody>
+
+                                            <h1>จำนวนผู้ปลูก มีพื้นที่การปลูกทั้งหมด
+                                                <script>
+                                                    arrSum = function (arr) {
+                                                        return arr.reduce(function (a, b) {
+                                                            return a + b
+                                                        }, 0);
+                                                    }
+                                                    document.write(arrSum([{% for VP in viewPlant %}{% if VP.fruit_name.id  == viewfruit.id %}{{ VP.scale }}, {% endif %}{% endfor %}]))
+                                                </script>
+                                                ไร่
+                                            </h1>
+                                            <h1>และราคาเฉลี่ยต่อกิโลกรัมปี2014-2018 เท่ากับ
+                                                <script>
+                                                    function calculate(array) {
+                                                        var sum = 0;
+                                                        var count = array.length;
+                                                        for (var i = 0; i < count; i++) {
+                                                            sum = sum + array[i];
+                                                        }
+                                                        return sum / count;
+                                                    }
+
+                                                    document.write(calculate([{% for VP in viewHarvest %}{% if VP.Plant_id.fruit_name.id  == viewfruit.id and VP.years.id == 7 %}{{ VP.price }},
+
+                                                        {% elif VP.Plant_id.fruit_name.id  == viewfruit.id and VP.years.id == 6 %}{{ VP.price }},
+                                                        {% elif VP.Plant_id.fruit_name.id  == viewfruit.id and VP.years.id == 5 %}{{ VP.price }},
+                                                        {% elif VP.Plant_id.fruit_name.id  == viewfruit.id and VP.years.id == 4 %}{{ VP.price }},
+                                                        {% elif VP.Plant_id.fruit_name.id  == viewfruit.id and VP.years.id == 3 %}{{ VP.price }},
+                                                        {% endif %}{% endfor %}]).toFixed(2))
+                                                </script>
+
+                                                บาท
+                                            </h1>
+                                            <tr role="row" class="odd">
+                                                {% for VF in viewPlant %}
+                                                    {% if VF.fruit_name.id  == viewfruit.id %}
+                                                        <td>
+                                                            <a href="{% url 'viewFarmer' VF.Farmer_id.id %}">{{ VF.Farmer_id.name }} {{ VF.Farmer_id.lastname }}</a>
+                                                        </td>
+                                                        <td>{{ VF.scale }} ไร่</td>
+                                                        <td></td>
+                                                        </tr>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+
+{% endblock %}
