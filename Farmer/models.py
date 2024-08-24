@@ -1,10 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import ImageField
-# from spyder.config.base import get_image_path
-from six import python_2_unicode_compatible
-
-
 
 class YearSet(models.Model):
     year = models.CharField(max_length=4, default='')
