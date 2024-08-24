@@ -75,6 +75,6 @@ Contributions are welcome! Please fork the repository and submit a pull request 
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 ### Acknowledgements
-**Next.js - React framework for building user interfaces.**
-**Tailwind CSS - Utility-first CSS framework.**
-**Chart.js - JavaScript library for charting.**
+- **Next.js** - React framework for building user interfaces.
+- **Tailwind** CSS - Utility-first CSS framework.
+- **Chart.js** - JavaScript library for charting.
