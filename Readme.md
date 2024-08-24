@@ -1,4 +1,4 @@
-# Fruit Harvest Dashboard
+# Harvest Dashboard
 
 ## Overview
 
@@ -28,10 +28,10 @@ This project is a web application for managing fruit harvesting data. It feature
 
 1. **Clone the repository**
 
-   ```bash
-   git clone https://github.com/yourusername/fruit-harvest-dashboard.git
-   cd fruit-harvest-dashboard
-   ```
+```bash
+git clone https://github.com/nutthapong-patchotchai/HarvestData.git
+cd fruit-harvest-dashboard
+```
 
 2. **Install dependencies**
 
@@ -75,6 +75,6 @@ Contributions are welcome! Please fork the repository and submit a pull request 
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 ### Acknowledgements
-Next.js - React framework for building user interfaces.
-Tailwind CSS - Utility-first CSS framework.
-Chart.js - JavaScript library for charting.
+**Next.js - React framework for building user interfaces.**
+**Tailwind CSS - Utility-first CSS framework.**
+**Chart.js - JavaScript library for charting.**
