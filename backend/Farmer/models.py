@@ -1,59 +1,95 @@
-from django.db import models
-from django.contrib.auth.models import User
-from django.db.models import ImageField
+from decimal import Decimal
 
-class YearSet(models.Model):
-    year = models.CharField(max_length=4, default='')
+from django.conf import settings
+from django.db import models
+
+
+class HarvestYear(models.Model):
+    year = models.PositiveSmallIntegerField(unique=True, db_index=True)
 
     class Meta:
         ordering = ["-year"]
 
     def __str__(self):
-        return self.year
+        return str(self.year)
 
 
-class Fruit(models.Model):
-    fruit_name = models.CharField(max_length=50, default='')
+class FruitCrop(models.Model):
+    name = models.CharField(max_length=80, unique=True)
+    category = models.CharField(max_length=80, blank=True)
+    color = models.CharField(max_length=7, default="#4f8a3d")
 
     class Meta:
-        ordering = ["id"]
+        ordering = ["name"]
 
     def __str__(self):
-        return self.fruit_name
+        return self.name
 
 
-class Farmer(models.Model):
-    User_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, default='')
-    lastname = models.CharField(max_length=100, default='')
-    age = models.IntegerField(default='')
-    address = models.TextField(max_length=500, default='')
-    tel = models.CharField(max_length=100, default='')
+class FarmerProfile(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100, blank=True)
+    age = models.PositiveSmallIntegerField(null=True, blank=True)
+    address = models.TextField(max_length=500, blank=True)
+    phone = models.CharField(max_length=40, blank=True)
+    village = models.CharField(max_length=120, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return "name = "+str(self.name)+" id="+str(self.id)
+    class Meta:
+        ordering = ["first_name", "last_name"]
 
-
-class Plant(models.Model):
-    User_id = models.ForeignKey(User, on_delete=models.CASCADE, default='')
-    fruit_name = models.ForeignKey(Fruit, on_delete=models.CASCADE, default='')
-    fruit_breed = models.CharField(max_length=100, default='')
-    scale = models.IntegerField(default='')
-    Farmer_id = models.ForeignKey(Farmer, on_delete=models.CASCADE)
-
+    @property
+    def full_name(self):
+        return " ".join(part for part in [self.first_name, self.last_name] if part).strip()
 
     def __str__(self):
-        return str(self.id)+" "+str(self.fruit_name)
+        return self.full_name or f"Farmer #{self.pk}"
 
 
-class Harvest(models.Model):
-    User_id = models.ForeignKey(User, on_delete=models.CASCADE, default='')
-    product = models.IntegerField(default='')
-    price = models.IntegerField(default='0')
-    years = models.ForeignKey(YearSet, on_delete=models.CASCADE, default='2017')
-    Plant_id = models.ForeignKey(Plant, on_delete=models.CASCADE)
+class Planting(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    farmer = models.ForeignKey(FarmerProfile, related_name="plantings", on_delete=models.CASCADE)
+    fruit = models.ForeignKey(FruitCrop, related_name="plantings", on_delete=models.PROTECT)
+    variety = models.CharField(max_length=120, blank=True)
+    area_rai = models.DecimalField(max_digits=8, decimal_places=2, default=Decimal("0.00"))
+    planted_at = models.DateField(null=True, blank=True)
+    note = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ["fruit__name", "variety"]
 
     def __str__(self):
-        return str(self.Plant_id.id)+" "+str(self.Plant_id)+" "+str(self.Plant_id.fruit_name)+"/"+str(self.Plant_id)+"/"+str(self.product)+"/"+str(self.years)+" "+str(self.years_id)
+        variety = f" {self.variety}" if self.variety else ""
+        return f"{self.fruit}{variety} - {self.farmer}"
 
+
+class HarvestRecord(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    planting = models.ForeignKey(Planting, related_name="harvests", on_delete=models.CASCADE)
+    harvest_year = models.ForeignKey(HarvestYear, related_name="harvests", on_delete=models.PROTECT)
+    quantity_kg = models.DecimalField(max_digits=12, decimal_places=2)
+    price_per_kg = models.DecimalField(max_digits=10, decimal_places=2)
+    harvested_at = models.DateField(null=True, blank=True)
+    note = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-harvest_year__year", "planting__fruit__name"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["planting", "harvest_year"],
+                name="unique_harvest_per_planting_year",
+            )
+        ]
+
+    @property
+    def revenue(self):
+        return self.quantity_kg * self.price_per_kg
+
+    def __str__(self):
+        return f"{self.planting} / {self.harvest_year} / {self.quantity_kg} kg"

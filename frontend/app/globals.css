@@ -3,31 +3,1187 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --leaf: #6f9f83;
+  --leaf-dark: #2f604d;
+  --moss: #a6c5a1;
+  --soil: #9a7b5d;
+  --clay: #c99066;
+  --gold: #e4c86a;
+  --plum: #8a6fa5;
+  --sky: #9cc7e8;
+  --sky-soft: #eaf5fb;
+  --paper: #fffdf7;
+  --cream: #f5efe2;
+  --sand: #eadfc9;
+  --mist: #e9f1e6;
+  --glass: rgba(255, 253, 247, 0.72);
+  --ink: #183229;
+  --muted: #708077;
+  --line: rgba(154, 181, 154, 0.34);
+  --shadow: 0 22px 60px rgba(61, 84, 67, 0.12);
+  --radius-2xl: 24px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--cream);
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  margin: 0;
+  color: var(--ink);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(156, 199, 232, 0.24), transparent 34vw),
+    radial-gradient(circle at 78% 12%, rgba(166, 197, 161, 0.28), transparent 30vw),
+    linear-gradient(180deg, rgba(255, 253, 247, 0.96), rgba(245, 239, 226, 0.96));
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  min-height: 100vh;
+  gap: 20px;
+  padding: 18px;
+}
+
+.sidebar {
+  position: sticky;
+  top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: calc(100vh - 36px);
+  padding: 28px 22px;
+  color: var(--ink);
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  border-radius: var(--radius-2xl);
+  background:
+    linear-gradient(165deg, rgba(255, 253, 247, 0.78), rgba(232, 244, 239, 0.68)),
+    rgba(255, 255, 255, 0.24);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(22px);
+}
+
+.brand-block {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(111, 159, 131, 0.24);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(166, 197, 161, 0.52), rgba(156, 199, 232, 0.38));
+  color: var(--leaf-dark);
+  font-weight: 800;
+}
+
+.eyebrow {
+  margin: 0 0 5px;
+  color: var(--clay);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.sidebar .eyebrow {
+  color: var(--leaf-dark);
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 0;
+  font-size: 1.22rem;
+  line-height: 1.2;
+}
+
+h2 {
+  margin-bottom: 0;
+  max-width: 780px;
+  font-size: 1.92rem;
+  line-height: 1.18;
+}
+
+h3 {
+  margin-bottom: 0;
+  font-size: 1.05rem;
+  line-height: 1.25;
+}
+
+.nav-list {
+  display: grid;
+  gap: 8px;
+}
+
+.nav-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 18px;
+  padding: 11px 12px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.34);
+  text-align: left;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.nav-button:hover,
+.nav-button.active {
+  border-color: rgba(111, 159, 131, 0.28);
+  color: var(--leaf-dark);
+  background: rgba(233, 241, 230, 0.78);
+}
+
+.orchard-visual {
+  position: relative;
+  min-height: 210px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-2xl);
+  background:
+    linear-gradient(180deg, rgba(248, 222, 154, 0.85), rgba(145, 169, 104, 0.7) 42%, rgba(91, 79, 48, 0.62)),
+    repeating-linear-gradient(110deg, rgba(73, 57, 35, 0.3) 0 8px, rgba(73, 57, 35, 0.12) 8px 26px);
+}
+
+.sun {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #f8d87b;
+  box-shadow: 0 0 28px rgba(248, 216, 123, 0.55);
+}
+
+.row {
+  position: absolute;
+  left: -30px;
+  width: 360px;
+  height: 42px;
+  border-radius: 50%;
+  border-top: 10px solid rgba(38, 81, 56, 0.7);
+  transform: rotate(-9deg);
+}
+
+.row-one {
+  top: 92px;
+}
+
+.row-two {
+  top: 126px;
+}
+
+.row-three {
+  top: 160px;
+}
+
+.fruit-dot {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 253, 247, 0.75);
+}
+
+.fruit-dot.mango {
+  left: 70px;
+  top: 104px;
+  background: var(--gold);
+}
+
+.fruit-dot.durian {
+  left: 164px;
+  top: 134px;
+  background: var(--moss);
+}
+
+.fruit-dot.mangosteen {
+  left: 218px;
+  top: 166px;
+  background: var(--plum);
+}
+
+.status-panel {
+  display: grid;
+  grid-template-columns: 12px 1fr;
+  gap: 12px;
+  align-items: start;
+  margin-top: auto;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(14px);
+}
+
+.status-panel strong,
+.status-panel small {
+  display: block;
+}
+
+.status-panel strong {
+  font-size: 0.88rem;
+}
+
+.status-panel small {
+  margin-top: 4px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.status-dot {
+  width: 11px;
+  height: 11px;
+  margin-top: 4px;
+  border-radius: 50%;
+  background: #dba83f;
+}
+
+.status-dot.online {
+  background: #7ed47a;
+}
+
+.status-dot.demo {
+  background: #f4c25a;
+}
+
+.content {
+  display: grid;
+  gap: 22px;
+  align-content: start;
+  padding: 12px 12px 30px 0;
+}
+
+.topbar {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.entity-form button {
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 18px;
+  padding: 11px 16px;
+  color: #fffdf7;
+  background: var(--leaf);
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 10px 18px rgba(47, 107, 79, 0.18);
+}
+
+.profile-chip {
+  display: grid;
+  grid-template-columns: 42px minmax(150px, 1fr) auto;
+  gap: 11px;
+  align-items: center;
+  min-width: 300px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 10px;
+  background: var(--glass);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+}
+
+.profile-chip > span {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 16px;
+  color: #fffdf7;
+  background: var(--leaf);
+  font-weight: 900;
+}
+
+.profile-chip strong,
+.profile-chip small {
+  display: block;
+}
+
+.profile-chip small {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.profile-chip button,
+.ghost-button,
+.action-row button {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 10px;
+  color: var(--leaf-dark);
+  background: #fffdf8;
+  font-weight: 800;
+}
+
+.profile-chip button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #fffdf7;
+  border-color: var(--leaf);
+  background: var(--leaf);
+}
+
+.yield-overview {
+  display: grid;
+  gap: 14px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.metric-card,
+.panel {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-2xl);
+  background: var(--glass);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.metric-card {
+  display: grid;
+  grid-template-columns: 46px 1fr;
+  gap: 6px 12px;
+  padding: 18px;
+}
+
+.metric-icon {
+  display: grid;
+  grid-row: 1 / span 3;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 16px;
+  color: var(--leaf-dark);
+  background: linear-gradient(135deg, rgba(166, 197, 161, 0.52), rgba(156, 199, 232, 0.36));
+}
+
+.metric-card small,
+.metric-card span {
+  color: var(--muted);
+}
+
+.metric-card strong {
+  color: var(--leaf-dark);
+  font-size: 1.55rem;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.95fr);
+  gap: 18px;
+}
+
+.management-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 18px;
+}
+
+.panel {
+  padding: 18px;
+}
+
+.panel-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 15px;
+  color: var(--leaf-dark);
+  background: rgba(233, 241, 230, 0.82);
+}
+
+.trend-panel {
+  min-height: 520px;
+}
+
+.chart-panel {
+  grid-column: span 1;
+}
+
+.line-chart-wrap {
+  min-height: 315px;
+  margin: 4px 0 20px;
+}
+
+.compact-trend {
+  padding-top: 8px;
+  border-top: 1px solid rgba(154, 181, 154, 0.22);
+}
+
+.farmers-panel {
+  grid-column: 1 / -1;
+}
+
+.panel-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.year-chart,
+.fruit-list,
+.rank-list {
+  display: grid;
+  gap: 12px;
+}
+
+.year-row {
+  display: grid;
+  grid-template-columns: 52px 1fr 120px;
+  gap: 12px;
+  align-items: center;
+}
+
+.year-row span:first-child {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.bar-track,
+.mini-track {
+  overflow: hidden;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(218, 231, 215, 0.82);
+}
+
+.bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--leaf), var(--sky));
+}
+
+.fruit-row,
+.rank-row,
+.planting-card,
+.person-card {
+  border: 1px solid #e2dccb;
+  border-radius: 22px;
+  background: rgba(255, 253, 248, 0.78);
+}
+
+.fruit-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) minmax(120px, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+}
+
+.fruit-title,
+.fruit-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fruit-title small {
+  display: block;
+  color: var(--muted);
+}
+
+.fruit-swatch {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 2px solid rgba(23, 36, 28, 0.12);
+}
+
+.mini-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.rank-row {
+  display: grid;
+  grid-template-columns: 38px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+}
+
+.rank-row > span {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  color: var(--leaf-dark);
+  background: var(--mist);
+  font-weight: 900;
+}
+
+.rank-row small,
+.person-card small,
+.planting-card small {
+  display: block;
+  color: var(--muted);
+}
+
+.activity-panel {
+  background: linear-gradient(145deg, rgba(234, 245, 251, 0.74), rgba(255, 253, 247, 0.7));
+}
+
+.activity-list {
+  display: grid;
+  gap: 12px;
+}
+
+.activity-row {
+  display: grid;
+  grid-template-columns: 42px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid rgba(154, 181, 154, 0.28);
+  border-radius: 24px;
+  padding: 12px;
+  background: rgba(255, 253, 248, 0.72);
+}
+
+.activity-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 16px 22px 18px 24px;
+  color: var(--leaf-dark);
+  background: rgba(166, 197, 161, 0.32);
+}
+
+.activity-row strong,
+.activity-row small {
+  display: block;
+}
+
+.activity-row small {
+  color: var(--muted);
+}
+
+.organic-badge {
+  border-radius: 999px 18px 999px 22px;
+  padding: 8px 11px;
+  color: var(--leaf-dark);
+  background: rgba(228, 200, 106, 0.24);
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.card-grid,
+.planting-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.person-card {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+}
+
+.person-card > span {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  color: #fffdf7;
+  background: var(--clay);
+  font-weight: 900;
+}
+
+.person-card p,
+.planting-card p {
+  margin: 7px 0 0;
+  color: var(--muted);
+}
+
+.action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.action-row .danger-button,
+.danger-button {
+  color: #8f2f26;
+  border-color: rgba(143, 47, 38, 0.22);
+  background: #fff4f0;
+}
+
+.planting-card {
+  display: grid;
+  grid-template-columns: 16px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+}
+
+.harvest-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 18px;
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+}
+
+.filters input,
+.filters select,
+.entity-form input,
+.entity-form select,
+.entity-form textarea {
+  min-height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 9px 11px;
+  color: var(--ink);
+  background: rgba(255, 253, 248, 0.82);
+}
+
+.entity-form textarea {
+  resize: vertical;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 740px;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border-bottom: 1px solid #e6e0d0;
+  padding: 12px 10px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+th {
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+
+td {
+  color: #263428;
+}
+
+.form-panel {
+  align-self: start;
+}
+
+.entity-form {
+  display: grid;
+  gap: 12px;
+}
+
+.entity-form label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.entity-form button:disabled,
+.entity-form input:disabled,
+.entity-form select:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.table-actions {
+  margin-top: 0;
+  flex-wrap: nowrap;
+}
+
+.empty-state {
+  margin: 14px 0 0;
+  color: var(--muted);
+}
+
+.loading-page {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.login-page {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 24px;
+  background:
+    linear-gradient(135deg, rgba(47, 107, 79, 0.16), rgba(219, 168, 63, 0.12)),
+    var(--cream);
+}
+
+.login-panel {
+  width: min(100%, 430px);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 26px;
+  background: rgba(255, 253, 247, 0.94);
+  box-shadow: var(--shadow);
+}
+
+.login-panel h1 {
+  color: var(--leaf-dark);
+  font-size: 1.65rem;
+}
+
+.login-copy,
+.login-status {
+  color: var(--muted);
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 22px;
+  color: var(--leaf);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.login-form {
+  display: grid;
+  gap: 13px;
+  margin-top: 20px;
+}
+
+.login-form label {
+  display: grid;
+  gap: 7px;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.login-form input {
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: #fffdf8;
+}
+
+.login-form button {
+  border: 0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #fffdf7;
+  background: var(--leaf);
+  font-weight: 900;
+}
+
+@media (max-width: 1100px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+    height: auto;
+  }
+
+  .orchard-visual {
+    min-height: 150px;
+  }
+
+  .metrics-grid,
+  .dashboard-grid,
+  .management-layout,
+  .harvest-layout {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .harvest-layout > .panel:first-child,
+  .management-layout > .panel:first-child,
+  .trend-panel,
+  .farmers-panel {
+    grid-column: 1 / -1;
   }
 }
+
+@media (max-width: 760px) {
+  .content {
+    padding: 18px;
+  }
+
+  .topbar,
+  .panel-heading,
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  h2 {
+    font-size: 1.45rem;
+  }
+
+  .metrics-grid,
+  .dashboard-grid,
+  .harvest-layout,
+  .management-layout,
+  .card-grid,
+  .planting-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-chip {
+    width: 100%;
+    grid-template-columns: 38px 1fr;
+  }
+
+  .profile-chip button {
+    grid-column: 1 / -1;
+  }
+
+  .fruit-row,
+  .rank-row,
+  .year-row {
+    grid-template-columns: 1fr;
+  }
+
+  .year-row strong {
+    text-align: left;
+  }
+}
+
+/* Mobile-first layout pass */
+.app-shell {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  padding: 12px;
+}
+
+.sidebar {
+  position: static;
+  height: auto;
+  gap: 16px;
+  padding: 16px;
+}
+
+.brand-block {
+  align-items: flex-start;
+}
+
+.nav-list {
+  grid-template-columns: repeat(4, minmax(74px, 1fr));
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.nav-button {
+  flex-direction: column;
+  justify-content: center;
+  min-height: 66px;
+  padding: 9px 8px;
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+.orchard-visual {
+  display: none;
+}
+
+.status-panel {
+  margin-top: 0;
+}
+
+.content {
+  gap: 16px;
+  padding: 0;
+}
+
+.topbar,
+.section-heading,
+.panel-heading,
+.filters {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+h2 {
+  font-size: 1.45rem;
+}
+
+.profile-chip {
+  width: 100%;
+  min-width: 0;
+  grid-template-columns: 38px 1fr;
+}
+
+.profile-chip button {
+  grid-column: 1 / -1;
+  justify-content: center;
+}
+
+.metrics-grid,
+.dashboard-grid,
+.harvest-layout,
+.management-layout,
+.card-grid,
+.planting-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.metric-card {
+  min-height: 112px;
+}
+
+.trend-panel {
+  min-height: auto;
+}
+
+.line-chart-wrap {
+  min-height: 260px;
+  margin-bottom: 16px;
+}
+
+.product-trend-panel {
+  grid-column: auto;
+}
+
+.fruit-row,
+.rank-row,
+.year-row {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.year-row strong {
+  text-align: left;
+}
+
+.activity-row {
+  grid-template-columns: 38px minmax(0, 1fr);
+}
+
+.organic-badge {
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+
+.planting-card {
+  grid-template-columns: 16px minmax(0, 1fr);
+}
+
+.planting-card > b {
+  grid-column: 2;
+}
+
+.table-actions {
+  flex-wrap: wrap;
+}
+
+@media (min-width: 720px) {
+  h2 {
+    font-size: 1.72rem;
+  }
+
+  .nav-button {
+    flex-direction: row;
+    min-height: auto;
+    text-align: left;
+  }
+
+  .metrics-grid,
+  .card-grid,
+  .planting-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .fruit-row {
+    grid-template-columns: minmax(120px, 1fr) minmax(120px, 1fr) auto;
+  }
+
+  .rank-row {
+    grid-template-columns: 38px 1fr auto;
+  }
+
+  .year-row {
+    grid-template-columns: 52px 1fr 120px;
+  }
+
+  .activity-row {
+    grid-template-columns: 42px 1fr auto;
+  }
+
+  .organic-badge {
+    grid-column: auto;
+    justify-self: auto;
+  }
+
+  .planting-card {
+    grid-template-columns: 16px 1fr auto;
+  }
+
+  .planting-card > b {
+    grid-column: auto;
+  }
+}
+
+@media (min-width: 1120px) {
+  .app-shell {
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: 20px;
+    padding: 18px;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 18px;
+    height: calc(100vh - 36px);
+    gap: 24px;
+    padding: 28px 22px;
+  }
+
+  .nav-list {
+    grid-template-columns: minmax(0, 1fr);
+    overflow: visible;
+    padding-bottom: 0;
+  }
+
+  .nav-button {
+    justify-content: flex-start;
+    padding: 11px 12px;
+    font-size: 1rem;
+  }
+
+  .orchard-visual {
+    display: block;
+  }
+
+  .status-panel {
+    margin-top: auto;
+  }
+
+  .content {
+    gap: 22px;
+    padding: 12px 12px 30px 0;
+  }
+
+  .topbar,
+  .panel-heading {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .section-heading {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .filters {
+    flex-direction: row;
+  }
+
+  h2 {
+    font-size: 1.92rem;
+  }
+
+  .profile-chip {
+    width: auto;
+    min-width: 300px;
+    grid-template-columns: 42px minmax(150px, 1fr) auto;
+  }
+
+  .profile-chip button {
+    grid-column: auto;
+  }
+
+  .metrics-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .dashboard-grid {
+    grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.95fr);
+  }
+
+  .management-layout {
+    grid-template-columns: minmax(0, 1fr) 360px;
+  }
+
+  .harvest-layout {
+    grid-template-columns: minmax(0, 1fr) 320px;
+  }
+
+  .trend-panel {
+    min-height: 520px;
+  }
+
+  .product-trend-panel,
+  .farmers-panel {
+    grid-column: 1 / -1;
+  }
+
+  .table-actions {
+    flex-wrap: nowrap;
+  }
+}
+
+

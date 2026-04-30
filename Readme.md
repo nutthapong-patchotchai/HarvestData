@@ -1,80 +1,62 @@
-# Harvest Dashboard
+# HarvestData
 
-## Overview
+HarvestData is a modern fruit-harvest management app. The backend is a Django REST Framework API and the frontend is a Next.js dashboard with a natural orchard-inspired interface.
 
-This project is a web application for managing fruit harvesting data. It features a login page and a dashboard that displays various charts and tables to visualize harvesting information. The frontend is built using Next.js 14 with Tailwind CSS for styling, and the backend is powered by Django Rest Framework.
+## What It Manages
 
-## Features
+- Farmers and orchard contact details
+- Fruit crops and varieties
+- Planting areas in rai
+- Yearly harvest records, quantity, price, and revenue
+- Dashboard summaries by year, fruit, and farmer
 
-- **Login Page**: Users can log in to access the dashboard.
-- **Dashboard**: Visualizes fruit harvesting data with tables, bar charts, and line charts.
-- **Responsive Design**: Fully responsive and styled using Tailwind CSS.
-- **Mock Data**: Uses mock data for development and testing purposes.
+## Stack
 
-## Technologies
+- Backend: Django 5.1, Django REST Framework, SQLite for local development
+- Frontend: Next.js 16, React 18, Tailwind CSS, custom CSS charts
 
-- **Frontend**: Next.js 14, Tailwind CSS
-- **Backend**: Django Rest Framework (not included in this repository)
-- **Charting**: Chart.js
-
-## Installation
-
-### Prerequisites
-
-- [Node.js](https://nodejs.org/) (version 18 or higher)
-- [Docker](https://www.docker.com/) (for containerization)
-
-### Setup
-
-1. **Clone the repository**
+## Backend Setup
 
 ```bash
-git clone https://github.com/nutthapong-patchotchai/HarvestData.git
-cd fruit-harvest-dashboard
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py seed_harvest_demo
+python manage.py runserver 8000
 ```
 
-2. **Install dependencies**
+Demo login:
+
+```text
+username: demo
+password: demo1234
+```
+
+Main API routes:
+
+- `GET /api/v1/dashboard/`
+- `GET /api/v1/farmers/`
+- `GET /api/v1/fruits/`
+- `GET /api/v1/plantings/`
+- `GET /api/v1/harvests/`
+- `POST /api/v1/auth/login/`
+
+## Frontend Setup
 
 ```bash
-Copy code
+cd frontend
 npm install
-Run the development server
-```
-
-```bash
-Copy code
 npm run dev
 ```
-Open your browser and navigate to http://localhost:3000 to see the application in action.
 
-### Docker
-To build and run the application using Docker:
+Open `http://localhost:3000`.
 
-2. **Build the Docker image**
+The frontend reads `NEXT_PUBLIC_API_BASE_URL`; by default it uses:
 
-```bash
-Copy code
-docker build -t nextjs-app .
+```text
+http://localhost:8000/api/v1
 ```
-Run the Docker container
 
-```bash
-Copy code
-docker run -p 3000:3000 nextjs-app
-```
-Access the application at http://localhost:3000.
-
-### Usage
-1. **Navigate to the login page.**
-2. **Enter your credentials and log in.**
-3. **Once logged in, you'll be redirected to the dashboard where you can view harvesting data visualized with charts and tables.**
-### Contributing
-Contributions are welcome! Please fork the repository and submit a pull request with your changes.
-
-### License
-This project is licensed under the MIT License. See the LICENSE file for details.
-
-### Acknowledgements
-- **Next.js** - React framework for building user interfaces.
-- **Tailwind** CSS - Utility-first CSS framework.
-- **Chart.js** - JavaScript library for charting.
+If the API is not running, the dashboard falls back to demo harvest data so the interface can still be reviewed.

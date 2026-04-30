@@ -1,32 +1,21 @@
 from django import forms
-from Farmer.models import Farmer, Plant, Harvest
+
+from Farmer.models import FarmerProfile, HarvestRecord, Planting
 
 
-class addFarmer(forms.ModelForm):
+class FarmerProfileForm(forms.ModelForm):
     class Meta:
-        model = Farmer
-        fields = [
-            'name',
-            'lastname',
-            'age',
-            'address',
-            'tel',
-        ]
+        model = FarmerProfile
+        fields = ["first_name", "last_name", "age", "address", "phone", "village"]
 
-class addPlant(forms.ModelForm):
-    class Meta:
-        model = Plant
-        fields = [
-            'fruit_name',
-            'fruit_breed',
-            'scale',
-        ]
 
-class addHarvest(forms.ModelForm):
+class PlantingForm(forms.ModelForm):
     class Meta:
-        model = Harvest
-        fields = [
-            'product',
-            'years',
-            'price',
-        ]
+        model = Planting
+        fields = ["farmer", "fruit", "variety", "area_rai", "planted_at", "note"]
+
+
+class HarvestRecordForm(forms.ModelForm):
+    class Meta:
+        model = HarvestRecord
+        fields = ["planting", "harvest_year", "quantity_kg", "price_per_kg", "harvested_at", "note"]

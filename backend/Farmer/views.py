@@ -1,369 +1,309 @@
-from django.contrib.auth import authenticate, update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.models import User
-from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
-# from spyder.config import user
-from Farmer.models import Farmer, Plant, Harvest, YearSet, Fruit
-from django.contrib.auth.decorators import login_required
-from Farmer.forms import addFarmer, addPlant, addHarvest
-from django.contrib import messages, auth
-from django.core.paginator import Paginator
-from django.db.models import Q, Exists
-import json as simplejson
+from decimal import Decimal
 
-import sweetify
+from django.contrib.auth import authenticate, login, logout
+from django.db.models import Avg, Count, DecimalField, ExpressionWrapper, F, Sum, Value
+from django.db.models.functions import Coalesce
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import ensure_csrf_cookie
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-
-@login_required
-class ViewData(LoginRequiredMixin, UserPassesTestMixin):
-    def base(request):
-        viewfarmer = Farmer.objects.filter(User_id=request.user)
-        viewplant = Plant.objects.filter(User_id=request.user)
-        viewharvest = Harvest.objects.filter(User_id=request.user)
-        viewfarmerpage = {
-            'viewFarmer': viewfarmer,
-            'viewPlant': viewplant,
-            'viewHarvest': viewharvest,
-        }
-        return render(request, 'Farmer/base.html', viewfarmerpage)
-
-    @login_required
-    def ViewFarmer(request):
-        viewfarmer = Farmer.objects.filter(User_id=request.user)
-        # (User_id=request.user)
-        if request.user.is_staff or request.user.is_superuser:
-            viewfarmer = Farmer.objects.all()
-
-        viewplant = Plant.objects.filter(User_id=request.user)
-        viewharvest = Harvest.objects.filter(User_id=request.user)
-        viewyears = YearSet.objects.all()
-        viewfruit = Fruit.objects.all()
-        viewuser = User.objects.all()
-        query = request.GET.get("q")
-        if query:
-            viewfarmer = viewfarmer.filter(
-                Q(name__icontains=query) |
-                Q(lastname__icontains=query)
-            ).distinct()
-        paginator = Paginator(viewfarmer, 10)
-        page = request.GET.get('page')
-        farmerpage = paginator.get_page(page)
+from Farmer.models import FarmerProfile, FruitCrop, HarvestRecord, HarvestYear, Planting
+from Farmer.serializers import (
+    FarmerProfileSerializer,
+    FruitCropSerializer,
+    HarvestRecordSerializer,
+    HarvestYearSerializer,
+    PlantingSerializer,
+)
 
 
+def decimal_to_float(value):
+    return float(value or 0)
 
-        viewfarmerpage = {
-            'viewFarmer': viewfarmer,
-            'famerpage': farmerpage,
-            'viewPlant': viewplant,
-            'viewHarvest': viewharvest,
-            'viewFruit': viewfruit,
-            'viewyears': viewyears,
-            'viewuser': viewuser
 
-        }
-        return render(request, 'Farmer/index.html', viewfarmerpage)
+class SessionLoginView(APIView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
 
-    @login_required
-    def ViewPlant(request, Farmer_id):
-        viewfarmers = Farmer.objects.filter(User_id=request.user)
-        viewfarmer = Farmer.objects.get(id=Farmer_id)
-        if request.user.id == viewfarmer.User_id.id or request.user.is_staff or request.user.is_superuser:
-            viewplant = Plant.objects.filter(Farmer_id=Farmer_id)
-            query = request.GET.get("q")
-            if query:
-                viewplant = viewplant.filter(
-                    Q(fruit_name__fruit_name__icontains=query) |
-                    Q(fruit_breed__icontains=query)
-                ).distinct()
-            viewplantpage = {
-                'viewFarmer': viewfarmers,
-                'viewplant': viewplant,
-                'viewfarmer': viewfarmer,
+    def post(self, request):
+        username = request.data.get("username") or request.data.get("email")
+        password = request.data.get("password")
+        user = authenticate(request, username=username, password=password)
+
+        if user is None:
+            return Response(
+                {"detail": "Invalid username or password."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        login(request, user)
+        return Response(
+            {
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+                "name": user.get_full_name() or user.username,
             }
-            return render(request, 'Farmer/ViewPlant.html', viewplantpage)
-        else:
-            return redirect('/')
+        )
 
-    @login_required
-    def ViewHarvest(request, Farmer_id, Plant_id):
-        viewfarmers = Farmer.objects.filter(User_id=request.user)
-        viewfarmer = Farmer.objects.get(id=Farmer_id)
-        if request.user.id == viewfarmer.User_id.id or request.user.is_staff or request.user.is_superuser:
-            viewplant = Plant.objects.get(id=Plant_id)
-            viewharvests = Plant.objects.get(id=Plant_id)
-            viewharvest = Harvest.objects.filter(Plant_id=Plant_id).order_by('years')[::1]
-            viewharvestpage = {
-                'viewFarmer': viewfarmers,
-                'viewplant': viewplant,
-                'viewharvest': viewharvest,
-                'viewharvests': viewharvests,
-                'viewfarmer': viewfarmer,
+
+class SessionLogoutView(APIView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        logout(request)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@method_decorator(ensure_csrf_cookie, name="dispatch")
+class CurrentUserView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        if not request.user.is_authenticated:
+            return Response({"is_authenticated": False})
+
+        return Response(
+            {
+                "is_authenticated": True,
+                "id": request.user.id,
+                "username": request.user.username,
+                "email": request.user.email,
+                "name": request.user.get_full_name() or request.user.username,
             }
-            return render(request, 'Farmer/ViewHarvest.html', viewharvestpage)
-        else:
-            return redirect('/')
+        )
 
-    @login_required
-    def ViewFruit(request, Farmer_id, Plant_id):
-        viewfarmers = Farmer.objects.filter(User_id=request.user)
-        viewfarmer = Farmer.objects.get(id=Farmer_id)
-        if request.user.id == viewfarmer.User_id.id or request.user.is_staff or request.user.is_superuser:
-            viewplant = Plant.objects.get(id=Plant_id)
-            viewharvests = Plant.objects.get(id=Plant_id)
-            viewharvest = Harvest.objects.filter(Plant_id_id=Plant_id)
-            viewharvestpage = {
-                'viewFarmer': viewfarmers,
-                'viewplant': viewplant,
-                'viewharvest': viewharvest,
-                'viewharvests': viewharvests,
-                'viewfarmer': viewfarmer,
+
+class UserScopedViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+        return queryset.filter(user=user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class HarvestYearViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = HarvestYear.objects.all()
+    serializer_class = HarvestYearSerializer
+    permission_classes = [IsAuthenticated]
+    search_fields = ["year"]
+
+
+class FruitCropViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = FruitCrop.objects.all()
+    serializer_class = FruitCropSerializer
+    permission_classes = [IsAuthenticated]
+    search_fields = ["name", "category"]
+
+
+class FarmerProfileViewSet(UserScopedViewSet):
+    queryset = FarmerProfile.objects.select_related("user").all()
+    serializer_class = FarmerProfileSerializer
+    search_fields = ["first_name", "last_name", "phone", "village"]
+
+
+class PlantingViewSet(UserScopedViewSet):
+    queryset = Planting.objects.select_related("farmer", "fruit", "user").all()
+    serializer_class = PlantingSerializer
+    search_fields = ["variety", "farmer__first_name", "farmer__last_name", "fruit__name"]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        fruit = self.request.query_params.get("fruit")
+        farmer = self.request.query_params.get("farmer")
+
+        if fruit:
+            queryset = queryset.filter(fruit_id=fruit)
+        if farmer:
+            queryset = queryset.filter(farmer_id=farmer)
+
+        return queryset
+
+    @action(detail=True, methods=["get"])
+    def harvests(self, request, pk=None):
+        planting = self.get_object()
+        harvests = planting.harvests.select_related(
+            "harvest_year",
+            "planting__farmer",
+            "planting__fruit",
+        )
+        serializer = HarvestRecordSerializer(harvests, many=True, context={"request": request})
+        return Response(serializer.data)
+
+
+class HarvestRecordViewSet(UserScopedViewSet):
+    queryset = HarvestRecord.objects.select_related(
+        "harvest_year",
+        "planting",
+        "planting__farmer",
+        "planting__fruit",
+        "user",
+    ).all()
+    serializer_class = HarvestRecordSerializer
+    search_fields = ["planting__farmer__first_name", "planting__fruit__name", "planting__variety"]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        year = self.request.query_params.get("year")
+        fruit = self.request.query_params.get("fruit")
+        farmer = self.request.query_params.get("farmer")
+
+        if year:
+            queryset = queryset.filter(harvest_year__year=year)
+        if fruit:
+            queryset = queryset.filter(planting__fruit_id=fruit)
+        if farmer:
+            queryset = queryset.filter(planting__farmer_id=farmer)
+
+        return queryset
+
+
+class DashboardSummaryView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        harvests = HarvestRecord.objects.select_related(
+            "harvest_year",
+            "planting",
+            "planting__farmer",
+            "planting__fruit",
+        )
+        plantings = Planting.objects.select_related("farmer", "fruit")
+        farmers = FarmerProfile.objects.all()
+
+        harvests = harvests.filter(user=request.user)
+        plantings = plantings.filter(user=request.user)
+        farmers = farmers.filter(user=request.user)
+
+        year = request.query_params.get("year")
+        if year:
+            harvests = harvests.filter(harvest_year__year=year)
+
+        decimal_field = DecimalField(max_digits=18, decimal_places=2)
+        zero = Value(Decimal("0.00"), output_field=decimal_field)
+        harvests = harvests.annotate(
+            row_revenue=ExpressionWrapper(
+                F("quantity_kg") * F("price_per_kg"),
+                output_field=decimal_field,
+            )
+        )
+
+        def revenue_sum():
+            return Sum("row_revenue", output_field=decimal_field)
+
+        totals = harvests.aggregate(
+            total_quantity_kg=Coalesce(Sum("quantity_kg"), zero, output_field=decimal_field),
+            total_revenue=Coalesce(revenue_sum(), zero, output_field=decimal_field),
+            average_price=Coalesce(Avg("price_per_kg"), zero, output_field=decimal_field),
+        )
+
+        by_year = harvests.values("harvest_year__year").annotate(
+            quantity_kg=Coalesce(Sum("quantity_kg"), zero, output_field=decimal_field),
+            revenue=Coalesce(revenue_sum(), zero, output_field=decimal_field),
+            average_price=Coalesce(Avg("price_per_kg"), zero, output_field=decimal_field),
+        ).order_by("harvest_year__year")
+
+        by_fruit = harvests.values(
+            "planting__fruit_id",
+            "planting__fruit__name",
+            "planting__fruit__color",
+        ).annotate(
+            quantity_kg=Coalesce(Sum("quantity_kg"), zero, output_field=decimal_field),
+            revenue=Coalesce(revenue_sum(), zero, output_field=decimal_field),
+            harvest_count=Count("id"),
+        ).order_by("-revenue")
+
+        product_by_year = harvests.values(
+            "harvest_year__year",
+            "planting__fruit_id",
+            "planting__fruit__name",
+            "planting__fruit__color",
+        ).annotate(
+            quantity_kg=Coalesce(Sum("quantity_kg"), zero, output_field=decimal_field),
+            revenue=Coalesce(revenue_sum(), zero, output_field=decimal_field),
+            average_price=Coalesce(Avg("price_per_kg"), zero, output_field=decimal_field),
+        ).order_by("harvest_year__year", "planting__fruit__name")
+
+        top_farmers = harvests.values(
+            "planting__farmer_id",
+            "planting__farmer__first_name",
+            "planting__farmer__last_name",
+            "planting__farmer__village",
+        ).annotate(
+            quantity_kg=Coalesce(Sum("quantity_kg"), zero, output_field=decimal_field),
+            revenue=Coalesce(revenue_sum(), zero, output_field=decimal_field),
+        ).order_by("-revenue")[:5]
+
+        recent_harvests = harvests.order_by("-updated_at")[:8]
+
+        return Response(
+            {
+                "totals": {
+                    "farmers": farmers.count(),
+                    "plantings": plantings.count(),
+                    "harvests": harvests.count(),
+                    "quantity_kg": decimal_to_float(totals["total_quantity_kg"]),
+                    "revenue": decimal_to_float(totals["total_revenue"]),
+                    "average_price": decimal_to_float(totals["average_price"]),
+                },
+                "harvest_by_year": [
+                    {
+                        "year": item["harvest_year__year"],
+                        "quantity_kg": decimal_to_float(item["quantity_kg"]),
+                        "revenue": decimal_to_float(item["revenue"]),
+                        "average_price": decimal_to_float(item["average_price"]),
+                    }
+                    for item in by_year
+                ],
+                "fruit_breakdown": [
+                    {
+                        "id": item["planting__fruit_id"],
+                        "name": item["planting__fruit__name"],
+                        "color": item["planting__fruit__color"],
+                        "quantity_kg": decimal_to_float(item["quantity_kg"]),
+                        "revenue": decimal_to_float(item["revenue"]),
+                        "harvest_count": item["harvest_count"],
+                    }
+                    for item in by_fruit
+                ],
+                "product_trends": [
+                    {
+                        "year": item["harvest_year__year"],
+                        "product_id": item["planting__fruit_id"],
+                        "product_name": item["planting__fruit__name"],
+                        "color": item["planting__fruit__color"],
+                        "quantity_kg": decimal_to_float(item["quantity_kg"]),
+                        "revenue": decimal_to_float(item["revenue"]),
+                        "average_price": decimal_to_float(item["average_price"]),
+                    }
+                    for item in product_by_year
+                ],
+                "top_farmers": [
+                    {
+                        "id": item["planting__farmer_id"],
+                        "name": " ".join(
+                            part
+                            for part in [
+                                item["planting__farmer__first_name"],
+                                item["planting__farmer__last_name"],
+                            ]
+                            if part
+                        ),
+                        "village": item["planting__farmer__village"],
+                        "quantity_kg": decimal_to_float(item["quantity_kg"]),
+                        "revenue": decimal_to_float(item["revenue"]),
+                    }
+                    for item in top_farmers
+                ],
+                "recent_harvests": HarvestRecordSerializer(recent_harvests, many=True).data,
             }
-            return render(request, 'Farmer/ViewHarvest.html', viewharvestpage)
-        else:
-            return redirect('/')
-
-
-@login_required
-class CreateData():
-    @login_required
-    def CreateFarmer(request, Farmer_id):
-        viewfarmer = Farmer.objects.filter(User_id=request.user)
-        if request.method == 'POST':
-            farmerform = addFarmer(request.POST)
-            if farmerform.is_valid():
-                createfarmer = farmerform.save(commit=False)
-                createfarmer.User_id = User(Farmer_id)
-                createfarmer.user = request.user
-                createfarmer.save()
-                messages.success(request, 'เพิ่มข้อมูลเกษตรกร สำเร็จ')
-                return redirect('/')
-        else:
-            farmerform = addFarmer()
-
-        createfarmerform = {
-            'viewFarmer': viewfarmer,
-            'farmerform': farmerform,
-        }
-        return render(request, 'Farmer/CreateFarmer.html', createfarmerform)
-
-    @login_required
-    def CreatePlant(request, Farmer_id, id):
-        viewfarmers = Farmer.objects.filter(User_id=request.user)
-        viewfarmer = Farmer.objects.get(id=Farmer_id)
-        if request.user.id == viewfarmer.User_id.id:
-            if request.method == 'POST':
-                plantform = addPlant(request.POST)
-                if plantform.is_valid():
-                    createplant = plantform.save(commit=False)
-                    createplant.User_id = User(id)
-                    createplant.Farmer_id = Farmer(Farmer_id)
-                    createplant.user = request.user
-                    createplant.save()
-                    messages.success(request, 'เพิ่มข้อมูลการปลูกของเกษตรกร สำเร็จ')
-                    return redirect('../../../')
-            else:
-                plantform = addPlant()
-        else:
-            return redirect('/')
-
-        plantcreateform = {
-            'viewFarmer': viewfarmers,
-            'plantform': plantform,
-            'viewfarmer': viewfarmer
-        }
-        return render(request, 'Farmer/CreatePlant.html', plantcreateform)
-
-    @login_required
-    def CreateHarvest(request, Plant_id, Harvest_id, ids):
-        viewfarmers = Farmer.objects.get(id=Plant_id)
-        viewfarmer = Farmer.objects.filter(User_id=request.user)
-        viewplant = Plant.objects.get(id=Harvest_id)
-        if request.method == 'POST':
-            harvestform = addHarvest(request.POST)
-            if harvestform.is_valid():
-                createharvest = harvestform.save(commit=False)
-                createharvest.User_id = User(ids)
-                createharvest.Plant_id = Plant(Harvest_id)
-                createharvest.user = request.user
-                if (Harvest.objects.filter(Plant_id=Harvest_id) & Harvest.objects.filter(
-                        years_id=createharvest.years.id)).exists():
-                    messages.warning(request, 'เพิ่มข้อมูลการเก็บเกี่ยว ไม่สำเร็จเนื่องจากปีซ้ำ')
-                else:
-                    createharvest.save()
-                    messages.success(request, 'เพิ่มข้อมูลการเก็บเกี่ยว สำเร็จ')
-                    return redirect("../../")
-
-            else:
-                messages.warning(request, 'เพิ่มไม่สำเร็จ')
-                harvestcreateform = {
-                    'viewFarmer': viewfarmer,
-                    'harvestform': harvestform,
-                    'viewplant': viewplant,
-                    'viewfarmers': viewfarmers
-                }
-                return render(request, 'Farmer/CreateHarvest.html', harvestcreateform)
-
-        else:
-            harvestform = addHarvest()
-
-        harvestcreateform = {
-            'viewFarmer': viewfarmer,
-            'harvestform': harvestform,
-            'viewplant': viewplant,
-            'viewfarmers': viewfarmers
-        }
-        return render(request, 'Farmer/CreateHarvest.html', harvestcreateform)
-
-
-@login_required
-class Fruits():
-    @login_required
-    def Fruitss(request, Fruit_id):
-        viewfarmer = Farmer.objects.filter(User_id=request.user)
-        viewplant = Plant.objects.filter(User_id=request.user)
-        viewharvest = Harvest.objects.filter(User_id=request.user)
-        viewfruit = Fruit.objects.get(id=Fruit_id)
-        viewyears = YearSet.objects.all()
-        viewfarmerpage = {
-            'viewFarmer': viewfarmer,
-            'viewPlant': viewplant,
-            'viewHarvest': viewharvest,
-            'viewfruit': viewfruit,
-            'viewyears': viewyears
-        }
-        return render(request, 'Fruit/Fruit.html', viewfarmerpage)
-
-    @login_required
-    def Fruitssyear(request, Fruit_id, Year_id):
-        viewfarmer = Farmer.objects.filter(User_id=request.user)
-        viewplant = Plant.objects.filter(User_id=request.user)
-        viewharvest = Harvest.objects.filter(User_id=request.user)
-        viewfruit = Fruit.objects.get(id=Fruit_id)
-        viewyears = YearSet.objects.get(id=Year_id)
-        viewfarmerpage = {
-            'viewFarmer': viewfarmer,
-            'viewPlant': viewplant,
-            'viewHarvest': viewharvest,
-            'viewfruit': viewfruit,
-            'viewyears': viewyears
-        }
-        return render(request, 'Fruit/FruitYear.html', viewfarmerpage)
-
-
-@login_required
-class EditData():
-    @login_required
-    def EditFarmer(request, Farmer_id):
-        viewfarmer = Farmer.objects.filter(User_id=request.user)
-        editfarmer = get_object_or_404(Farmer, id=Farmer_id)
-        editfarmerform = addFarmer(request.POST or None, instance=editfarmer)
-        if editfarmerform.is_valid():
-            editfarmers = editfarmerform.save(commit=False)
-            editfarmers.user = request.user
-            editfarmers.save()
-            messages.warning(request, 'แก้ไขข้อมูลเกษตรกร สำเร็จ')
-            return redirect('/')
-        editfarmerforms = {
-            'viewFarmer': viewfarmer,
-            'editfarmerform': editfarmerform,
-        }
-        return render(request, 'Farmer/EditFarmer.html', editfarmerforms)
-
-    @login_required
-    def EditPlant(request, Farmer_id, Plant_id):
-        viewfarmers = Farmer.objects.get(id=Farmer_id)
-        viewfarmer = Farmer.objects.filter(User_id=request.user)
-        viewplant = Plant.objects.filter(Farmer_id=Farmer_id)
-        editplant = get_object_or_404(Plant, id=Plant_id)
-        editplantform = addPlant(request.POST or None, instance=editplant)
-        if editplantform.is_valid():
-            editplants = editplantform.save(commit=False)
-            editplants.user = request.user
-            editplants.save()
-            messages.warning(request, 'แก้ไขข้อมูลการปลูกของเกษตรกร สำเร็จ')
-            return redirect('../../')
-        editplantforms = {
-            'viewFarmer': viewfarmer,
-            'editplantform': editplantform,
-            'viewfarmers': viewfarmers
-        }
-        return render(request, 'Farmer/EditPlant.html', editplantforms)
-
-    @login_required
-    def EditHarvest(request, Farmer_id, Harvest_id, id):
-        viewfarmers = Farmer.objects.get(id=Farmer_id)
-        viewfarmer = Farmer.objects.filter(User_id=request.user)
-        viewplant = Plant.objects.filter(Farmer_id=Farmer_id)
-        viewharvest = Harvest.objects.filter(Plant_id=id)
-        editharvest = get_object_or_404(Harvest, id=id)
-        viewplants = Plant.objects.get(id=Harvest_id)
-        editharvestform = addHarvest(request.POST or None, instance=editharvest)
-        if editharvestform.is_valid():
-            editharvests = editharvestform.save(commit=False)
-            editharvests.user = request.user
-            editharvests.save()
-            messages.warning(request, 'แก้ไขข้อมูลการเก็บเกี่ยวของการปลูกของเกษตรกร สำเร็จ')
-            return redirect('../')
-        editharvestforms = {
-            'viewFarmer': viewfarmer,
-            'editharvestform': editharvestform,
-            'viewfarmers': viewfarmers,
-            'viewplants': viewplants,
-        }
-        return render(request, 'Farmer/EditHarvest.html', editharvestforms)
-
-    @login_required
-    def EditPassword(request):
-        if request.method == 'POST':
-            form = PasswordChangeForm(data=request.POST, user=request.user)
-
-            if form.is_valid():
-                form.save()
-                update_session_auth_hash(request, form.user)
-                messages.success(request, 'แก้ไขแก้ไขรหัสผ่าน สำเร็จ')
-                return redirect('../')
-            else:
-                messages.warning(request, 'แก้ไขแก้ไขรหัสผ่าน ไม่สำเร็จ')
-                return redirect('changepassword/')
-        else:
-            form = PasswordChangeForm(user=request.user)
-
-            args = {'form': form}
-
-            return render(request, 'Farmer/ChangePassword.html', args)
-
-
-@login_required
-class DeleteData():
-    @login_required
-    def DeleteFarmer(request, Farmer_id):
-        deletefarmer = get_object_or_404(Farmer, id=Farmer_id)
-        checkuser = deletefarmer.User_id.username
-
-        if request.user.username == checkuser:
-            deletefarmer.delete()
-            messages.error(request, 'ลบข้อมูลเกษตรกรสำเร็จ')
-            return redirect('/')
-        else:
-            return redirect('/')
-
-    @login_required
-    def DeletePlant(request, Farmer_id, Plant_id):
-        viewfarmer = Farmer.objects.filter(User_id=request.user)
-        deleteplant = get_object_or_404(Plant, id=Plant_id)
-        messages.error(request, 'ลบขข้อมูลการปลูกของเกษตรกรสำเร็จ')
-        deleteplant.delete()
-        return redirect('../../')
-
-    @login_required
-    def DeleteHarvest(request, Plant_id, Harvest_id, id):
-        deleteHarvest = get_object_or_404(Harvest, pk=id)
-        messages.error(request, 'ลบขข้อมูลการเก็บเกี่ยวของการปลูกของเกษตรกรสำเร็จ')
-        deleteHarvest.delete()
-        return redirect("../")
-
-
-def test(request):
-    return render(request, 'Farmer/test.html')
+        )
