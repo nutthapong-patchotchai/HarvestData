@@ -26,6 +26,25 @@ class FruitCrop(models.Model):
         return self.name
 
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        related_name="harvest_profile",
+        on_delete=models.CASCADE,
+    )
+    avatar = models.TextField(blank=True)
+    phone = models.CharField(max_length=40, blank=True)
+    bio = models.TextField(max_length=500, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["user__username"]
+
+    def __str__(self):
+        return self.user.get_full_name() or self.user.username
+
+
 class FarmerProfile(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=100)
@@ -34,6 +53,7 @@ class FarmerProfile(models.Model):
     address = models.TextField(max_length=500, blank=True)
     phone = models.CharField(max_length=40, blank=True)
     village = models.CharField(max_length=120, blank=True)
+    photo = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -55,6 +75,9 @@ class Planting(models.Model):
     variety = models.CharField(max_length=120, blank=True)
     area_rai = models.DecimalField(max_digits=8, decimal_places=2, default=Decimal("0.00"))
     planted_at = models.DateField(null=True, blank=True)
+    province = models.CharField(max_length=120, blank=True)
+    district = models.CharField(max_length=120, blank=True)
+    subdistrict = models.CharField(max_length=120, blank=True)
     note = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

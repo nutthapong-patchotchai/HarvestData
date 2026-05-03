@@ -1,4 +1,5 @@
 import "./globals.css";
+import AppToaster from "./toaster";
 
 export const metadata = {
   title: "HarvestData",
@@ -8,7 +9,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="th">
-      <body>{children}</body>
+      <body>
+        {children}
+        <AppToaster />
+      </body>
     </html>
   );
 }

@@ -1,6 +1,13 @@
 from rest_framework import serializers
 
-from Farmer.models import FarmerProfile, FruitCrop, HarvestRecord, HarvestYear, Planting
+from Farmer.models import FarmerProfile, FruitCrop, HarvestRecord, HarvestYear, Planting, UserProfile
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ["avatar", "phone", "bio", "created_at", "updated_at"]
+        read_only_fields = ["created_at", "updated_at"]
 
 
 class HarvestYearSerializer(serializers.ModelSerializer):
@@ -29,6 +36,7 @@ class FarmerProfileSerializer(serializers.ModelSerializer):
             "address",
             "phone",
             "village",
+            "photo",
             "created_at",
             "updated_at",
         ]
@@ -52,6 +60,9 @@ class PlantingSerializer(serializers.ModelSerializer):
             "variety",
             "area_rai",
             "planted_at",
+            "province",
+            "district",
+            "subdistrict",
             "note",
             "created_at",
             "updated_at",

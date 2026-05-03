@@ -6,13 +6,23 @@ from Farmer.models import FarmerProfile, HarvestRecord, Planting
 class FarmerProfileForm(forms.ModelForm):
     class Meta:
         model = FarmerProfile
-        fields = ["first_name", "last_name", "age", "address", "phone", "village"]
+        fields = ["first_name", "last_name", "age", "address", "phone", "village", "photo"]
 
 
 class PlantingForm(forms.ModelForm):
     class Meta:
         model = Planting
-        fields = ["farmer", "fruit", "variety", "area_rai", "planted_at", "note"]
+        fields = [
+            "farmer",
+            "fruit",
+            "variety",
+            "area_rai",
+            "planted_at",
+            "province",
+            "district",
+            "subdistrict",
+            "note",
+        ]
 
 
 class HarvestRecordForm(forms.ModelForm):

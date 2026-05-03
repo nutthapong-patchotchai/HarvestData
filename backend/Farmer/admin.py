@@ -1,6 +1,12 @@
 from django.contrib import admin
 
-from Farmer.models import FarmerProfile, FruitCrop, HarvestRecord, HarvestYear, Planting
+from Farmer.models import FarmerProfile, FruitCrop, HarvestRecord, HarvestYear, Planting, UserProfile
+
+
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ("user", "phone", "updated_at")
+    search_fields = ("user__username", "user__first_name", "user__last_name", "phone")
 
 
 @admin.register(HarvestYear)
@@ -24,9 +30,17 @@ class FarmerProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Planting)
 class PlantingAdmin(admin.ModelAdmin):
-    list_display = ("fruit", "variety", "farmer", "area_rai", "planted_at", "user")
-    list_filter = ("fruit", "planted_at")
-    search_fields = ("fruit__name", "variety", "farmer__first_name", "farmer__last_name")
+    list_display = ("fruit", "variety", "farmer", "province", "district", "area_rai", "planted_at", "user")
+    list_filter = ("fruit", "province", "planted_at")
+    search_fields = (
+        "fruit__name",
+        "variety",
+        "farmer__first_name",
+        "farmer__last_name",
+        "province",
+        "district",
+        "subdistrict",
+    )
 
 
 @admin.register(HarvestRecord)
