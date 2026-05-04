@@ -1,80 +1,37 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { apiRequest } from "../api-client.mjs";
 import {
+  BarChart3,
   CalendarDays,
   Edit,
   ImagePlus,
   Leaf,
   LogOut,
+  Moon,
   Save,
   ShieldCheck,
   Sprout,
+  Sun,
   Trash2,
+  X,
 } from "lucide-react";
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api/v1";
 
 const emptyYearForm = { year: "" };
 const emptyFruitForm = { name: "", category: "", color: "#6f9f83" };
 
-function getCookie(name) {
-  if (typeof document === "undefined") return "";
-  return document.cookie
-    .split("; ")
-    .find((cookie) => cookie.startsWith(`${name}=`))
-    ?.split("=")[1] || "";
-}
-
-async function apiRequest(path, options = {}) {
-  const method = options.method || "GET";
-  const headers = {
-    Accept: "application/json",
-    ...options.headers,
-  };
-
-  if (options.body) {
-    headers["Content-Type"] = "application/json";
-  }
-
-  if (!["GET", "HEAD", "OPTIONS"].includes(method)) {
-    const csrfToken = getCookie("csrftoken");
-    if (csrfToken) {
-      headers["X-CSRFToken"] = csrfToken;
-    }
-  }
-
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    ...options,
-    method,
-    credentials: "include",
-    headers,
-    body: options.body ? JSON.stringify(options.body) : undefined,
-  });
-
-  if (response.status === 204) {
-    return null;
-  }
-
-  const payload = await response.json().catch(() => null);
-
-  if (!response.ok) {
-    const detail =
-      payload?.detail ||
-      Object.values(payload || {}).flat().join(" ") ||
-      `HTTP ${response.status}`;
-    throw new Error(detail);
-  }
-
-  return payload?.results || payload;
-}
-
 function normalizeText(value) {
   return value ?? "";
+}
+
+function getStoredDashboardTheme() {
+  if (typeof window === "undefined") return "dark";
+  const storedTheme = window.localStorage.getItem("harvestdata-dashboard-theme");
+  return storedTheme === "light" || storedTheme === "dark" ? storedTheme : "dark";
 }
 
 function profileFormFromUser(user) {
@@ -110,36 +67,51 @@ function fileToDataUrl(file) {
   });
 }
 
-function confirmDelete(message, onConfirm) {
-  toast.warning(message, {
-    description: "กดลบเพื่อยืนยัน",
-    action: {
-      label: "ลบ",
-      onClick: onConfirm,
-    },
-    cancel: {
-      label: "ยกเลิก",
-      onClick: () => {},
-    },
-  });
+function useConfirmModal() {
+  const [dialog, setDialog] = useState(null);
+  const openConfirm = useCallback((options) => {
+    setDialog(options);
+  }, []);
+
+  const confirmModal = dialog ? (
+    <ConfirmDialog
+      {...dialog}
+      onClose={() => setDialog(null)}
+      onConfirm={async () => {
+        const action = dialog.onConfirm;
+        setDialog(null);
+        await action?.();
+      }}
+    />
+  ) : null;
+
+  return { openConfirm, confirmModal };
 }
 
 export default function AdminPage() {
   const router = useRouter();
   const [authState, setAuthState] = useState("checking");
   const [currentUser, setCurrentUser] = useState(null);
+  const [profileCardOpen, setProfileCardOpen] = useState(false);
   const [profileForm, setProfileForm] = useState(profileFormFromUser(null));
+  const [dashboardTheme, setDashboardTheme] = useState(getStoredDashboardTheme);
+  const profileEditorRef = useRef(null);
   const [years, setYears] = useState([]);
   const [fruits, setFruits] = useState([]);
   const [yearForm, setYearForm] = useState(emptyYearForm);
   const [fruitForm, setFruitForm] = useState(emptyFruitForm);
   const [editingYearId, setEditingYearId] = useState(null);
   const [editingFruitId, setEditingFruitId] = useState(null);
+  const { openConfirm, confirmModal } = useConfirmModal();
+
+  useEffect(() => {
+    window.localStorage.setItem("harvestdata-dashboard-theme", dashboardTheme);
+  }, [dashboardTheme]);
 
   const loadMasterData = useCallback(async () => {
     const [yearRows, fruitRows] = await Promise.all([
-      apiRequest("/years/"),
-      apiRequest("/fruits/"),
+      apiRequest("/years/", { fetchAllPages: true }),
+      apiRequest("/fruits/", { fetchAllPages: true }),
     ]);
     setYears(yearRows || []);
     setFruits(fruitRows || []);
@@ -177,9 +149,20 @@ export default function AdminPage() {
     };
   }, [loadMasterData, router]);
 
-  async function handleLogout() {
+  async function performLogout() {
     await apiRequest("/auth/logout/", { method: "POST" }).catch(() => null);
     router.replace("/login");
+  }
+
+  function confirmLogout() {
+    openConfirm({
+      title: "ออกจากระบบ",
+      description: "ต้องการออกจากระบบ Admin Center ใช่ไหม?",
+      details: ["งานที่ยังไม่ได้บันทึกอาจหายไป", "หลังออกจากระบบต้องเข้าสู่ระบบใหม่เพื่อจัดการข้อมูล"],
+      confirmLabel: "ออกจากระบบ",
+      variant: "danger",
+      onConfirm: performLogout,
+    });
   }
 
   async function handleProfileImageChange(event) {
@@ -233,14 +216,21 @@ export default function AdminPage() {
   }
 
   function deleteYear(year) {
-    confirmDelete(`ลบปี ${year.year} ?`, async () => {
-      try {
-        await apiRequest(`/years/${year.id}/`, { method: "DELETE" });
-        await loadMasterData();
-        toast.success("ลบปีแล้ว");
-      } catch (error) {
-        toast.error(`ลบปีไม่สำเร็จ: ${error.message}`);
-      }
+    openConfirm({
+      title: "ลบปีข้อมูล",
+      description: `ต้องการลบปี ${year.year} ใช่ไหม?`,
+      details: ["ผู้ใช้จะไม่สามารถเลือกปีนี้ในข้อมูลใหม่ได้", "การลบนี้ไม่สามารถย้อนกลับได้"],
+      confirmLabel: "ลบปี",
+      variant: "danger",
+      onConfirm: async () => {
+        try {
+          await apiRequest(`/years/${year.id}/`, { method: "DELETE" });
+          await loadMasterData();
+          toast.success("ลบปีแล้ว");
+        } catch (error) {
+          toast.error(`ลบปีไม่สำเร็จ: ${error.message}`);
+        }
+      },
     });
   }
 
@@ -270,14 +260,21 @@ export default function AdminPage() {
   }
 
   function deleteFruit(fruit) {
-    confirmDelete(`ลบผลไม้ ${fruit.name} ?`, async () => {
-      try {
-        await apiRequest(`/fruits/${fruit.id}/`, { method: "DELETE" });
-        await loadMasterData();
-        toast.success("ลบผลไม้แล้ว");
-      } catch (error) {
-        toast.error(`ลบผลไม้ไม่สำเร็จ: ${error.message}`);
-      }
+    openConfirm({
+      title: "ลบชนิดผลไม้",
+      description: `ต้องการลบ ${fruit.name} ใช่ไหม?`,
+      details: ["ชนิดผลไม้นี้จะหายจาก master data", "ตรวจสอบว่ามีแปลงปลูกหรือผลผลิตที่ใช้อยู่ก่อนลบ"],
+      confirmLabel: "ลบผลไม้",
+      variant: "danger",
+      onConfirm: async () => {
+        try {
+          await apiRequest(`/fruits/${fruit.id}/`, { method: "DELETE" });
+          await loadMasterData();
+          toast.success("ลบผลไม้แล้ว");
+        } catch (error) {
+          toast.error(`ลบผลไม้ไม่สำเร็จ: ${error.message}`);
+        }
+      },
     });
   }
 
@@ -293,7 +290,7 @@ export default function AdminPage() {
   }
 
   return (
-    <main className="app-shell admin-shell">
+    <main className={`app-shell admin-shell dashboard-theme-${dashboardTheme}`}>
       <aside className="sidebar admin-sidebar">
         <div className="brand-block">
           <span className="brand-mark"><ShieldCheck size={24} /></span>
@@ -302,17 +299,28 @@ export default function AdminPage() {
             <h1>Admin Center</h1>
           </div>
         </div>
-        <div className="admin-profile-summary">
+        <button
+          type="button"
+          className="admin-profile-summary"
+          onClick={() => setProfileCardOpen(true)}
+          aria-label="ดูบัตรโปรไฟล์ admin"
+          title="ดูบัตรโปรไฟล์"
+        >
           <Avatar image={currentUser?.avatar} name={currentUser?.name || currentUser?.username} size="lg" />
           <strong>{currentUser?.name || currentUser?.username}</strong>
           <small>{currentUser?.email || currentUser?.username}</small>
+        </button>
+        <div className="admin-sidebar-footer">
+          <button type="button" className="nav-button" onClick={() => router.push("/?view=landing")}>
+            <Leaf size={18} /> ไปหน้าเว็บไซต์
+          </button>
+          <button type="button" className="nav-button" onClick={() => router.push("/?view=dashboard")}>
+            <BarChart3 size={18} /> ไปหน้า Dashboard
+          </button>
+          <button type="button" className="nav-button" onClick={confirmLogout}>
+            <LogOut size={18} /> ออกจากระบบ
+          </button>
         </div>
-        <button type="button" className="nav-button" onClick={() => router.push("/")}>
-          <Leaf size={18} /> ไปหน้าเว็บ
-        </button>
-        <button type="button" className="nav-button" onClick={handleLogout}>
-          <LogOut size={18} /> ออกจากระบบ
-        </button>
       </aside>
 
       <section className="content">
@@ -321,9 +329,21 @@ export default function AdminPage() {
             <p className="eyebrow">สิทธิ์ผู้ดูแลระบบ</p>
             <h2>จัดการโปรไฟล์ admin และ master data ที่ผู้ใช้ปกติใช้งาน</h2>
           </div>
+          <div className="topbar-actions">
+            <button
+              type="button"
+              className="theme-toggle"
+              aria-pressed={dashboardTheme === "dark"}
+              onClick={() => setDashboardTheme((theme) => (theme === "dark" ? "light" : "dark"))}
+              title={dashboardTheme === "dark" ? "สลับเป็น Light mode" : "สลับเป็น Dark mode"}
+            >
+              {dashboardTheme === "dark" ? <Moon size={17} /> : <Sun size={17} />}
+              <span>{dashboardTheme === "dark" ? "Dark mode" : "Light mode"}</span>
+            </button>
+          </div>
         </header>
 
-        <section className="panel profile-editor">
+        <section className="panel profile-editor" ref={profileEditorRef}>
           <FormHeading label="Admin Profile" title="แก้ไขข้อมูลตัวเอง" />
           <form className="profile-editor-grid" onSubmit={handleProfileSubmit}>
             <div className="avatar-editor">
@@ -414,6 +434,18 @@ export default function AdminPage() {
           </section>
         </div>
       </section>
+
+      {profileCardOpen && (
+        <ProfileCardModal
+          user={currentUser}
+          onClose={() => setProfileCardOpen(false)}
+          onEdit={() => {
+            setProfileCardOpen(false);
+            profileEditorRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+          }}
+        />
+      )}
+      {confirmModal}
     </main>
   );
 }
@@ -437,6 +469,121 @@ function FormHeading({ label, title, onCancel }) {
       </div>
       {onCancel && <button type="button" className="ghost-button" onClick={onCancel}>ยกเลิก</button>}
     </div>
+  );
+}
+
+function ProfileCardModal({ user, onClose, onEdit }) {
+  const displayName = user?.name || user?.username || "HarvestData User";
+  const contactEmail = user?.email || user?.username || "ยังไม่ระบุ";
+  const contactPhone = user?.phone || "ยังไม่ระบุ";
+
+  useEffect(() => {
+    function handleKeyDown(event) {
+      if (event.key === "Escape") onClose();
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
+
+  return (
+    <div className="profile-card-backdrop" role="dialog" aria-modal="true" aria-label="บัตรโปรไฟล์" onClick={onClose}>
+      <article className="profile-card-preview" onClick={(event) => event.stopPropagation()}>
+        <button type="button" className="profile-card-close" onClick={onClose} title="ปิด">
+          <X size={18} />
+        </button>
+        <div className="profile-card-hero">
+          <div className="profile-card-brand">
+            <span className="profile-card-logo"><Leaf size={21} /></span>
+            <div>
+              <strong>HarvestData</strong>
+              <small>Fruit harvest management</small>
+            </div>
+          </div>
+        </div>
+        <div className="profile-card-avatar-ring">
+          <Avatar image={user?.avatar} name={displayName} size="lg" />
+        </div>
+        <div className="profile-card-body">
+          <h3>{displayName}</h3>
+          <dl className="profile-card-details">
+            <div>
+              <dt>Email</dt>
+              <dd>{contactEmail}</dd>
+            </div>
+            <div>
+              <dt>Phone</dt>
+              <dd>{contactPhone}</dd>
+            </div>
+          </dl>
+          <button type="button" className="profile-card-edit" onClick={onEdit}>
+            <Edit size={16} />แก้ไขโปรไฟล์
+          </button>
+        </div>
+      </article>
+    </div>
+  );
+}
+
+function PopupModal({ eyebrow, title, children, footer, onClose, variant = "" }) {
+  useEffect(() => {
+    function handleKeyDown(event) {
+      if (event.key === "Escape") onClose();
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
+
+  return (
+    <div className="popup-backdrop" role="dialog" aria-modal="true" aria-label={title} onClick={onClose}>
+      <article className={`popup-dialog ${variant ? `popup-dialog-${variant}` : ""}`} onClick={(event) => event.stopPropagation()}>
+        <button type="button" className="popup-close" onClick={onClose} title="ปิด">
+          <X size={18} />
+        </button>
+        <header className="popup-header">
+          {eyebrow && <p className="eyebrow">{eyebrow}</p>}
+          <h3>{title}</h3>
+        </header>
+        <div className="popup-body">{children}</div>
+        {footer && <footer className="popup-actions">{footer}</footer>}
+      </article>
+    </div>
+  );
+}
+
+function ConfirmDialog({
+  title = "ยืนยันการทำงาน",
+  description,
+  details = [],
+  confirmLabel = "ยืนยัน",
+  cancelLabel = "ยกเลิก",
+  variant = "default",
+  onConfirm,
+  onClose,
+}) {
+  return (
+    <PopupModal
+      eyebrow="Confirmation"
+      title={title}
+      variant={variant}
+      onClose={onClose}
+      footer={(
+        <>
+          <button type="button" className="ghost-button" onClick={onClose}>{cancelLabel}</button>
+          <button type="button" className={variant === "danger" ? "popup-danger-action" : "transfer-primary-button"} onClick={onConfirm}>
+            {confirmLabel}
+          </button>
+        </>
+      )}
+    >
+      {description && <p className="popup-copy">{description}</p>}
+      {!!details.length && (
+        <ul className="popup-detail-list">
+          {details.map((detail) => <li key={detail}>{detail}</li>)}
+        </ul>
+      )}
+    </PopupModal>
   );
 }
 

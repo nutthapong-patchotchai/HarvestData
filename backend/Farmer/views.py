@@ -1,12 +1,21 @@
+import csv
+import io
+import json
+import zipfile
+from datetime import date
 from decimal import Decimal
+from decimal import InvalidOperation
 
 from django.contrib.auth import authenticate, login, logout
+from django.db import transaction
 from django.db.models import Avg, Count, DecimalField, ExpressionWrapper, F, Sum, Value
 from django.db.models.functions import Coalesce
+from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
-from rest_framework import status, viewsets
+from rest_framework import renderers, status, viewsets
 from rest_framework.decorators import action
+from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import SAFE_METHODS, AllowAny, BasePermission, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -23,6 +32,346 @@ from Farmer.serializers import (
 
 def decimal_to_float(value):
     return float(value or 0)
+
+
+class FileDownloadRenderer(renderers.BaseRenderer):
+    media_type = "*/*"
+    format = "download"
+    charset = None
+
+    def render(self, data, accepted_media_type=None, renderer_context=None):
+        if data is None:
+            return b""
+        if isinstance(data, bytes):
+            return data
+        return json.dumps(data, ensure_ascii=False).encode("utf-8")
+
+
+FARMER_HEADERS = ["first_name", "last_name", "age", "phone", "village", "address"]
+PLANTING_HEADERS = [
+    "farmer_first_name",
+    "farmer_last_name",
+    "farmer_phone",
+    "fruit_name",
+    "variety",
+    "area_rai",
+    "planted_at",
+    "province",
+    "district",
+    "subdistrict",
+    "note",
+]
+HARVEST_HEADERS = [
+    "farmer_first_name",
+    "farmer_last_name",
+    "farmer_phone",
+    "fruit_name",
+    "variety",
+    "year",
+    "quantity_kg",
+    "price_per_kg",
+    "harvested_at",
+    "note",
+]
+DATASET_HEADERS = {
+    "farmers": FARMER_HEADERS,
+    "plantings": PLANTING_HEADERS,
+    "harvests": HARVEST_HEADERS,
+}
+MAX_IMPORT_FILE_SIZE = 2 * 1024 * 1024
+MAX_IMPORT_ROWS = 1000
+IMPORT_README = """HarvestData import template
+
+Workflow:
+1. Clean data in farmers.csv, plantings.csv, or harvests.csv before import.
+2. Import farmers first, then plantings, then harvests.
+3. Upload one CSV at a time in the dashboard import/export page.
+4. Preview errors before committing. Rows with errors will be skipped.
+
+Required cleanup rules:
+- Keep column names exactly as provided in this template.
+- Dates must use YYYY-MM-DD, for example 2026-05-03.
+- Numeric fields must be plain numbers without units, for example 1250.50.
+- fruit_name must already exist in master data.
+- harvest year must already exist in master data.
+- plantings and harvests match farmers by first name, last name, and phone.
+- To avoid ambiguous matches, include farmer_phone when possible.
+- For harvests, one planting can have only one harvest record per year.
+
+Recommended import order:
+farmers.csv -> plantings.csv -> harvests.csv
+"""
+
+
+def clean_cell(row, field):
+    return str(row.get(field) or "").strip()
+
+
+def import_limits_payload():
+    return {
+        "max_file_size_bytes": MAX_IMPORT_FILE_SIZE,
+        "max_file_size_mb": round(MAX_IMPORT_FILE_SIZE / 1024 / 1024, 1),
+        "max_rows": MAX_IMPORT_ROWS,
+    }
+
+
+def parse_decimal(value, field_label, errors, required=False, min_value=None):
+    text = str(value or "").strip().replace(",", "")
+    if not text:
+        if required:
+            errors.append(f"{field_label} จำเป็นต้องมีค่า")
+        return None
+    try:
+        number = Decimal(text)
+    except InvalidOperation:
+        errors.append(f"{field_label} ต้องเป็นตัวเลข")
+        return None
+    if min_value is not None and number < Decimal(str(min_value)):
+        errors.append(f"{field_label} ต้องไม่น้อยกว่า {min_value}")
+    return number
+
+
+def parse_int(value, field_label, errors, required=False, min_value=None):
+    text = str(value or "").strip()
+    if not text:
+        if required:
+            errors.append(f"{field_label} จำเป็นต้องมีค่า")
+        return None
+    try:
+        number = int(text)
+    except ValueError:
+        errors.append(f"{field_label} ต้องเป็นตัวเลขจำนวนเต็ม")
+        return None
+    if min_value is not None and number < min_value:
+        errors.append(f"{field_label} ต้องไม่น้อยกว่า {min_value}")
+    return number
+
+
+def parse_date(value, field_label, errors):
+    text = str(value or "").strip()
+    if not text:
+        return None
+    try:
+        return date.fromisoformat(text)
+    except ValueError:
+        errors.append(f"{field_label} ต้องเป็นรูปแบบ YYYY-MM-DD")
+        return None
+
+
+def csv_text(headers, rows):
+    output = io.StringIO()
+    writer = csv.DictWriter(output, fieldnames=headers, extrasaction="ignore")
+    writer.writeheader()
+    for row in rows:
+        writer.writerow(row)
+    return output.getvalue()
+
+
+def csv_http_response(filename, headers, rows):
+    response = HttpResponse(content_type="text/csv; charset=utf-8")
+    response["Content-Disposition"] = f'attachment; filename="{filename}"'
+    response.write("\ufeff")
+    response.write(csv_text(headers, rows))
+    return response
+
+
+def zip_http_response(filename, files):
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED) as archive:
+        for path, content in files.items():
+            archive.writestr(path, content)
+    response = HttpResponse(buffer.getvalue(), content_type="application/zip")
+    response["Content-Disposition"] = f'attachment; filename="{filename}"'
+    return response
+
+
+def decode_csv_upload(upload):
+    raw = upload.read()
+    try:
+        text = raw.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        text = raw.decode("utf-8-sig", errors="replace")
+    sample = text[:4096]
+    try:
+        dialect = csv.Sniffer().sniff(sample, delimiters=",;\t")
+    except csv.Error:
+        dialect = csv.excel
+    reader = csv.DictReader(io.StringIO(text), dialect=dialect)
+    return reader
+
+
+def find_farmer(user, first_name, last_name="", phone="", village=""):
+    queryset = FarmerProfile.objects.filter(user=user, first_name__iexact=first_name)
+    if last_name:
+        queryset = queryset.filter(last_name__iexact=last_name)
+    if phone:
+        queryset = queryset.filter(phone=phone)
+    elif village:
+        queryset = queryset.filter(village__iexact=village)
+    return queryset.first()
+
+
+def resolve_farmer(user, row, errors):
+    first_name = clean_cell(row, "farmer_first_name")
+    last_name = clean_cell(row, "farmer_last_name")
+    phone = clean_cell(row, "farmer_phone")
+
+    if not first_name:
+        errors.append("farmer_first_name จำเป็นต้องมีค่า")
+        return None
+
+    queryset = FarmerProfile.objects.filter(user=user, first_name__iexact=first_name)
+    if last_name:
+        queryset = queryset.filter(last_name__iexact=last_name)
+    if phone:
+        queryset = queryset.filter(phone=phone)
+
+    count = queryset.count()
+    if count == 0:
+        errors.append("ไม่พบเกษตรกรที่ตรงกับ first_name/last_name/phone")
+        return None
+    if count > 1:
+        errors.append("พบเกษตรกรมากกว่า 1 รายการ กรุณาใส่ farmer_phone ให้ระบุชัด")
+        return None
+    return queryset.first()
+
+
+def row_status(row_number, dataset, errors, action, data=None):
+    return {
+        "row": row_number,
+        "dataset": dataset,
+        "status": "error" if errors else "valid",
+        "action": "" if errors else action,
+        "errors": errors,
+        "data": data or {},
+    }
+
+
+def validate_farmer_import(user, row, row_number, commit=False):
+    errors = []
+    first_name = clean_cell(row, "first_name")
+    last_name = clean_cell(row, "last_name")
+    phone = clean_cell(row, "phone")
+    village = clean_cell(row, "village")
+    data = {
+        "first_name": first_name,
+        "last_name": last_name,
+        "age": parse_int(clean_cell(row, "age"), "age", errors, min_value=0),
+        "phone": phone,
+        "village": village,
+        "address": clean_cell(row, "address"),
+    }
+    if not first_name:
+        errors.append("first_name จำเป็นต้องมีค่า")
+
+    existing = None if errors else find_farmer(user, first_name, last_name, phone, village)
+    action_name = "update" if existing else "create"
+
+    if commit and not errors:
+        farmer = existing or FarmerProfile(user=user)
+        for field, value in data.items():
+            setattr(farmer, field, value if value is not None else None)
+        farmer.save()
+
+    return row_status(row_number, "farmers", errors, action_name, data)
+
+
+def validate_planting_import(user, row, row_number, commit=False):
+    errors = []
+    farmer = resolve_farmer(user, row, errors)
+    fruit_name = clean_cell(row, "fruit_name")
+    fruit = None
+    if not fruit_name:
+        errors.append("fruit_name จำเป็นต้องมีค่า")
+    else:
+        fruit = FruitCrop.objects.filter(name__iexact=fruit_name).first()
+        if not fruit:
+            errors.append("ไม่พบ fruit_name ใน master data")
+
+    variety = clean_cell(row, "variety")
+    data = {
+        "variety": variety,
+        "area_rai": parse_decimal(clean_cell(row, "area_rai"), "area_rai", errors, min_value=0) or Decimal("0.00"),
+        "planted_at": parse_date(clean_cell(row, "planted_at"), "planted_at", errors),
+        "province": clean_cell(row, "province"),
+        "district": clean_cell(row, "district"),
+        "subdistrict": clean_cell(row, "subdistrict"),
+        "note": clean_cell(row, "note"),
+    }
+
+    existing = None
+    if not errors:
+        existing = Planting.objects.filter(user=user, farmer=farmer, fruit=fruit, variety=variety).first()
+    action_name = "update" if existing else "create"
+
+    if commit and not errors:
+        planting = existing or Planting(user=user, farmer=farmer, fruit=fruit)
+        for field, value in data.items():
+            setattr(planting, field, value)
+        planting.save()
+
+    preview = {
+        "farmer": farmer.full_name if farmer else "",
+        "fruit": fruit.name if fruit else fruit_name,
+        **data,
+    }
+    return row_status(row_number, "plantings", errors, action_name, preview)
+
+
+def validate_harvest_import(user, row, row_number, commit=False):
+    errors = []
+    farmer = resolve_farmer(user, row, errors)
+    fruit_name = clean_cell(row, "fruit_name")
+    fruit = FruitCrop.objects.filter(name__iexact=fruit_name).first() if fruit_name else None
+    if not fruit_name:
+        errors.append("fruit_name จำเป็นต้องมีค่า")
+    elif not fruit:
+        errors.append("ไม่พบ fruit_name ใน master data")
+
+    variety = clean_cell(row, "variety")
+    planting = None
+    if farmer and fruit:
+        plantings = Planting.objects.filter(user=user, farmer=farmer, fruit=fruit, variety=variety)
+        if plantings.count() == 0:
+            errors.append("ไม่พบแปลงปลูกที่ตรงกับเกษตรกร/ผลไม้/สายพันธุ์")
+        elif plantings.count() > 1:
+            errors.append("พบแปลงปลูกซ้ำ กรุณาทำข้อมูลแปลงให้ไม่กำกวมก่อนนำเข้า")
+        else:
+            planting = plantings.first()
+
+    year_value = parse_int(clean_cell(row, "year"), "year", errors, required=True, min_value=1900)
+    harvest_year = None
+    if year_value:
+        harvest_year = HarvestYear.objects.filter(year=year_value).first()
+        if not harvest_year:
+            errors.append("ไม่พบ year ใน master data")
+
+    data = {
+        "quantity_kg": parse_decimal(clean_cell(row, "quantity_kg"), "quantity_kg", errors, required=True, min_value=0),
+        "price_per_kg": parse_decimal(clean_cell(row, "price_per_kg"), "price_per_kg", errors, required=True, min_value=0),
+        "harvested_at": parse_date(clean_cell(row, "harvested_at"), "harvested_at", errors),
+        "note": clean_cell(row, "note"),
+    }
+
+    existing = None
+    if not errors:
+        existing = HarvestRecord.objects.filter(user=user, planting=planting, harvest_year=harvest_year).first()
+    action_name = "update" if existing else "create"
+
+    if commit and not errors:
+        harvest = existing or HarvestRecord(user=user, planting=planting, harvest_year=harvest_year)
+        for field, value in data.items():
+            setattr(harvest, field, value)
+        harvest.save()
+
+    preview = {
+        "farmer": farmer.full_name if farmer else "",
+        "fruit": fruit.name if fruit else fruit_name,
+        "variety": variety,
+        "year": year_value,
+        **data,
+    }
+    return row_status(row_number, "harvests", errors, action_name, preview)
 
 
 def is_admin_user(user):
@@ -213,6 +562,250 @@ class HarvestRecordViewSet(UserScopedViewSet):
             queryset = queryset.filter(planting__farmer_id=farmer)
 
         return queryset
+
+
+class DataTransferTemplateView(APIView):
+    permission_classes = [IsAuthenticated]
+    renderer_classes = [renderers.JSONRenderer, renderers.BrowsableAPIRenderer, FileDownloadRenderer]
+
+    def get(self, request):
+        files = {
+            "README.txt": IMPORT_README,
+            "farmers.csv": csv_text(
+                FARMER_HEADERS,
+                [
+                    {
+                        "first_name": "มาลี",
+                        "last_name": "ใจดี",
+                        "age": "42",
+                        "phone": "0812345678",
+                        "village": "บ้านสวนเหนือ",
+                        "address": "ต.เมือง อ.เมือง จ.เชียงใหม่",
+                    }
+                ],
+            ),
+            "plantings.csv": csv_text(
+                PLANTING_HEADERS,
+                [
+                    {
+                        "farmer_first_name": "มาลี",
+                        "farmer_last_name": "ใจดี",
+                        "farmer_phone": "0812345678",
+                        "fruit_name": "มะม่วง",
+                        "variety": "น้ำดอกไม้",
+                        "area_rai": "4.50",
+                        "planted_at": "2023-06-01",
+                        "province": "เชียงใหม่",
+                        "district": "เมืองเชียงใหม่",
+                        "subdistrict": "สุเทพ",
+                        "note": "ตัวอย่างแปลงปลูก",
+                    }
+                ],
+            ),
+            "harvests.csv": csv_text(
+                HARVEST_HEADERS,
+                [
+                    {
+                        "farmer_first_name": "มาลี",
+                        "farmer_last_name": "ใจดี",
+                        "farmer_phone": "0812345678",
+                        "fruit_name": "มะม่วง",
+                        "variety": "น้ำดอกไม้",
+                        "year": "2026",
+                        "quantity_kg": "1200.50",
+                        "price_per_kg": "32.50",
+                        "harvested_at": "2026-04-20",
+                        "note": "ตัวอย่างผลผลิต",
+                    }
+                ],
+            ),
+        }
+        return zip_http_response("harvestdata-import-template.zip", files)
+
+
+class DataTransferExportView(APIView):
+    permission_classes = [IsAuthenticated]
+    renderer_classes = [renderers.JSONRenderer, renderers.BrowsableAPIRenderer, FileDownloadRenderer]
+
+    def farmer_rows(self, request):
+        farmers = FarmerProfile.objects.filter(user=request.user).order_by("first_name", "last_name")
+        return [
+            {
+                "first_name": farmer.first_name,
+                "last_name": farmer.last_name,
+                "age": farmer.age or "",
+                "phone": farmer.phone,
+                "village": farmer.village,
+                "address": farmer.address,
+            }
+            for farmer in farmers
+        ]
+
+    def planting_rows(self, request):
+        plantings = Planting.objects.select_related("farmer", "fruit").filter(user=request.user)
+        fruit = request.query_params.get("fruit")
+        farmer = request.query_params.get("farmer")
+        if fruit:
+            plantings = plantings.filter(fruit_id=fruit)
+        if farmer:
+            plantings = plantings.filter(farmer_id=farmer)
+        plantings = plantings.order_by("farmer__first_name", "fruit__name", "variety")
+        return [
+            {
+                "farmer_first_name": planting.farmer.first_name,
+                "farmer_last_name": planting.farmer.last_name,
+                "farmer_phone": planting.farmer.phone,
+                "fruit_name": planting.fruit.name,
+                "variety": planting.variety,
+                "area_rai": planting.area_rai,
+                "planted_at": planting.planted_at.isoformat() if planting.planted_at else "",
+                "province": planting.province,
+                "district": planting.district,
+                "subdistrict": planting.subdistrict,
+                "note": planting.note,
+            }
+            for planting in plantings
+        ]
+
+    def harvest_rows(self, request):
+        harvests = HarvestRecord.objects.select_related(
+            "harvest_year",
+            "planting",
+            "planting__farmer",
+            "planting__fruit",
+        ).filter(user=request.user)
+        year = request.query_params.get("year")
+        fruit = request.query_params.get("fruit")
+        farmer = request.query_params.get("farmer")
+        if year:
+            harvests = harvests.filter(harvest_year__year=year)
+        if fruit:
+            harvests = harvests.filter(planting__fruit_id=fruit)
+        if farmer:
+            harvests = harvests.filter(planting__farmer_id=farmer)
+        harvests = harvests.order_by("-harvest_year__year", "planting__farmer__first_name", "planting__fruit__name")
+        return [
+            {
+                "farmer_first_name": harvest.planting.farmer.first_name,
+                "farmer_last_name": harvest.planting.farmer.last_name,
+                "farmer_phone": harvest.planting.farmer.phone,
+                "fruit_name": harvest.planting.fruit.name,
+                "variety": harvest.planting.variety,
+                "year": harvest.harvest_year.year,
+                "quantity_kg": harvest.quantity_kg,
+                "price_per_kg": harvest.price_per_kg,
+                "harvested_at": harvest.harvested_at.isoformat() if harvest.harvested_at else "",
+                "note": harvest.note,
+            }
+            for harvest in harvests
+        ]
+
+    def get(self, request):
+        dataset = request.query_params.get("dataset", "all")
+        if dataset not in {"all", "farmers", "plantings", "harvests"}:
+            return Response({"detail": "Invalid dataset."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if dataset == "farmers":
+            return csv_http_response("harvestdata-farmers.csv", FARMER_HEADERS, self.farmer_rows(request))
+        if dataset == "plantings":
+            return csv_http_response("harvestdata-plantings.csv", PLANTING_HEADERS, self.planting_rows(request))
+        if dataset == "harvests":
+            return csv_http_response("harvestdata-harvests.csv", HARVEST_HEADERS, self.harvest_rows(request))
+
+        files = {
+            "farmers.csv": csv_text(FARMER_HEADERS, self.farmer_rows(request)),
+            "plantings.csv": csv_text(PLANTING_HEADERS, self.planting_rows(request)),
+            "harvests.csv": csv_text(HARVEST_HEADERS, self.harvest_rows(request)),
+        }
+        return zip_http_response("harvestdata-export.zip", files)
+
+
+class DataTransferImportView(APIView):
+    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
+
+    validators = {
+        "farmers": validate_farmer_import,
+        "plantings": validate_planting_import,
+        "harvests": validate_harvest_import,
+    }
+
+    def post(self, request):
+        dataset = request.data.get("dataset")
+        upload = request.FILES.get("file")
+        commit = str(request.data.get("commit", "")).lower() in {"1", "true", "yes"}
+
+        if dataset not in DATASET_HEADERS:
+            return Response({"detail": "Invalid dataset."}, status=status.HTTP_400_BAD_REQUEST)
+        if not upload:
+            return Response({"detail": "CSV file is required."}, status=status.HTTP_400_BAD_REQUEST)
+        if upload.size and upload.size > MAX_IMPORT_FILE_SIZE:
+            return Response(
+                {
+                    "detail": "CSV file is too large.",
+                    "limits": import_limits_payload(),
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        reader = decode_csv_upload(upload)
+        headers = set(reader.fieldnames or [])
+        required_headers = set(DATASET_HEADERS[dataset])
+        missing_headers = sorted(required_headers - headers)
+        if missing_headers:
+            return Response(
+                {
+                    "detail": "Missing required columns.",
+                    "missing_columns": missing_headers,
+                    "expected_columns": DATASET_HEADERS[dataset],
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        validator = self.validators[dataset]
+        data_rows = []
+        skipped_blank_rows = 0
+        for index, row in enumerate(reader, start=2):
+            if not any(clean_cell(row, field) for field in DATASET_HEADERS[dataset]):
+                skipped_blank_rows += 1
+                continue
+            data_rows.append((index, row))
+            if len(data_rows) > MAX_IMPORT_ROWS:
+                return Response(
+                    {
+                        "detail": "CSV row limit exceeded.",
+                        "limits": import_limits_payload(),
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+        results = []
+        with transaction.atomic():
+            for index, row in data_rows:
+                results.append(validator(request.user, row, index, commit=commit))
+
+        valid_count = sum(1 for item in results if item["status"] == "valid")
+        error_count = sum(1 for item in results if item["status"] == "error")
+        action_counts = {}
+        for item in results:
+            if item["status"] == "valid":
+                action_counts[item["action"]] = action_counts.get(item["action"], 0) + 1
+
+        return Response(
+            {
+                "dataset": dataset,
+                "committed": commit,
+                "summary": {
+                    "total_rows": len(results),
+                    "valid_rows": valid_count,
+                    "error_rows": error_count,
+                    "skipped_blank_rows": skipped_blank_rows,
+                    "actions": action_counts,
+                },
+                "limits": import_limits_payload(),
+                "rows": results,
+            }
+        )
 
 
 class DashboardSummaryView(APIView):

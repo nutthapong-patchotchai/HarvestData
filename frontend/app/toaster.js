@@ -7,7 +7,7 @@ export default function AppToaster() {
     <Toaster
       richColors
       closeButton
-      position="top-right"
+      position="top-center"
       toastOptions={{
         duration: 3600,
         style: {

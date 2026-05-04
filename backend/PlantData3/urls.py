@@ -19,6 +19,9 @@ urlpatterns = [
     path("api/v1/auth/logout/", views.SessionLogoutView.as_view(), name="api-logout"),
     path("api/v1/auth/me/", views.CurrentUserView.as_view(), name="api-current-user"),
     path("api/v1/dashboard/", views.DashboardSummaryView.as_view(), name="api-dashboard"),
+    path("api/v1/data-transfer/template/", views.DataTransferTemplateView.as_view(), name="api-data-template"),
+    path("api/v1/data-transfer/export/", views.DataTransferExportView.as_view(), name="api-data-export"),
+    path("api/v1/data-transfer/import/", views.DataTransferImportView.as_view(), name="api-data-import"),
     path("api/v1/", include(router.urls)),
     path("api-auth/", include("rest_framework.urls")),
 ]

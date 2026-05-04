@@ -1,8 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import {
+  ArrowLeft,
+  BarChart3,
+  Leaf,
+  LockKeyhole,
+  ShieldCheck,
+  Sprout,
+  UserRound,
+} from "lucide-react";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api/v1";
@@ -43,12 +53,39 @@ export default function LoginPage() {
 
   return (
     <main className="login-page">
+      <Link href="/?view=landing" className="login-back-link">
+        <ArrowLeft size={18} />
+        กลับหน้าแรก
+      </Link>
+      <section className="login-story" aria-label="HarvestData dashboard access">
+        <div className="brand-block">
+          <span className="brand-mark"><Leaf size={24} /></span>
+          <div>
+            <p className="eyebrow">HarvestData</p>
+            <h1>
+              <span>เข้าสู่ระบบ</span>
+              <span>ข้อมูลสวนผลไม้</span>
+            </h1>
+          </div>
+        </div>
+        <p>
+          จัดการข้อมูลเกษตรกร แปลงปลูก ผลผลิต และรายได้จาก dashboard เดียว
+          พร้อมมุมมองแนวโน้มที่อ่านง่ายสำหรับการวางแผนฤดูกาลถัดไป
+        </p>
+        <div className="login-feature-list" aria-label="Dashboard features">
+          <span><BarChart3 size={18} /> Yield trends</span>
+          <span><Sprout size={18} /> Planting records</span>
+          <span><ShieldCheck size={18} /> Secure access</span>
+        </div>
+      </section>
       <section className="login-panel">
-        <p className="eyebrow">HarvestData</p>
+        <span className="login-panel-icon"><LockKeyhole size={22} /></span>
+        <p className="eyebrow">Dashboard Login</p>
         <h1>เข้าสู่ระบบจัดการสวน</h1>
+        <p className="login-copy">ใช้บัญชี demo เพื่อทดลอง dashboard และชุดข้อมูลตัวอย่าง</p>
         <form className="login-form" onSubmit={handleSubmit}>
           <label>
-            Username
+            <span><UserRound size={16} /> Username</span>
             <input
               value={username}
               onChange={(event) => setUsername(event.target.value)}
@@ -57,7 +94,7 @@ export default function LoginPage() {
             />
           </label>
           <label>
-            Password
+            <span><LockKeyhole size={16} /> Password</span>
             <input
               type="password"
               value={password}
@@ -66,7 +103,10 @@ export default function LoginPage() {
               required
             />
           </label>
-          <button type="submit">เข้าสู่ระบบ</button>
+          <button type="submit">
+            <ShieldCheck size={18} />
+            เข้าสู่ Dashboard
+          </button>
         </form>
       </section>
     </main>

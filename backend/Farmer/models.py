@@ -1,6 +1,7 @@
 from decimal import Decimal
 
 from django.conf import settings
+from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
 
 
@@ -17,7 +18,16 @@ class HarvestYear(models.Model):
 class FruitCrop(models.Model):
     name = models.CharField(max_length=80, unique=True)
     category = models.CharField(max_length=80, blank=True)
-    color = models.CharField(max_length=7, default="#4f8a3d")
+    color = models.CharField(
+        max_length=7,
+        default="#4f8a3d",
+        validators=[
+            RegexValidator(
+                regex=r"^#[0-9A-Fa-f]{6}$",
+                message="Color must be a hex value such as #4f8a3d.",
+            )
+        ],
+    )
 
     class Meta:
         ordering = ["name"]
@@ -59,6 +69,23 @@ class FarmerProfile(models.Model):
 
     class Meta:
         ordering = ["first_name", "last_name"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "first_name", "last_name", "phone"],
+                condition=~models.Q(phone=""),
+                name="unique_farmer_identity_with_phone",
+            ),
+            models.UniqueConstraint(
+                fields=["user", "first_name", "last_name", "village"],
+                condition=models.Q(phone="") & ~models.Q(village=""),
+                name="unique_farmer_identity_with_village",
+            ),
+            models.UniqueConstraint(
+                fields=["user", "first_name", "last_name"],
+                condition=models.Q(phone="", village=""),
+                name="unique_farmer_identity_name_only",
+            ),
+        ]
 
     @property
     def full_name(self):
@@ -73,7 +100,12 @@ class Planting(models.Model):
     farmer = models.ForeignKey(FarmerProfile, related_name="plantings", on_delete=models.CASCADE)
     fruit = models.ForeignKey(FruitCrop, related_name="plantings", on_delete=models.PROTECT)
     variety = models.CharField(max_length=120, blank=True)
-    area_rai = models.DecimalField(max_digits=8, decimal_places=2, default=Decimal("0.00"))
+    area_rai = models.DecimalField(
+        max_digits=8,
+        decimal_places=2,
+        default=Decimal("0.00"),
+        validators=[MinValueValidator(Decimal("0.00"))],
+    )
     planted_at = models.DateField(null=True, blank=True)
     province = models.CharField(max_length=120, blank=True)
     district = models.CharField(max_length=120, blank=True)
@@ -84,6 +116,16 @@ class Planting(models.Model):
 
     class Meta:
         ordering = ["fruit__name", "variety"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "farmer", "fruit", "variety"],
+                name="unique_planting_per_farmer_fruit_variety",
+            ),
+            models.CheckConstraint(
+                condition=models.Q(area_rai__gte=0),
+                name="planting_area_rai_non_negative",
+            ),
+        ]
 
     def __str__(self):
         variety = f" {self.variety}" if self.variety else ""
@@ -94,8 +136,16 @@ class HarvestRecord(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     planting = models.ForeignKey(Planting, related_name="harvests", on_delete=models.CASCADE)
     harvest_year = models.ForeignKey(HarvestYear, related_name="harvests", on_delete=models.PROTECT)
-    quantity_kg = models.DecimalField(max_digits=12, decimal_places=2)
-    price_per_kg = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity_kg = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        validators=[MinValueValidator(Decimal("0.00"))],
+    )
+    price_per_kg = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        validators=[MinValueValidator(Decimal("0.00"))],
+    )
     harvested_at = models.DateField(null=True, blank=True)
     note = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -107,7 +157,15 @@ class HarvestRecord(models.Model):
             models.UniqueConstraint(
                 fields=["planting", "harvest_year"],
                 name="unique_harvest_per_planting_year",
-            )
+            ),
+            models.CheckConstraint(
+                condition=models.Q(quantity_kg__gte=0),
+                name="harvest_quantity_kg_non_negative",
+            ),
+            models.CheckConstraint(
+                condition=models.Q(price_per_kg__gte=0),
+                name="harvest_price_per_kg_non_negative",
+            ),
         ]
 
     @property
